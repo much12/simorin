@@ -1,0 +1,143 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Company;
+use Exception;
+use Illuminate\Http\Request;
+use KKSI;
+
+class CompanyController extends Controller
+{
+    public function process_add(Request $request)
+    {
+        try {
+            $nama_perusahaan = $request->post('nama_perusahaan');
+            $alamat_perusahaan = $request->post('alamat_perusahaan');
+            $telp_perusahaan = $request->post('telp_perusahaan');
+            $nama_hrd = $request->post('nama_hrd');
+            $telp_hrd = $request->post('telp_hrd');
+            $id_bidang = $request->post('id_bidang');
+            $id_pembimbing = $request->post('id_pembimbing');
+            $long = $request->post('long');
+            $lat = $request->post('lat');
+            $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
+            $radius = $request->post('radius');
+
+            $company = new Company();
+            $company->nama_perusahaan = $nama_perusahaan;
+            $company->alamat_perusahaan = $alamat_perusahaan;
+            $company->telp_perusahaan = $telp_perusahaan;
+            $company->nama_hrd = $nama_hrd;
+            $company->telp_hrd = $telp_hrd;
+            $company->id_bidang = $id_bidang;
+            $company->id_pembimbing = $id_pembimbing;
+            $company->longitude = $long;
+            $company->latitude = $lat;
+            $company->id_pembimbing_perusahaan = $id_pembimbing_perusahaan;
+            $company->radius = $radius;
+
+            $save = $company->save();
+
+            if ($save) {
+                return JSONResponseDefault(KKSI::OK, 'Data berhasil ditambahkan');
+            } else {
+                return JSONResponseDefault(KKSI::FAILED, 'Gagal menambahkan data');
+            }
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
+        }
+    }
+
+    public function process_edit(Request $request)
+    {
+        try {
+            $id_company = $request->post('id_company');
+            $nama_perusahaan = $request->post('nama_perusahaan');
+            $alamat_perusahaan = $request->post('alamat_perusahaan');
+            $telp_perusahaan = $request->post('telp_perusahaan');
+            $nama_hrd = $request->post('nama_hrd');
+            $telp_hrd = $request->post('telp_hrd');
+            $id_bidang = $request->post('id_bidang');
+            $id_pembimbing = $request->post('id_pembimbing');
+            $long = $request->post('long');
+            $lat = $request->post('lat');
+            $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
+            $radius = $request->post('radius');
+
+            $company = Company::find($id_company);
+
+            if ($company == null) {
+                return JSONResponseDefault(KKSI::FAILED, "Data tidak ditemukan");
+            }
+
+            $company->nama_perusahaan = $nama_perusahaan;
+            $company->alamat_perusahaan = $alamat_perusahaan;
+            $company->telp_perusahaan = $telp_perusahaan;
+            $company->nama_hrd = $nama_hrd;
+            $company->telp_hrd = $telp_hrd;
+            $company->id_bidang = $id_bidang;
+            $company->id_pembimbing = $id_pembimbing;
+            $company->longitude = $long;
+            $company->latitude = $lat;
+            $company->id_pembimbing_perusahaan = $id_pembimbing_perusahaan;
+            $company->radius = $radius;
+
+            $save = $company->save();
+
+            if ($save) {
+                return JSONResponseDefault(KKSI::OK, 'Data berhasil diupdate');
+            } else {
+                return JSONResponseDefault(KKSI::FAILED, 'Gagal update data');
+            }
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
+        }
+    }
+
+    public function process_delete(Request $request)
+    {
+        try {
+            $id_company = $request->get('id_company');
+
+            $company = Company::find($id_company);
+
+            if ($company == null) {
+                return JSONResponseDefault(KKSI::FAILED, 'Data tidak ditemukan');
+            }
+
+            $delete = $company->delete();
+
+            if ($delete) {
+                return JSONResponseDefault(KKSI::OK, 'Data berhasil dihapus');
+            } else {
+                return JSONResponseDefault(KKSI::FAILED, 'Gagal menghapus data');
+            }
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
+        }
+    }
+
+    public function modal_edit(Request $request)
+    {
+        try {
+            $id_company = $request->get('id_company');
+
+            $company = Company::find($id_company);
+
+            if ($company == null) {
+                return JSONResponseDefault(KKSI::FAILED, 'Data tida ditemukan');
+            }
+
+            $data = array();
+            $data['company'] = $company;
+
+            return JSONResponse(array(
+                'RESULT' => KKSI::OK,
+                'CONTENT' => view('company.edit', $data)->render()
+            ));
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
+        }
+    }
+}
