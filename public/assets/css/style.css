@@ -7721,8 +7721,9 @@ section.content {
     white-space: nowrap;
     position: relative;
     border-bottom: 1px solid #e9e9e9;
-    background: url("../images/bgdark.jpg") no-repeat no-repeat;
+    background: url("../images/bg9.png") no-repeat no-repeat;
     height: 135px;
+    background-size: cover;
 }
 .sidebar .user-info .image {
     margin-right: 12px;
