@@ -14,3 +14,19 @@ function JSONResponseDefault($result, $message)
         'MESSAGE' => $message
     ));
 }
+
+function isCurrentPage($page)
+{
+    if (!is_array($page) && url()->current() == url($page)) {
+        return 'active';
+    } else if (is_array($page)) {
+        foreach ($page as $key => $value) {
+            if (url()->current() !== url($value))
+                continue;
+            else
+                return 'active';
+        }
+    }
+
+    return null;
+}

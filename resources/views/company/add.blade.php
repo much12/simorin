@@ -1,10 +1,10 @@
 <div class="modal-dialog modal-md">
     <div class="modal-content">
-        <form id="frmEdit" action="{{ url()->current() . '/process' }}" method="POST" autocomplete="off">
+        <form id="frmAdd" action="{{ url()->current() . '/process' }}" method="POST" autocomplete="off">
             {{ csrf_field() }}
-            <input type="hidden" name="id_company" value="{{ $company->id }}">
+
             <div class="modal-header">
-                <h4 class="modal-title">Edit Perusahaan</h4>
+                <h4 class="modal-title">Add Perusahaan</h4>
             </div>
 
             <div class="modal-body">
@@ -12,7 +12,7 @@
                     <label>Nama Perusahaan</label>
 
                     <div class="form-line">
-                        <input type="text" name="nama_perusahaan" class="form-control" value="{{ $company->nama_perusahaan }}" required>
+                        <input type="text" name="nama_perusahaan" class="form-control" required>
                     </div>
                 </div>
 
@@ -20,7 +20,7 @@
                     <label>Alamat</label>
 
                     <div class="form-line">
-                        <textarea name="alamat" class="form-control" required>{{ $company->alamat_perusahaan }}</textarea>
+                        <textarea name="alamat" class="form-control" required></textarea>
                     </div>
                 </div>
 
@@ -28,7 +28,7 @@
                     <label>Telepon Perusahaan</label>
 
                     <div class="form-line">
-                        <input type="text" name="telp" class="form-control" value="{{ $company->telp_perusahaan }}" required>
+                        <input type="text" name="telp" class="form-control" required>
                     </div>
                 </div>
 
@@ -38,7 +38,7 @@
                     <div class="form-line">
                         <select name="id_bidang" class="form-control" required>
                             @foreach($bidang as $key => $value)
-                            <option value="{{ $value->id }}" {{ $value->id !== $company->id_bidang ?: 'selected' }}>{{ $value->nama_bidang }}</option>
+                            <option value="{{ $value->id }}">{{ $value->nama_bidang }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -46,14 +46,14 @@
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Add</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </form>
     </div>
 </div>
 <script>
-    $('#frmEdit').submit(function(e) {
+    $('#frmAdd').submit(function(e) {
         e.preventDefault();
 
         let formData = new FormData(this);

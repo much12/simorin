@@ -18,16 +18,21 @@ Route::get('/', function () {
 });
 
 Route::get('company', 'CompanyController@index');
+Route::get('company/add', 'CompanyController@modal_add');
 Route::post('company/add/process', 'CompanyController@process_add');
 Route::get('company/edit', 'CompanyController@modal_edit');
 Route::post('company/edit/process', 'CompanyController@process_edit');
 Route::get('company/delete', 'CompanyController@process_delete');
 
+Route::get('bidang', 'BidangController@index');
+Route::get('bidang/add', 'BidangController@modal_add');
 Route::post('bidang/add/process', 'BidangController@process_add');
 Route::get('bidang/edit', 'BidangController@modal_edit');
 Route::post('bidang/edit/process', 'BidangController@process_edit');
 Route::get('bidang/delete', 'BidangController@process_delete');
 
+Route::get('jurusan', 'JurusanController@index');
+Route::get('jurusan/add', 'JurusanController@modal_add');
 Route::post('jurusan/add/process', 'JurusanController@process_add');
 Route::get('jurusan/edit', 'JurusanController@modal_edit');
 Route::post('jurusan/edit/process', 'JurusanController@process_edit');

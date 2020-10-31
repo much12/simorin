@@ -9,6 +9,14 @@ use KKSI;
 
 class BidangController extends Controller
 {
+    public function index()
+    {
+        $data = array();
+        $data['bidang'] = Bidang::paginate(15);
+
+        return view('bidang.index', $data);
+    }
+
     public function process_add(Request $request)
     {
         try {
@@ -81,7 +89,7 @@ class BidangController extends Controller
     public function modal_edit(Request $request)
     {
         try {
-            $id_bidang = $request->get('id_bidang');
+            $id_bidang = $request->get('id');
 
             $bidang = Bidang::find($id_bidang);
 
@@ -95,6 +103,18 @@ class BidangController extends Controller
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
                 'CONTENT' => view('bidang.edit', $data)->render()
+            ));
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
+        }
+    }
+
+    public function modal_add()
+    {
+        try {
+            return JSONResponse(array(
+                'RESULT' => KKSI::OK,
+                'CONTENT' => view('bidang.add')->render()
             ));
         } catch (Exception $ex) {
             return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());

@@ -35,34 +35,34 @@
 
       <div class="menu">
          <ul class="list">
-            <li class="active">
-               <a>
-                  <i style="font-size: 20px; margin-top:4px;" class="fa fa-home"></i>
+            <li class="{{ isCurrentPage('/') }}">
+               <a href="{{ url('/') }}">
+                  <i class="fa fa-home"></i>
                   <span>Dasboard</span>
                </a>
             </li>
 
-            <li>
-               <a href="javascript:void(0);" class="menu-toggle">
+            <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru')) }}">
+               <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
                   <span>Master Data</span>
                </a>
 
                <ul class="ml-menu">
-                  <li>
-                     <a href="#">Master Bidang</a>
+                  <li class="{{ isCurrentPage('bidang') }}">
+                     <a href="{{ url('bidang') }}">Master Bidang</a>
                   </li>
 
-                  <li>
+                  <li class="{{ isCurrentPage('company') }}">
                      <a href="{{ url('company') }}">Master Perusahaan</a>
                   </li>
 
-                  <li>
-                     <a href="#">Master Jurusan</a>
+                  <li class="{{ isCurrentPage('jurusan') }}">
+                     <a href="{{ url('jurusan') }}">Master Jurusan</a>
                   </li>
 
-                  <li>
-                     <a href="#">Master Guru</a>
+                  <li class="{{ isCurrentPage('guru') }}">
+                     <a href="{{ url('guru') }}">Master Guru</a>
                   </li>
                </ul>
             </li>

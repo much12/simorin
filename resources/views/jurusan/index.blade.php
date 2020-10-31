@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Perusahaan')
+@section('title', 'Jurusan')
 
 @section('content')
 <div class="container-fluid">
@@ -8,11 +8,11 @@
             <div class="card">
                 <div class="header">
                     <div class="pull-left">
-                        <h2>DATA PERUSAHAAN</h2>
+                        <h2>DATA JURUSAN</h2>
                     </div>
 
                     <div class="pull-right">
-                        <button type="button" class="btn btn-primary btn-xs" onclick="addCompany()">
+                        <button type="button" class="btn btn-primary" onclick="addJurusan()">
                             <i class="material-icons">add</i>
                         </button>
                     </div>
@@ -21,58 +21,34 @@
                 </div>
 
                 <div class="body">
-                    <form action="{{ url()->current() }}" method="GET" autocomplete="off">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>Pencarian</label>
-                                <input type="search" name="q" class="form-control" value="{{ app('request')->get('q') }}" placeholder="Pencarian">
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>&nbsp;</label>
-                                    <button type="submit" class="btn btn-primary btn-block">Cari</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="5%">No</th>
-                                    <th width="20%">Nama Perusahaan</th>
-                                    <th width="15%">Alamat</th>
-                                    <th width="10%">Telepon</th>
-                                    <th width="5%">Bidang Perusahaan</th>
-                                    <th width="5%">Pembimbing Sekolah</th>
-                                    <th width="5%">Pembimbing Perusahaan</th>
-                                    <th width="8%">Aksi</th>
+                                    <th>No</th>
+                                    <th>Nama Jurusan</th>
+                                    <th>Bidang Jurusan</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 @php ($num = 1)
-                                @foreach($company as $key => $value)
+                                @foreach($jurusan as $key => $value)
                                 <tr>
                                     <td>{{ $num++ }}</td>
-                                    <td>{{ $value->nama_perusahaan }}</td>
-                                    <td>{{ $value->alamat_perusahaan }}</td>
-                                    <td>{{ $value->telp_perusahaan }}</td>
+                                    <td>{{ $value->nama_jurusan }}</td>
                                     <td>
                                         @if($value->bidang !== null)
                                         {{ $value->bidang->nama_bidang }}
                                         @endif
                                     </td>
-                                    <td></td>
-                                    <td></td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editCompany(<?= $value->id ?>)">
+                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editJurusan(<?= $value->id ?>)">
                                             <i class="material-icons">edit</i>
                                         </button>
 
-                                        <button type="button" class="btn btn-danger btn-xs waves-effect" onclick="deleteCompany(<?= $value->id ?>)">
+                                        <button type="button" class="btn btn-danger btn-xs waves-effect" onclick="deleteJurusan(<?= $value->id ?>)">
                                             <i class="material-icons">delete</i>
                                         </button>
                                     </td>
@@ -81,16 +57,15 @@
                             </tbody>
                         </table>
 
-                        {{ $company->links() }}
+                        {{ $jurusan->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    function editCompany(id) {
+    function editJurusan(id) {
         $.ajax({
             url: "{{ url()->current() . '/edit' }}",
             method: 'GET',
@@ -111,7 +86,7 @@
         });
     }
 
-    function deleteCompany(id) {
+    function deleteJurusan(id) {
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapus data?',
             showCancelButton: true,
@@ -125,7 +100,7 @@
                     method: 'GET',
                     dataType: 'json',
                     data: {
-                        id_company: id
+                        id_jurusan: id
                     },
                     success: function(response) {
                         if (response.RESULT == 'OK') {
@@ -145,7 +120,7 @@
         });
     }
 
-    function addCompany() {
+    function addJurusan() {
         $.ajax({
             url: "{{ url()->current() . '/add' }}",
             method: 'GET',

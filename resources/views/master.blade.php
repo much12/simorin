@@ -52,6 +52,11 @@
          border: 1px solid #ddd !important;
          padding: 5px 12px !important;
       }
+
+      i.fa {
+         font-size: 2rem;
+         margin-top: .5rem;
+      }
    </style>
 </head>
 
@@ -59,10 +64,11 @@
    <div class="page-loader-wrapper">
       <div class="loader">
          <div class="preloader">
-            <div class="spinner-layer pl-red">
+            <div class="spinner-layer pl-blue">
                <div class="circle-clipper left">
                   <div class="circle"></div>
                </div>
+
                <div class="circle-clipper right">
                   <div class="circle"></div>
                </div>
