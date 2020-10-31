@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('dashboard.index');
 });
 
+Route::get('login', function () {
+    return view('login');
+});
+
 Route::get('company', 'CompanyController@index');
 Route::get('company/add', 'CompanyController@modal_add');
 Route::post('company/add/process', 'CompanyController@process_add');
