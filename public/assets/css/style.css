@@ -1720,7 +1720,7 @@
     color: #fff !important;
 }
 .bg-pink {
-    background-color: #E91E63 !important;
+    background-color: #2193b0 !important;
     color: #fff;
 }
 .bg-pink .content .text, .bg-pink .content .number {
@@ -2403,10 +2403,12 @@ section.content {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     -ms-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 20px;
     border: none;
     font-size: 13px;
     outline: none;
+    margin-top: 15px;
+    padding: 10px;
 }
 .btn:not(.btn-link):not(.btn-circle):hover {
     outline: none;
@@ -2729,6 +2731,7 @@ section.content {
 .card {
     background: #fff;
     min-height: 50px;
+    height: 300px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     position: relative;
     margin-bottom: 30px;
@@ -2818,7 +2821,7 @@ section.content {
     margin-top: 5px;
 }
 .card .body {
-    font-size: 14px;
+    font-size: 20px;
     color: #555;
     padding: 20px;
 }
@@ -7959,14 +7962,14 @@ section.content {
 }
 /* Login Page ================================== */
 .login-page {
-    background-color: #00BCD4;
+    background: url("../images/bgLOGIN1.png") no-repeat no-repeat;
     padding-left: 0;
     max-width: 360px;
     margin: 5% auto;
     overflow-x: hidden;
 }
 .login-page .login-box .msg {
-    color: #555;
+    color: #2193b0;
     margin-bottom: 30px;
     text-align: center;
 }
