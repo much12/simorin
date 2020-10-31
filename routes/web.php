@@ -14,13 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('master');
+    return view('dashboard.index');
 });
 
 Route::get('login', function () {
     return view('login');
 });
 
+Route::get('company', 'CompanyController@index');
 Route::post('company/add/process', 'CompanyController@process_add');
 Route::get('company/edit', 'CompanyController@modal_edit');
 Route::post('company/edit/process', 'CompanyController@process_edit');

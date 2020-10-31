@@ -5,10 +5,19 @@ namespace App\Http\Controllers;
 use App\Company;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use KKSI;
 
 class CompanyController extends Controller
 {
+    public function index()
+    {
+        $data = array();
+        $data['company'] = Company::paginate(15);
+
+        return view('company.index', $data);
+    }
+
     public function process_add(Request $request)
     {
         try {
@@ -54,16 +63,16 @@ class CompanyController extends Controller
         try {
             $id_company = $request->post('id_company');
             $nama_perusahaan = $request->post('nama_perusahaan');
-            $alamat_perusahaan = $request->post('alamat_perusahaan');
-            $telp_perusahaan = $request->post('telp_perusahaan');
-            $nama_hrd = $request->post('nama_hrd');
-            $telp_hrd = $request->post('telp_hrd');
-            $id_bidang = $request->post('id_bidang');
-            $id_pembimbing = $request->post('id_pembimbing');
-            $long = $request->post('long');
-            $lat = $request->post('lat');
-            $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
-            $radius = $request->post('radius');
+            $alamat_perusahaan = $request->post('alamat');
+            $telp_perusahaan = $request->post('telp');
+            // $nama_hrd = $request->post('nama_hrd');
+            // $telp_hrd = $request->post('telp_hrd');
+            // $id_bidang = $request->post('id_bidang');
+            // $id_pembimbing = $request->post('id_pembimbing');
+            // $long = $request->post('long');
+            // $lat = $request->post('lat');
+            // $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
+            // $radius = $request->post('radius');
 
             $company = Company::find($id_company);
 
@@ -74,14 +83,14 @@ class CompanyController extends Controller
             $company->nama_perusahaan = $nama_perusahaan;
             $company->alamat_perusahaan = $alamat_perusahaan;
             $company->telp_perusahaan = $telp_perusahaan;
-            $company->nama_hrd = $nama_hrd;
-            $company->telp_hrd = $telp_hrd;
-            $company->id_bidang = $id_bidang;
-            $company->id_pembimbing = $id_pembimbing;
-            $company->longitude = $long;
-            $company->latitude = $lat;
-            $company->id_pembimbing_perusahaan = $id_pembimbing_perusahaan;
-            $company->radius = $radius;
+            // $company->nama_hrd = $nama_hrd;
+            // $company->telp_hrd = $telp_hrd;
+            // $company->id_bidang = $id_bidang;
+            // $company->id_pembimbing = $id_pembimbing;
+            // $company->longitude = $long;
+            // $company->latitude = $lat;
+            // $company->id_pembimbing_perusahaan = $id_pembimbing_perusahaan;
+            // $company->radius = $radius;
 
             $save = $company->save();
 
@@ -121,12 +130,12 @@ class CompanyController extends Controller
     public function modal_edit(Request $request)
     {
         try {
-            $id_company = $request->get('id_company');
+            $id_company = $request->get('id');
 
             $company = Company::find($id_company);
 
             if ($company == null) {
-                return JSONResponseDefault(KKSI::FAILED, 'Data tida ditemukan');
+                return JSONResponseDefault(KKSI::FAILED, 'Data tidak ditemukan');
             }
 
             $data = array();
