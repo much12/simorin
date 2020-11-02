@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="pull-right">
-                        <button type="button" class="btn btn-primary" onclick="addJurusan()">
+                        <button type="button" class="btn btn-primary btn-xs" onclick="addJurusan()">
                             <i class="material-icons">add</i>
                         </button>
                     </div>

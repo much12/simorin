@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="pull-right">
-                        <button type="button" class="btn btn-primary" onclick="addBidang()">
+                        <button type="button" class="btn btn-primary btn-xs" onclick="addBidang()">
                             <i class="material-icons">add</i>
                         </button>
                     </div>
