@@ -9,6 +9,14 @@ use KKSI;
 
 class GuruController extends Controller
 {
+    public function index(Request $request)
+    {
+        $data=array();
+        $data['q'] = $request;
+        $data['guru'] = Guru::paginate(15);
+        return view('guru.index',$data); 
+    }
+
     public function process_add(Request $request)
     {
         try {
@@ -45,7 +53,7 @@ class GuruController extends Controller
     public function process_edit(Request $request)
     {
         try {
-            $id_guru = $request->post('id_guru');
+            $id_guru = $request->post('id');
             $nama = $request->post('nama');
             $email = $request->post('email');
             $password = $request->post('password');
@@ -88,7 +96,7 @@ class GuruController extends Controller
     public function process_delete(Request $request)
     {
         try {
-            $id_guru = $request->get('id_guru');
+            $id_guru = $request->get('id');
 
             $guru = Guru::find($id_guru);
 
@@ -108,10 +116,22 @@ class GuruController extends Controller
         }
     }
 
+    public function modal_add()
+    {
+        try{
+            return JSONResponse(array(
+                'RESULT' => KKSI::OK,
+                'CONTENT' => view('guru.add')->render()
+            ));
+        }catch(Exception $ex){
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
+        }
+    }
+
     public function modal_edit(Request $request)
     {
         try {
-            $id_guru = $request->get('id_guru');
+            $id_guru = $request->get('id');
 
             $guru = Guru::find($id_guru);
 
