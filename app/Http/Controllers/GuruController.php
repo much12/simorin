@@ -13,7 +13,10 @@ class GuruController extends Controller
     {
         $data = array();
         $data['q'] = $request;
-        $data['guru'] = Guru::paginate(15);
+        $data['guru'] = Guru::when($request->get('q'), function ($query) use ($request) {
+            $query->where('nama', 'like', "%{$request->get('q')}%");
+        })->paginate(15);
+
         return view('guru.index', $data);
     }
 
