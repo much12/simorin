@@ -76,18 +76,18 @@
          </div>
          <p>Loading ...</p>
       </div>
-      
-      <div class="overlay"></div>
-      
-      <nav class="navbar">
-         <div class="container-fluid">
-            <div class="navbar-header">
-               <a href="javascript:void(0);" class="bars"></a>
-               <a class="navbar-brand" href="#"><img style="width: 180px; height: 120px; margin-top: -50px;" src="{{asset('assets/images/logo9.png') }}"></a>
-            </div>
-         </div>
-      </nav>
    </div>
+
+   <div class="overlay"></div>
+
+   <nav class="navbar">
+      <div class="container-fluid">
+         <div class="navbar-header">
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="#"><img style="width: 180px; height: 120px; margin-top: -50px;" src="{{asset('assets/images/logo9.png') }}"></a>
+         </div>
+      </div>
+   </nav>
 
    @include('sidebar')
 

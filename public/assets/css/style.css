@@ -2403,12 +2403,10 @@ section.content {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     -ms-border-radius: 2px;
-    border-radius: 20px;
+    border-radius: 2px;
     border: none;
     font-size: 13px;
     outline: none;
-    margin-top: 15px;
-    padding: 10px;
 }
 .btn:not(.btn-link):not(.btn-circle):hover {
     outline: none;
@@ -2731,7 +2729,6 @@ section.content {
 .card {
     background: #fff;
     min-height: 50px;
-    height: 300px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     position: relative;
     margin-bottom: 30px;
@@ -2821,7 +2818,7 @@ section.content {
     margin-top: 5px;
 }
 .card .body {
-    font-size: 20px;
+    font-size: 14px;
     color: #555;
     padding: 20px;
 }
