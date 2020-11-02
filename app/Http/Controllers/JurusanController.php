@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bidang;
 use App\Jurusan;
 use Exception;
 use Illuminate\Http\Request;
@@ -9,6 +10,14 @@ use KKSI;
 
 class JurusanController extends Controller
 {
+    public function index()
+    {
+        $data = array();
+        $data['jurusan'] = Jurusan::paginate(15);
+
+        return view('jurusan.index', $data);
+    }
+
     public function process_add(Request $request)
     {
         try {
@@ -85,7 +94,7 @@ class JurusanController extends Controller
     public function modal_edit(Request $request)
     {
         try {
-            $id_jurusan = $request->get('id_jurusan');
+            $id_jurusan = $request->get('id');
 
             $jurusan = Jurusan::find($id_jurusan);
 
@@ -95,10 +104,26 @@ class JurusanController extends Controller
 
             $data = array();
             $data['jurusan'] = $jurusan;
+            $data['bidang'] = Bidang::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
                 'CONTENT' => view('jurusan.edit', $data)->render()
+            ));
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
+        }
+    }
+
+    public function modal_add()
+    {
+        try {
+            $data = array();
+            $data['bidang'] = Bidang::all();
+
+            return JSONResponse(array(
+                'RESULT' => KKSI::OK,
+                'CONTENT' => view('jurusan.add', $data)->render()
             ));
         } catch (Exception $ex) {
             return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
