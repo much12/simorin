@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Master Jurusan')
+@section('title', 'Master Pembimbing Sekolah')
 
 @section('content')
 <div class="container-fluid">
@@ -8,11 +8,11 @@
             <div class="card">
                 <div class="header">
                     <div class="pull-left">
-                        <h2>DATA JURUSAN</h2>
+                        <h2>DATA PEMBIMBING SEKOLAH</h2>
                     </div>
 
                     <div class="pull-right">
-                        <button type="button" class="btn btn-primary btn-xs" onclick="addJurusan()">
+                        <button type="button" class="btn btn-primary btn-xs" onclick="addPembimbingSekolah()">
                             <i class="material-icons">add</i>
                         </button>
                     </div>
@@ -26,29 +26,26 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Jurusan</th>
-                                    <th>Bidang Jurusan</th>
+                                    <th>Nama Pembimbing</th>
+                                    <th>Email</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 @php ($num = 1)
-                                @foreach($jurusan as $key => $value)
+
+                                @foreach($pembimbing as $key => $value)
                                 <tr>
                                     <td>{{ $num++ }}</td>
-                                    <td>{{ $value->nama_jurusan }}</td>
+                                    <td>{{ $value->nama_pembimbing }}</td>
+                                    <td>{{ $value->email }}</td>
                                     <td>
-                                        @if($value->bidang !== null)
-                                        {{ $value->bidang->nama_bidang }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editJurusan(<?= $value->id ?>)">
+                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editPembimbingSekolah(<?= $value->id ?>)">
                                             <i class="material-icons">edit</i>
                                         </button>
 
-                                        <button type="button" class="btn btn-danger btn-xs waves-effect" onclick="deleteJurusan(<?= $value->id ?>)">
+                                        <button type="button" class="btn btn-danger btn-xs waves-effect" onclick="deletePembimbingSekolah(<?= $value->id ?>)">
                                             <i class="material-icons">delete</i>
                                         </button>
                                     </td>
@@ -57,7 +54,7 @@
                             </tbody>
                         </table>
 
-                        {{ $jurusan->links() }}
+                        {{ $pembimbing->links() }}
                     </div>
                 </div>
             </div>
@@ -65,7 +62,7 @@
     </div>
 </div>
 <script>
-    function editJurusan(id) {
+    function editPembimbingSekolah(id) {
         $.ajax({
             url: "{{ url()->current() . '/edit' }}",
             method: 'GET',
@@ -86,7 +83,7 @@
         });
     }
 
-    function deleteJurusan(id) {
+    function deletePembimbingSekolah(id) {
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapus data?',
             showCancelButton: true,
@@ -100,7 +97,7 @@
                     method: 'GET',
                     dataType: 'json',
                     data: {
-                        id_jurusan: id
+                        id_pembimbing: id
                     },
                     success: function(response) {
                         if (response.RESULT == 'OK') {
@@ -120,7 +117,8 @@
         });
     }
 
-    function addJurusan() {
+
+    function addPembimbingSekolah() {
         $.ajax({
             url: "{{ url()->current() . '/add' }}",
             method: 'GET',

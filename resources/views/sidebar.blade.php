@@ -64,6 +64,10 @@
                   <li class="{{ isCurrentPage('guru') }}">
                      <a href="{{ url('guru') }}">Master Guru</a>
                   </li>
+
+                  <li class="{{ isCurrentPage('pembimbing_sekolah') }}">
+                     <a href="{{ url('pembimbing_sekolah') }}">Master Pembimbing Sekolah</a>
+                  </li>
                </ul>
             </li>
          </ul>

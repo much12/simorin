@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Bidang')
+@section('title', 'Master Bidang')
 
 @section('content')
 <div class="container-fluid">

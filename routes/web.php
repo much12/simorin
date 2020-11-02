@@ -46,3 +46,10 @@ Route::post('guru/add/process', 'GuruController@process_add');
 Route::get('guru/edit', 'GuruController@modal_edit');
 Route::post('guru/edit/process', 'GuruController@process_edit');
 Route::get('guru/delete', 'GuruController@process_delete');
+
+Route::get('pembimbing_sekolah', 'PembimbingSekolahController@index');
+Route::get('pembimbing_sekolah/add', 'PembimbingSekolahController@modal_add');
+Route::post('pembimbing_sekolah/add/process', 'PembimbingSekolahController@process_add');
+Route::get('pembimbing_sekolah/edit', 'PembimbingSekolahController@modal_edit');
+Route::post('pembimbing_sekolah/edit/process', 'PembimbingSekolahController@process_edit');
+Route::get('pembimbing_sekolah/delete', 'PembimbingSekolahController@process_delete');
