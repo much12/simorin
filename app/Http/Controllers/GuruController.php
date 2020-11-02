@@ -11,10 +11,10 @@ class GuruController extends Controller
 {
     public function index(Request $request)
     {
-        $data=array();
+        $data = array();
         $data['q'] = $request;
         $data['guru'] = Guru::paginate(15);
-        return view('guru.index',$data); 
+        return view('guru.index', $data);
     }
 
     public function process_add(Request $request)
@@ -25,9 +25,9 @@ class GuruController extends Controller
             $password = $request->post('password');
             $confirmpassword = $request->post('confirmpassword');
 
-            $checkEmail = Guru::find($email, array('email'));
+            $checkEmail = checkEmail($email);
 
-            if ($checkEmail !== null) {
+            if ($checkEmail == false) {
                 return JSONResponseDefault(KKSI::FAILED, 'Alamat email yang anda masukkan sudah terdaftar');
             } else if ($password !== $confirmpassword) {
                 return JSONResponseDefault(KKSI::FAILED, 'Password yang anda masukkan tidak sesuai');
@@ -65,9 +65,9 @@ class GuruController extends Controller
                 return JSONResponseDefault(KKSI::FAILED, 'Data tidak ditemukan');
             } else {
                 if ($guru->email != $email) {
-                    $checkEmail = Guru::find($email, array('email'));
+                    $checkEmail = checkEmail($email);
 
-                    if ($checkEmail !== null) {
+                    if ($checkEmail == false) {
                         return JSONResponseDefault(KKSI::FAILED, 'Alamat email yang anda masukkan sudah terdaftar');
                     }
                 } else if ($guru->password != $password) {
@@ -118,12 +118,12 @@ class GuruController extends Controller
 
     public function modal_add()
     {
-        try{
+        try {
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
                 'CONTENT' => view('guru.add')->render()
             ));
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
         }
     }

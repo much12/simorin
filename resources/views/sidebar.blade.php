@@ -42,7 +42,7 @@
                </a>
             </li>
 
-            <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru')) }}">
+            <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah')) }}">
                <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
                   <span>Master Data</span>
