@@ -42,6 +42,8 @@ Route::get('jurusan/edit', 'JurusanController@modal_edit');
 Route::post('jurusan/edit/process', 'JurusanController@process_edit');
 Route::get('jurusan/delete', 'JurusanController@process_delete');
 
+Route::get('guru','GuruController@index');
+Route::get('guru/add','GuruController@modal_add');
 Route::post('guru/add/process', 'GuruController@process_add');
 Route::get('guru/edit', 'GuruController@modal_edit');
 Route::post('guru/edit/process', 'GuruController@process_edit');
