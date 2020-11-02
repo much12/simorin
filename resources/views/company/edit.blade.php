@@ -20,7 +20,7 @@
                     <label>Alamat</label>
 
                     <div class="form-line">
-                        <textarea name="alamat" class="form-control" required>{{ $company->alamat_perusahaan }}</textarea>
+                        <textarea name="alamat" class="form-control" style="resize: vertical;" required>{{ $company->alamat_perusahaan }}</textarea>
                     </div>
                 </div>
 

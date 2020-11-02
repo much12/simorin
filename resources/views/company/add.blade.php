@@ -20,7 +20,7 @@
                     <label>Alamat</label>
 
                     <div class="form-line">
-                        <textarea name="alamat" class="form-control" required></textarea>
+                        <textarea name="alamat" class="form-control" style="resize: vertical;" required></textarea>
                     </div>
                 </div>
 
