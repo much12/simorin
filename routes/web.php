@@ -42,8 +42,8 @@ Route::get('jurusan/edit', 'JurusanController@modal_edit');
 Route::post('jurusan/edit/process', 'JurusanController@process_edit');
 Route::get('jurusan/delete', 'JurusanController@process_delete');
 
-Route::get('guru','GuruController@index');
-Route::get('guru/add','GuruController@modal_add');
+Route::get('guru', 'GuruController@index');
+Route::get('guru/add', 'GuruController@modal_add');
 Route::post('guru/add/process', 'GuruController@process_add');
 Route::get('guru/edit', 'GuruController@modal_edit');
 Route::post('guru/edit/process', 'GuruController@process_edit');
@@ -55,3 +55,10 @@ Route::post('pembimbing_sekolah/add/process', 'PembimbingSekolahController@proce
 Route::get('pembimbing_sekolah/edit', 'PembimbingSekolahController@modal_edit');
 Route::post('pembimbing_sekolah/edit/process', 'PembimbingSekolahController@process_edit');
 Route::get('pembimbing_sekolah/delete', 'PembimbingSekolahController@process_delete');
+
+Route::get('siswa', 'SiswaController@index');
+Route::get('siswa/add', 'SiswaController@modal_add');
+Route::post('siswa/add/process', 'SiswaController@process_add');
+Route::get('siswa/edit', 'SiswaController@modal_edit');
+Route::post('siswa/edit/process', 'SiswaController@process_edit');
+Route::get('siswa/delete', 'SiswaController@process_delete');

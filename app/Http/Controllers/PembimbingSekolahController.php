@@ -133,7 +133,9 @@ class PembimbingSekolahController extends Controller
                     if ($checkEmail == false) {
                         return JSONResponseDefault(KKSI::FAILED, 'Alamat email yang anda masukkan sudah terdaftar');
                     }
-                } else if ($pembimbing->password != $password) {
+                }
+
+                if ($pembimbing->password != $password) {
                     if ($password !== $confirmpassword) {
                         return JSONResponseDefault(KKSI::FAILED, 'Password yang anda masukkan tidak sesuai');
                     }

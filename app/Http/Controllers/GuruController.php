@@ -73,7 +73,9 @@ class GuruController extends Controller
                     if ($checkEmail == false) {
                         return JSONResponseDefault(KKSI::FAILED, 'Alamat email yang anda masukkan sudah terdaftar');
                     }
-                } else if ($guru->password != $password) {
+                }
+
+                if ($guru->password != $password) {
                     if ($password !== $confirmpassword) {
                         return JSONResponseDefault(KKSI::FAILED, 'Password yang anda masukkan tidak sesuai');
                     }

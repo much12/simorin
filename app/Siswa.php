@@ -9,4 +9,14 @@ class Siswa extends Model
     protected $table = 'mssiswa';
     public $timestamps = false;
     protected $primaryKey = 'nis';
+
+    public function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class, 'id_jurusan');
+    }
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'id_guru');
+    }
 }
