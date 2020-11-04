@@ -19,25 +19,24 @@ class LoginController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
 
-        $pembimbing = $this->cek_pembimbing_perusahaan($email,$password);
-        $admin = $this->cek_admin($email,$password);
+        $pembimbing = $this->cek_pembimbing_perusahaan($email, $password);
+        $admin = $this->cek_admin($email, $password);
 
         if ($pembimbing != null) {
             return JSONResponseDefault(KKSI::OK, 'Login Pembimbing Berhasil');
-        }else if($admin != null){
+        } else if ($admin != null) {
             return JSONResponseDefault(KKSI::OK, 'Login Admin Berhasil');
-        }else{
+        } else {
             return JSONResponseDefault(KKSI::FAILED, 'Access Denied');
         }
     }
 
-    public function cek_admin($email,$password)
+    public function cek_admin($email, $password)
     {
-        
     }
 
-    public function cek_pembimbing_perusahaan($email,$password)
+    public function cek_pembimbing_perusahaan($email, $password)
     {
-        return PembimbingPerusahaan::where('email',$email)->where('password',$password)->first();
+        return PembimbingPerusahaan::where('email', $email)->where('password', $password)->first();
     }
 }

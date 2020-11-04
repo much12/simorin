@@ -33,16 +33,17 @@
                                 </div>
                             </form>
                         </div>
+
                         <div class="col-6">
                             <form action="{{url()->current()}}" method="GET" autocomplete="off">
                                 <input type="month" name="bulan" id="bulan" class="form-control">
                             </form>
                         </div>
                     </div>
+
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover">
                             <form action="">
-
                                 <thead>
                                     <tr>
                                         <th>
@@ -57,6 +58,7 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     @php $no =1 ;
                                     @endphp
@@ -82,8 +84,7 @@
                                         </td>
                                         <td>{{\Carbon\Carbon::parse($j->tgl_jurnal)->isoFormat('DD MMMM gggg')}}</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-xs waves-effect"
-                                                onclick="viewJurnal(<?= $j->id ?>)">
+                                            <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="viewJurnal(<?= $j->id ?>)">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </button>
                                         </td>

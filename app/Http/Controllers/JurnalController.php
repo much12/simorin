@@ -9,7 +9,7 @@ class JurnalController extends Controller
 {
     public function index()
     {
-        $jurnal =Jurnal::all();
-        return view('jurnal.index',['jurnal'=>$jurnal]);
+        $jurnal = Jurnal::all();
+        return view('jurnal.index', ['jurnal' => $jurnal]);
     }
 }

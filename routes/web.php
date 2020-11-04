@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('dashboard.index');
 });
 
-Route::get('login','LoginController@index');
-Route::get('login/proses','LoginController@proses');
+Route::get('login', 'LoginController@index');
+Route::get('login/proses', 'LoginController@proses');
 
 Route::get('company', 'CompanyController@index');
 Route::get('company/add', 'CompanyController@modal_add');

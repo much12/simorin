@@ -10,8 +10,7 @@
             <div class="email">email.@gmail.com</div>
 
             <div class="btn-group user-helper-dropdown">
-               <i class="material-icons" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="true">keyboard_arrow_down</i>
+               <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
 
                <ul class="dropdown-menu pull-right">
                   <li>
@@ -50,8 +49,7 @@
                </a>
             </li>
 
-            <li
-               class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan')) }}">
+            <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan')) }}">
                <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
                   <span>Master Data</span>
