@@ -4,7 +4,7 @@
             {{ csrf_field() }}
             <input type="hidden" name="id_company" value="{{ $company->id }}">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Perusahaan</h4>
+                <h4 class="modal-title">Edit Data Perusahaan</h4>
             </div>
 
             <div class="modal-body">

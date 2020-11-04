@@ -24,9 +24,9 @@
                     <form action="{{ url()->current() }}" method="GET" autocomplete="off">
                         <div class="row">
                             <div class="col-md-3">
-                                <label>Pencarian</label>
+                                <label></label>
                                 <input type="search" name="q" class="form-control"
-                                    value="{{ app('request')->get('q') }}" placeholder="Pencarian">
+                                    value="{{ app('request')->get('q') }}" placeholder="Pencarian...">
                             </div>
 
                             <div class="col-md-2">

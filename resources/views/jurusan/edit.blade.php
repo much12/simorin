@@ -5,7 +5,7 @@
             <input type="hidden" name="id_jurusan" value="{{ $jurusan->id }}">
 
             <div class="modal-header">
-                <h4 class="modal-title">Edit Jurusan</h4>
+                <h4 class="modal-title">Edit Data Jurusan</h4>
             </div>
 
             <div class="modal-body">

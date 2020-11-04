@@ -5,7 +5,7 @@
             <input type="hidden" name="id_bidang" value="{{ $bidang->id }}">
 
             <div class="modal-header">
-                <h4 class="modal-title">Edit Bidang</h4>
+                <h4 class="modal-title">Edit Data Bidang</h4>
             </div>
 
             <div class="modal-body">
