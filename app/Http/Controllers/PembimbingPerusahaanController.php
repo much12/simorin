@@ -52,6 +52,7 @@ class PembimbingPerusahaanController extends Controller
             $pembimbing->nama_pembimbing = $nama;
             $pembimbing->email = $email;
             $pembimbing->password = $password;
+            $pembimbing->role = 4; // Pembimbing Perusahaan
 
             $save = $pembimbing->save();
 
