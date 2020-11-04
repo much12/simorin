@@ -4,7 +4,7 @@
             {{ csrf_field() }}
             <input type="hidden" name="id" value="{{ $guru->id }}">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Guru</h4>
+                <h4 class="modal-title">Edit Data Guru</h4>
             </div>
 
             <div class="modal-body">
@@ -38,6 +38,7 @@
                     <div class="form-line">
                         <input type="password" name="confirmpassword" class="form-control">
                     </div>
+
                     <small style="color: red;">*Kosongkan Konfirmasi Password Jika Tidak Merubah Password</small>
                 </div>
             </div>

@@ -3,7 +3,7 @@
         <form id="frmAdd" action="{{ url()->current() . '/process' }}" method="POST" autocomplete="off">
             {{ csrf_field() }}
             <div class="modal-header">
-                <h4 class="modal-title">Add Pembimbing Sekolah</h4>
+                <h4 class="modal-title">Tambah Data Pembimbing Sekolah</h4>
             </div>
 
             <div class="modal-body">

@@ -5,7 +5,7 @@
             <input type="hidden" name="id_siswa" value="{{ $siswa->nis }}">
 
             <div class="modal-header">
-                <h4 class="modal-title">Edit Siswa</h4>
+                <h4 class="modal-title">Edit Data Siswa</h4>
             </div>
 
             <div class="modal-body">

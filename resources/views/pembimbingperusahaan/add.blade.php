@@ -4,7 +4,7 @@
             {{ csrf_field() }}
 
             <div class="modal-header">
-                <h4 class="modal-title">Add Pembimbing Perusahaan</h4>
+                <h4 class="modal-title">Tambah Data Pembimbing Perusahaan</h4>
             </div>
 
             <div class="modal-body">

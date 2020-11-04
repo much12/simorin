@@ -4,7 +4,7 @@
             {{ csrf_field() }}
             <input type="hidden" name="id" value="{{ $pembimbing->id }}">
             <div class="modal-header">
-                <h4 class="modal-title">Edit pembimbing</h4>
+                <h4 class="modal-title">Edit Data Pembimbing</h4>
             </div>
 
             <div class="modal-body">
