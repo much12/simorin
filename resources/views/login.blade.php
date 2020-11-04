@@ -10,7 +10,8 @@
    <link rel="icon" href="{{asset('assets/favicon.ico')}}" type="image/x-icon">
 
    <!-- Google Fonts -->
-   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+      type="text/css">
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
    <!-- Bootstrap Core Css -->
@@ -59,16 +60,17 @@
 
       <div class="card">
          <div class="body">
-            <form id="frmLogin" action="{{ url('/') }}" method="GET" autocomplete="off">
+            <form id="frmLogin" action="{{url()->current()}}/proses" autocomplete="off"
+               onsubmit="login();return false;">
                <div class="msg"><b>LOGIN</b></div>
-
                <div class="input-group">
                   <span class="input-group-addon">
                      <i class="fas fa-user"></i>
                   </span>
 
                   <div class="form-line">
-                     <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                     <input type="email" class="form-control" name="email" id="email" placeholder="Email" required
+                        autofocus>
                   </div>
                </div>
 
@@ -78,7 +80,8 @@
                   </span>
 
                   <div class="form-line">
-                     <input type="password" class="form-control" name="password" placeholder="Password" required>
+                     <input type="password" class="form-control" name="password" id="password" placeholder="Password"
+                        required>
                   </div>
                </div>
 
@@ -103,6 +106,37 @@
    <!-- Custom Js -->
    <script src="{{asset ('assets/js/admin.js') }}"></script>
    <script src="{{asset ('assets/js/pages/examples/sign-in.js') }}"></script>
+
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+   <script src="{{ asset('assets/js/script.js') }}"></script>
+
+   <script>
+      function login() {
+         var email = $('#email').val();
+         var password = $('#password').val();
+         $.ajax({
+            url:'{{url()->current()}}/proses',
+            dataType:'json',
+            method:'GET',
+            data:{
+               email:email,
+               password:password
+            },
+            success:function(response){
+               console.log(response);
+               if (response.RESULT == 'OK') {
+                  swalMessageSuccess(response.MESSAGE);
+                  
+               } else {
+                  swalMessageFailed(response.MESSAGE);
+               }
+            }
+         }).fail(function () {
+            swalError();
+         })
+      }
+   </script>
 </body>
 
 </html>
