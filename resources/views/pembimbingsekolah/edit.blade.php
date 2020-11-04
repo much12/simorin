@@ -26,6 +26,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Bagian</label>
+
+                    <div class="form-line">
+                        <input type="text" name="bagian" class="form-control" value="{{ $pembimbing->bagian }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label>Password</label>
 
                     <div class="form-line">

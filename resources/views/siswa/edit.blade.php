@@ -50,6 +50,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Perusahaan</label>
+
+                    <div class="form-line">
+                        <select name="company" class="form-control select2" required>
+                            @foreach($company as $key => $value)
+                            <option value="{{ $value->id }}" {{ $value->id !== $siswa->id_company ?: 'selected' }}>{{ $value->nama_perusahaan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label>Email</label>
 
                     <div class="form-line">
@@ -132,5 +144,12 @@
             elementsForm.removeAttr('disabled');
             swalError();
         });
+    });
+
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item',
+        dropdownParent: $('#ModalGlobal')
     });
 </script>

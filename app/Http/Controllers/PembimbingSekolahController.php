@@ -37,6 +37,7 @@ class PembimbingSekolahController extends Controller
         try {
             $nama_pembimbing = $request->post('nama_pembimbing');
             $email = $request->post('email');
+            $bagian = $request->post('bagian');
             $password = $request->post('password');
             $confirmpassword = $request->post('confirmpassword');
 
@@ -54,6 +55,7 @@ class PembimbingSekolahController extends Controller
             $pembimbingsekolah->nama_pembimbing = $nama_pembimbing;
             $pembimbingsekolah->email = $email;
             $pembimbingsekolah->password = $password;
+            $pembimbingsekolah->bagian = $bagian;
 
             $save = $pembimbingsekolah->save();
 
@@ -119,6 +121,7 @@ class PembimbingSekolahController extends Controller
             $id_pembimbing = $request->post('id_pembimbing');
             $nama_pembimbing = $request->post('nama_pembimbing');
             $email = $request->post('email');
+            $bagian = $request->post('bagian');
             $password = $request->post('password');
             $confirmpassword = $request->post('confirmpassword');
 
@@ -145,6 +148,7 @@ class PembimbingSekolahController extends Controller
             $pembimbing->nama_pembimbing = $nama_pembimbing;
             $pembimbing->email = $email;
             $pembimbing->password = $password;
+            $pembimbing->bagian = $bagian;
 
             $save = $pembimbing->save();
 

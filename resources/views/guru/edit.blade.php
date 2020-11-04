@@ -20,8 +20,7 @@
                     <label>Email</label>
 
                     <div class="form-line">
-                        <input type="email" class="form-control" value="{{ $guru->email }}" name="email" id="email"
-                            required>
+                        <input type="email" class="form-control" value="{{ $guru->email }}" name="email" id="email" required>
                     </div>
                 </div>
 
@@ -29,8 +28,7 @@
                     <label>Password</label>
 
                     <div class="form-line">
-                        <input type="password" name="password" class="form-control" value="{{ $guru->password }}"
-                            required>
+                        <input type="password" name="password" class="form-control" value="{{ $guru->password }}" required>
                     </div>
                 </div>
 
@@ -40,7 +38,7 @@
                     <div class="form-line">
                         <input type="password" name="confirmpassword" class="form-control">
                     </div>
-                    <small>*Kosongkan Konfirmasi Password Jika Tidak Merubah Password</small>
+                    <small style="color: red;">*Kosongkan Konfirmasi Password Jika Tidak Merubah Password</small>
                 </div>
             </div>
 
