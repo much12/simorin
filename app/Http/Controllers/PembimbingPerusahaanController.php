@@ -101,7 +101,7 @@ class PembimbingPerusahaanController extends Controller
             $email = $request->post('email');
             $password = $request->post('password');
             $confirmpassword = $request->post('confirmpassword');
-            
+
             $pembimbing = PembimbingPerusahaan::find($id_pembimbing);
 
             if ($pembimbing == null) {

@@ -25,8 +25,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Pencarian</label>
-                                <input type="search" name="q" class="form-control"
-                                    value="{{ app('request')->get('q') }}" placeholder="Pencarian">
+                                <input type="search" name="q" class="form-control" value="{{ app('request')->get('q') }}" placeholder="Pencarian">
                             </div>
 
                             <div class="col-md-2">
@@ -57,13 +56,11 @@
                                     <td>{{$p->nama_pembimbing}}</td>
                                     <td>{{$p->email}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-xs waves-effect"
-                                            onclick="editPembimbing(<?= $p->id ?>)">
+                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editPembimbing(<?= $p->id ?>)">
                                             <i class="material-icons">edit</i>
                                         </button>
 
-                                        <button type="button" class="btn btn-danger btn-xs waves-effect"
-                                            onclick="deletePembimbing(<?= $p->id ?>)">
+                                        <button type="button" class="btn btn-danger btn-xs waves-effect" onclick="deletePembimbing(<?= $p->id ?>)">
                                             <i class="material-icons">delete</i>
                                         </button>
                                     </td>
@@ -115,7 +112,7 @@
                     method: 'GET',
                     dataType: 'json',
                     data: {
-                        id : id
+                        id: id
                     },
                     success: function(response) {
                         console.log(response);

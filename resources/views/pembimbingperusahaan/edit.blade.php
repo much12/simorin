@@ -20,8 +20,7 @@
                     <label>Email</label>
 
                     <div class="form-line">
-                        <input type="email" class="form-control" value="{{ $pembimbing->email }}" name="email" id="email"
-                            required>
+                        <input type="email" class="form-control" value="{{ $pembimbing->email }}" name="email" id="email" required>
                     </div>
                 </div>
 
@@ -29,8 +28,7 @@
                     <label>Password</label>
 
                     <div class="form-line">
-                        <input type="password" name="password" class="form-control" value="{{ $pembimbing->password }}"
-                            required>
+                        <input type="password" name="password" class="form-control" value="{{ $pembimbing->password }}" required>
                     </div>
                 </div>
 
