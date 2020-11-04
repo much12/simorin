@@ -42,6 +42,13 @@
                </a>
             </li>
 
+            <li class="{{ isCurrentPage('/jurnal') }}">
+               <a href="{{ url('/jurnal') }}">
+                  <i class="fa fa-home"></i>
+                  <span>Jurnal</span>
+               </a>
+            </li>
+
             <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan')) }}">
                <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
@@ -69,12 +76,12 @@
                      <a href="{{ url('pembimbing_sekolah') }}">Master Pembimbing Sekolah</a>
                   </li>
 
-                  <li class="{{ isCurrentPage('siswa') }}">
-                     <a href="{{ url('siswa') }}">Master Siswa</a>
-                  </li>
-
                   <li class="{{ isCurrentPage('pembimbing_perusahaan') }}">
                      <a href="{{ url('pembimbing_perusahaan') }}">Master Pembimbing Perusahaan</a>
+                  </li>
+
+                  <li class="{{ isCurrentPage('siswa') }}">
+                     <a href="{{ url('siswa') }}">Master Siswa</a>
                   </li>
                </ul>
             </li>

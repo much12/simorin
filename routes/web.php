@@ -17,9 +17,8 @@ Route::get('/', function () {
     return view('dashboard.index');
 });
 
-Route::get('login', function () {
-    return view('login');
-});
+Route::get('login', 'LoginController@index');
+Route::get('login/proses', 'LoginController@proses');
 
 Route::get('company', 'CompanyController@index');
 Route::get('company/add', 'CompanyController@modal_add');
@@ -69,3 +68,5 @@ Route::post('/pembimbing_perusahaan/add', 'PembimbingPerusahaanController@store'
 Route::get('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@edit');
 Route::post('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@update');
 Route::get('/pembimbing_perusahaan/delete', 'PembimbingPerusahaanController@destroy');
+
+Route::get('jurnal', 'JurnalController@index');

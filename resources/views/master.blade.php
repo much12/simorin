@@ -28,6 +28,9 @@
    <!-- Morris Chart Css -->
    <link href="{{ asset('assets/plugins/morrisjs/morris.css') }}" rel="stylesheet" />
 
+   <!-- Select2 -->
+   <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
    <!-- Custom Css -->
    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
@@ -56,6 +59,25 @@
       i.fa {
          font-size: 2rem;
          margin-top: .5rem;
+      }
+
+      .select2-container--default .select2-selection--single {
+         border: none;
+      }
+
+      .select2-container {
+         vertical-align: unset;
+      }
+
+      .select2-container .select2-selection--single .select2-selection__rendered {
+         padding-left: 4px;
+      }
+
+      .select2-container:focus,
+      .select2-container span.selection:focus,
+      .select2-container--default .select2-selection--single:focus,
+      .select2-container .select2-selection--single .select2-selection__rendered:focus {
+         outline: none;
       }
    </style>
 </head>
@@ -112,6 +134,9 @@
    <!-- Jquery DataTable Plugin Js -->
    <script src="{{ asset('assets/plugins/jquery-datatable/jquery.dataTables.js') }}"></script>
    <script src="{{ asset('assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
+
+   <!-- Select2 -->
+   <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
 
    <!-- Custom Js -->
    <script src="{{ asset('assets/js/admin.js') }}"></script>

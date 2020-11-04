@@ -27,6 +27,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Pembimbing</th>
+                                    <th>Bagian</th>
                                     <th>Email</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -39,6 +40,7 @@
                                 <tr>
                                     <td>{{ $num++ }}</td>
                                     <td>{{ $value->nama_pembimbing }}</td>
+                                    <td>{{ $value->bagian }}</td>
                                     <td>{{ $value->email }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editPembimbingSekolah(<?= $value->id ?>)">

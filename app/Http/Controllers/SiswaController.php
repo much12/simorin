@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Guru;
 use App\Jurusan;
 use App\Siswa;
@@ -27,6 +28,7 @@ class SiswaController extends Controller
             $data = array();
             $data['jurusan'] = Jurusan::all();
             $data['guru'] = Guru::all();
+            $data['company'] = Company::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
@@ -49,6 +51,7 @@ class SiswaController extends Controller
             $confirmpassword = $request->post('confirmpassword');
             $jam_masuk = $request->post('jam_masuk');
             $jam_pulang = $request->post('jam_pulang');
+            $company = $request->post('company');
 
             $checkNis = Siswa::find($nis);
 
@@ -75,6 +78,7 @@ class SiswaController extends Controller
             $siswa->password = $password;
             $siswa->jam_masuk = date('H:i:00', strtotime($jam_masuk));
             $siswa->jam_pulang = date('H:i:00', strtotime($jam_pulang));
+            $siswa->id_company = $company;
 
             $save = $siswa->save();
 
@@ -126,6 +130,7 @@ class SiswaController extends Controller
             $data['siswa'] = $siswa;
             $data['jurusan'] = Jurusan::all();
             $data['guru'] = Guru::all();
+            $data['company'] = Company::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
@@ -149,6 +154,7 @@ class SiswaController extends Controller
             $confirmpassword = $request->post('confirmpassword');
             $jam_masuk = $request->post('jam_masuk');
             $jam_pulang = $request->post('jam_pulang');
+            $company = $request->post('company');
 
             $siswa = Siswa::find($id_siswa);
 
@@ -178,6 +184,7 @@ class SiswaController extends Controller
             $siswa->password = $password;
             $siswa->jam_masuk = date('H:i:00', strtotime($jam_masuk));
             $siswa->jam_pulang = date('H:i:00', strtotime($jam_pulang));
+            $siswa->id_company = $company;
 
             $save = $siswa->save();
 

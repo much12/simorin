@@ -38,11 +38,19 @@ class APIController extends Controller
                         return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
                     }
                 } else {
-                    $pembimbingpers = PembimbingPerusahaan::find($username, array('email'));
+                    $pembimbingpers = PembimbingPerusahaan::where('email', $username)->first();
 
                     if ($pembimbingpers !== null) {
                         if ($pembimbingpers->password == $password) {
-                            return JSONResponseDefault(KKSI::OK, 'Login Berhasil Sebagai Pembimbing Perusahaan');
+                            return JSONResponse(array(
+                                'RESULT' => KKSI::OK,
+                                'USER' => array(
+                                    'ID' => $pembimbingpers->id,
+                                    'NAMA' => $pembimbingpers->nama_pembimbing,
+                                    'NAMA_PERUSAHAAN' => $pembimbingpers->perusahaan->nama_perusahaan,
+                                    'ROLE' => $pembimbingpers->roleRel->role
+                                )
+                            ));
                         } else {
                             return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
                         }

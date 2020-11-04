@@ -46,6 +46,7 @@
                                     <th>Nama</th>
                                     <th>Jurusan</th>
                                     <th>Guru</th>
+                                    <th>Tempat Prakerin</th>
                                     <th>Email</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Pulang</th>
@@ -69,6 +70,11 @@
                                     <td>
                                         @if($value->guru !== null)
                                         {{ $value->guru->nama }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($value->company !== null)
+                                        {{ $value->company->nama_perusahaan }}
                                         @endif
                                     </td>
                                     <td>{{ $value->email }}</td>

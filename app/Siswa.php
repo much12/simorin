@@ -19,4 +19,9 @@ class Siswa extends Model
     {
         return $this->belongsTo(Guru::class, 'id_guru');
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'id_company');
+    }
 }
