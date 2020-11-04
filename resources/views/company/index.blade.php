@@ -24,13 +24,11 @@
                     <form action="{{ url()->current() }}" method="GET" autocomplete="off">
                         <div class="row">
                             <div class="col-md-3">
-                                <label></label>
                                 <input type="search" name="q" class="form-control" value="{{ app('request')->get('q') }}" placeholder="Pencarian...">
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>&nbsp;</label>
                                     <button type="submit" class="btn btn-primary btn-block">Cari</button>
                                 </div>
                             </div>

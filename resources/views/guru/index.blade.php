@@ -24,14 +24,11 @@
                     <form action="{{ url()->current() }}" method="GET" autocomplete="off">
                         <div class="row">
                             <div class="col-md-3">
-                                <label></label>
-                                <input type="search" name="q" class="form-control"
-                                    value="{{ app('request')->get('q') }}" placeholder="Pencarian...">
+                                <input type="search" name="q" class="form-control" value="{{ app('request')->get('q') }}" placeholder="Pencarian...">
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>&nbsp;</label>
                                     <button type="submit" class="btn btn-primary btn-block">Cari</button>
                                 </div>
                             </div>
@@ -57,13 +54,11 @@
                                     <td>{{$g->nama}}</td>
                                     <td>{{$g->email}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-xs waves-effect"
-                                            onclick="editGuru(<?= $g->id ?>)">
+                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editGuru(<?= $g->id ?>)">
                                             <i class="material-icons">edit</i>
                                         </button>
 
-                                        <button type="button" class="btn btn-danger btn-xs waves-effect"
-                                            onclick="deleteGuru(<?= $g->id ?>)">
+                                        <button type="button" class="btn btn-danger btn-xs waves-effect" onclick="deleteGuru(<?= $g->id ?>)">
                                             <i class="material-icons">delete</i>
                                         </button>
                                     </td>
@@ -115,7 +110,7 @@
                     method: 'GET',
                     dataType: 'json',
                     data: {
-                        id : id
+                        id: id
                     },
                     success: function(response) {
                         if (response.RESULT == 'OK') {
