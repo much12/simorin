@@ -22,6 +22,9 @@ Route::get('login/proses', 'LoginController@proses');
 Route::get('logout','LoginController@logout');
 
 Route::group(['middleware' => ['CekLogin']], function () {
+
+    Route::get('dashboard','DashboardController@index');
+
     Route::get('company', 'CompanyController@index');
     Route::get('company/add', 'CompanyController@modal_add');
     Route::post('company/add/process', 'CompanyController@process_add');

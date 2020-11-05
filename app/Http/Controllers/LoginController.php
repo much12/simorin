@@ -13,6 +13,9 @@ class LoginController extends Controller
 {
     public function index()
     {
+        if(Session::get('is_login') == true){
+            return redirect('dashboard');
+        }
         return view('login');
     }
 
