@@ -24,4 +24,9 @@ class Siswa extends Model
     {
         return $this->belongsTo(Company::class, 'id_company');
     }
+
+    public function roleRel()
+    {
+        return $this->belongsTo(Role::class, 'role');
+    }
 }

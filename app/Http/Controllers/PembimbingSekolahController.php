@@ -56,6 +56,7 @@ class PembimbingSekolahController extends Controller
             $pembimbingsekolah->email = $email;
             $pembimbingsekolah->password = $password;
             $pembimbingsekolah->bagian = $bagian;
+            $pembimbingsekolah->role = 3; // Pembimbing Sekolah
 
             $save = $pembimbingsekolah->save();
 

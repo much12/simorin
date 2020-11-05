@@ -79,6 +79,7 @@ class SiswaController extends Controller
             $siswa->jam_masuk = date('H:i:00', strtotime($jam_masuk));
             $siswa->jam_pulang = date('H:i:00', strtotime($jam_pulang));
             $siswa->id_company = $company;
+            $siswa->role = 2; // Siswa
 
             $save = $siswa->save();
 
