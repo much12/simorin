@@ -27,7 +27,7 @@ class APIController extends Controller
                             'ID' => $siswa->nis,
                             'NAMA' => $siswa->nama,
                             'ROLE' => $siswa->roleRel->role,
-                            'TEMPAT_PRAKERIN' => $siswa->company->nama_perusahaan
+                            'PSB' => $siswa->company->nama_perusahaan
                         )
                     ));
                 } else {
@@ -43,7 +43,7 @@ class APIController extends Controller
                             'USER' => array(
                                 'ID' => $pembimbing->id,
                                 'NAMA' => $pembimbing->nama_pembimbing,
-                                'BAGIAN' => $pembimbing->bagian,
+                                'PSB' => $pembimbing->bagian,
                                 'ROLE' => $pembimbing->roleRel->role
                             )
                         ));
@@ -60,7 +60,7 @@ class APIController extends Controller
                                 'USER' => array(
                                     'ID' => $pembimbingpers->id,
                                     'NAMA' => $pembimbingpers->nama_pembimbing,
-                                    'NAMA_PERUSAHAAN' => $pembimbingpers->perusahaan->nama_perusahaan,
+                                    'PSB' => $pembimbingpers->perusahaan->nama_perusahaan,
                                     'ROLE' => $pembimbingpers->roleRel->role
                                 )
                             ));
