@@ -18,8 +18,8 @@
                     <div class="row">
                         <form action="{{ url()->current() }}" method="GET" autocomplete="off">
                             <div class="col-md-5">
-                                <label>Pencarian</label>
-                                <input type="search" name="q" class="form-control" placeholder="Pencarian">
+                                <label>Pencarian Berdasarkan Nama</label>
+                                <input type="search" name="q" class="form-control" placeholder="Pencarian...">
                             </div>
 
                             <div class="col-md-5">
@@ -38,14 +38,18 @@
                     </div>
                 </div>
 
+                <label class="cbx">Check All
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">
                         <form action="">
                             <thead>
                                 <tr>
                                     <th>
-                                        <input type="checkbox" id="cb_all" class="filled-in" />
-                                        <label for="cb_all"></label>
+                                        
                                     </th>
                                     <th>No</th>
                                     <th>Tempat</th>
@@ -62,10 +66,12 @@
                                 @foreach ($jurnal as $j)
                                 <tr>
                                     <td>
-                                        @if ($j->status == 0)
+                                        {{-- @if ($j->status == 0) --}}
+                                        <div class="text-center">
                                         <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
                                         <label for="cb"></label>
-                                        @endif
+                                        </div>
+                                        {{-- @endif --}}
                                     </td>
                                     <td>
                                         {{$no++}}

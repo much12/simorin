@@ -44,7 +44,7 @@
 
             <li class="{{ isCurrentPage('/jurnal') }}">
                <a href="{{ url('/jurnal') }}">
-                  <i class="fa fa-home"></i>
+                  <i class="fa fa-sticky-note"></i>
                   <span>Jurnal</span>
                </a>
             </li>
