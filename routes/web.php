@@ -76,4 +76,6 @@ Route::group(['middleware' => ['CekLogin']], function () {
     
     Route::get('jurnal', 'JurnalController@index');
 
+    Route::get('absensi', 'AbsensiController@index');
+
 });

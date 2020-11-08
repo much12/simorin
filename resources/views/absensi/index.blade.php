@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="header">
                     <div class="pull-left">
-                        <h2>JURNAL</h2>
+                        <h2>ABSENSI</h2>
                     </div>
 
                     <div class="clearfix"></div>
@@ -41,13 +41,7 @@
                 <label class="cbx">Check All
                     <input type="checkbox" checked="checked">
                     <span class="checkmark"></span>
-                    <div class="actjurnal" style="float: right; margin: 0 20px 0 0;">
-                        <button class="btn btn-primary">ACC Jurnal</button>
-                        <button class="btn btn-success">Cetak PDF</button>
-                    </div>
                 </label>
-
-                
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">

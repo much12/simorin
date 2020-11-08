@@ -84,10 +84,10 @@
       .cbx {
   display: block;
   position: relative;
-  padding-left: 80px;
+  padding-left: 70px;
   margin-bottom: 12px;
   /* cursor: pointer; */
-  font-size: 18px;
+  font-size: 14px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
