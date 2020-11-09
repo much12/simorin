@@ -18,4 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('login', 'APIController@process_login');
+Route::post('login', 'APIController@process_login');
+Route::post('absen_siswa', 'APIController@absenSiswa');
+Route::post('input_jurnal', 'APIController@inputJurnal');
