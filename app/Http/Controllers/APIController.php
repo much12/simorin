@@ -87,6 +87,8 @@ class APIController extends Controller
 
             $user_id = $request->post('user_id');
             $date = $request->post('date');
+            $latitude = $request->post('latitude');
+            $longitude = $request->post('longitude');
 
             $siswa = Siswa::where('nis', $user_id)->first();
 
@@ -108,6 +110,8 @@ class APIController extends Controller
                     $jurnal->nis = $user_id;
                     $jurnal->waktu_masuk = date('Y-m-d H:i:s', strtotime($date));
                     $jurnal->status = 0;
+                    $jurnal->longitude = $longitude;
+                    $jurnal->latitude = $latitude;
 
                     $save = $jurnal->save();
 
