@@ -153,7 +153,6 @@
    right: 25px;
   }
 }
-
    </style>
 </head>
 
