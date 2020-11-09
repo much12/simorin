@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="header">
                     <div class="pull-left">
-                        <h2>JURNAL</h2>
+                        <h2>ABSENSI</h2>
                     </div>
 
                     <div class="clearfix"></div>
@@ -41,21 +41,15 @@
                 <label class="cbx">Check All
                     <input type="checkbox" checked="checked">
                     <span class="checkmark"></span>
-                    <div class="actjurnal" style="float: right; margin: 0 20px 0 0;">
-                        <button class="btn btn-primary">ACC Jurnal</button>
-                        <button class="btn btn-success">Cetak PDF</button>
-                    </div>
                 </label>
-
-                
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">
                         <form action="">
                             <thead>
                                 <tr>
-                                    <th style="width: 9rem;">
-
+                                    <th>
+                                        
                                     </th>
                                     <th>No</th>
                                     <th>Tempat</th>
@@ -74,8 +68,8 @@
                                     <td>
                                         {{-- @if ($j->status == 0) --}}
                                         <div class="text-center">
-                                            <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
-                                            <label for="cb"></label>
+                                        <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
+                                        <label for="cb"></label>
                                         </div>
                                         {{-- @endif --}}
                                     </td>
@@ -93,7 +87,8 @@
                                     </td>
                                     <td>{{\Carbon\Carbon::parse($j->tgl_jurnal)->isoFormat('DD MMMM gggg')}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="viewJurnal(<?= $j->id ?>)">
+                                        <button type="button" class="btn btn-primary btn-xs waves-effect"
+                                            onclick="viewJurnal(<?= $j->id ?>)">
                                             <i class="material-icons">remove_red_eye</i>
                                         </button>
                                     </td>

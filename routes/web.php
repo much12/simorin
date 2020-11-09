@@ -74,6 +74,8 @@ Route::group(['middleware' => ['CekLogin']], function () {
     Route::post('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@update');
     Route::get('/pembimbing_perusahaan/delete', 'PembimbingPerusahaanController@destroy');
 
+    Route::get('absensi', 'AbsensiController@index');
+
     Route::get('/admin', 'AdminController@index');
     Route::get('/admin/add', 'AdminController@create');
     Route::post('/admin/add', 'AdminController@store');

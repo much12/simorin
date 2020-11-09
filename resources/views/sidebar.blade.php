@@ -44,8 +44,15 @@
 
             <li class="{{ isCurrentPage('/jurnal') }}">
                <a href="{{ url('/jurnal') }}">
-                  <i class="fa fa-sticky-note"></i>
+                  <i class="fa fa-clipboard"></i>
                   <span>Jurnal</span>
+               </a>
+            </li>
+
+            <li class="{{ isCurrentPage('/absensi') }}">
+               <a href="{{ url('/absensi') }}">
+                  <i class="fa fa-book-reader"></i>
+                  <span>Absensi</span>
                </a>
             </li>
 
