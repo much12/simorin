@@ -36,7 +36,7 @@ class LoginController extends Controller
         } else if ($admin != null) {
             Session::put('is_login',true);
             Session::put('id',$admin->id);
-            Session::put('nama',$admin->nama_admin);
+            Session::put('nama',$admin->nama);
             Session::put('role','Admin');
             return JSONResponseDefault(KKSI::OK, 'Login Berhasil');
         } else {
