@@ -48,8 +48,8 @@
                         <form action="">
                             <thead>
                                 <tr>
-                                    <th>
-                                        
+                                    <th style="width: 9rem;">
+
                                     </th>
                                     <th>No</th>
                                     <th>Tempat</th>
@@ -68,8 +68,8 @@
                                     <td>
                                         {{-- @if ($j->status == 0) --}}
                                         <div class="text-center">
-                                        <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
-                                        <label for="cb"></label>
+                                            <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
+                                            <label for="cb"></label>
                                         </div>
                                         {{-- @endif --}}
                                     </td>
@@ -87,8 +87,7 @@
                                     </td>
                                     <td>{{\Carbon\Carbon::parse($j->tgl_jurnal)->isoFormat('DD MMMM gggg')}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-xs waves-effect"
-                                            onclick="viewJurnal(<?= $j->id ?>)">
+                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="viewJurnal(<?= $j->id ?>)">
                                             <i class="material-icons">remove_red_eye</i>
                                         </button>
                                     </td>

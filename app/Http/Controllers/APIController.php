@@ -124,4 +124,42 @@ class APIController extends Controller
             return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
         }
     }
+
+    public function inputJurnal(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $user_id = $request->post('user_id');
+        $kegiatan_kerja = $request->post('kegiatan_kerja');
+        $prosedur_pengerjaan = $request->post('prosedur_pengerjaan');
+        $spesifikasi_bahan = $request->post('spesifikasi_bahan');
+
+        $jurnal = Jurnal::where('nis', $user_id)->whereDate('waktu_masuk', '=', date('Y-m-d'))->first();
+
+        if ($jurnal == null) {
+            return JSONResponseDefault(KKSI::FAILED, 'Anda belum melakukan absensi pada hari ini');
+        } else {
+            if ($jurnal->status == 0) {
+                return JSONResponseDefault(KKSI::FAILED, 'Absensi anda belum di acc');
+            } else if ($jurnal->status == 1) {
+                $updateArr = array();
+                $updateArr['kegiatan_kerja'] = $kegiatan_kerja;
+                $updateArr['prosedur_pengerjaan'] = $prosedur_pengerjaan;
+                $updateArr['spesifikasi_bahan'] = $spesifikasi_bahan;
+
+                $update = DB::table('tbjurnal')
+                    ->where('nis', $user_id)
+                    ->whereDate('waktu_masuk', '=', date('Y-m-d'))
+                    ->update($updateArr);
+
+                if ($update) {
+                    return JSONResponseDefault(KKSI::OK, 'Input jurnal berhasil');
+                } else {
+                    return JSONResponseDefault(KKSI::FAILED, 'Input jurnal gagal');
+                }
+            } else {
+                return JSONResponseDefault(KKSI::FAILED, 'Absensi anda tidak di acc');
+            }
+        }
+    }
 }
