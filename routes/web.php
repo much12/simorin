@@ -84,5 +84,6 @@ Route::group(['middleware' => ['CekLogin']], function () {
     Route::get('/admin/delete', 'AdminController@destroy');
 
     Route::get('jurnal', 'JurnalController@index');
+    Route::post('jurnal/acc', 'JurnalController@acc_jurnal');
     Route::get('jurnal/report', 'JurnalController@report_jurnal');
 });
