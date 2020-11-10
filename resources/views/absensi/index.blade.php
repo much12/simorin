@@ -39,7 +39,7 @@
                 </div>
 
                 <label class="cbx">Check All
-                    <input type="checkbox" checked="checked">
+                    <input type="checkbox" id="cbParent">
                     <span class="checkmark"></span>
                 </label>
 
@@ -68,8 +68,8 @@
                                     <td>
                                         {{-- @if ($j->status == 0) --}}
                                         <div class="text-center">
-                                        <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
-                                        <label for="cb"></label>
+                                        <input type="checkbox" id="cb{{$no}}" name="cb[]" class="cbChild filled-in" />
+                                        <label for="cb{{$no}}"></label>
                                         </div>
                                         {{-- @endif --}}
                                     </td>
@@ -79,9 +79,9 @@
                                     <td>tempat</td>
                                     <td>{{$j->nis}}</td>
                                     <td>
-                                        @if ($j->status == 0)
+                                        @if ($j->status_hadir == 0)
                                         <span class="label label-warning">Pending</span>
-                                        @elseif($j->status == 1)
+                                        @elseif($j->status_hadir == 1)
                                         <span class="label label-success">Success</span>
                                         @endif
                                     </td>
@@ -103,4 +103,20 @@
     </div>
 </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    document.querySelector('#cbParent').onclick = function(){
+        checkOrUncheck(this,'cbChild');
+    }
+
+    function checkOrUncheck(ele,eleChild){
+        var cbChild = document.querySelectorAll("." + eleChild);
+        if(ele.checked)
+            cbChild.forEach((e) => { e.checked = true });
+        else
+            cbChild.forEach((e) => { e.checked = false });
+    }
+</script>
 @endsection

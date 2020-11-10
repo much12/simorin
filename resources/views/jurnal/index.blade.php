@@ -39,10 +39,10 @@
                 </div>
 
                 <label class="cbx">Check All
-                    <input type="checkbox" checked="checked">
+                    <input type="checkbox" id="cbParent">
                     <span class="checkmark"></span>
                     <div class="actjurnal" style="float: right; margin: 0 20px 0 0;">
-                        <button class="btn btn-primary">ACC Jurnal</button>
+                        <button class="btn btn-primary" id="accButton">ACC Jurnal</button>
                         <button class="btn btn-success">Cetak PDF</button>
                     </div>
                 </label>
@@ -74,8 +74,9 @@
                                     <td>
                                         {{-- @if ($j->status == 0) --}}
                                         <div class="text-center">
-                                            <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
-                                            <label for="cb"></label>
+                                            <input type="checkbox" id="cb{{$no}}" name="cb[]" id-data="{{$j->id}}" class="cbChild filled-in" />
+                                            <label for="cb{{$no}}">
+                                            </label>
                                         </div>
                                         {{-- @endif --}}
                                     </td>
@@ -85,9 +86,9 @@
                                     <td>tempat</td>
                                     <td>{{$j->nis}}</td>
                                     <td>
-                                        @if ($j->status == 0)
+                                        @if ($j->status_jurnal == 0)
                                         <span class="label label-warning">Pending</span>
-                                        @elseif($j->status == 1)
+                                        @elseif($j->status_jurnal == 1)
                                         <span class="label label-success">Success</span>
                                         @endif
                                     </td>
@@ -108,4 +109,51 @@
     </div>
 </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    document.querySelector('#cbParent').onclick = function(){
+        checkOrUncheck(this,'cbChild');
+    }
+
+    function checkOrUncheck(ele,eleChild){
+        var cbChild = document.querySelectorAll("." + eleChild);
+        if(ele.checked)
+            cbChild.forEach((e) => { e.checked = true });
+        else
+            cbChild.forEach((e) => { e.checked = false });
+    }
+
+    document.getElementById('accButton').onclick = function(){
+        let data = [];
+        document.querySelectorAll('.cbChild').forEach((e) => { e.checked ? data.push(e.getAttribute('id-data')) : '' });
+        if(data.length == 0){
+            return false;
+        }
+        $.ajax({
+            url: "{{ url()->current() }}/acc",
+            type:'POST',
+            data: {
+                "_token" : "{{ csrf_token() }}",
+                "dataId" : data
+                },
+            dataType: 'json',
+            success: function(response, status, xhr){
+                console.log(response);
+                if (response.RESULT == 'OK') {
+                    swalMessageSuccess(response.MESSAGE);
+
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swalMessageFailed(response.MESSAGE);
+                }
+            }
+        }).fail(function() {
+            swalError();
+        });
+    }
+</script>
 @endsection
