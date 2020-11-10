@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'APIController@process_login');
 Route::post('absen_siswa', 'APIController@absenSiswa');
 Route::post('input_jurnal', 'APIController@inputJurnal');
+Route::post('list-absen', 'APIController@listAbsensi');

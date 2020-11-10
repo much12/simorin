@@ -24,4 +24,9 @@ class Company extends Model
     {
         return $this->belongsTo(PembimbingPerusahaan::class);
     }
+
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'id_company');
+    }
 }

@@ -7,11 +7,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="header">
-                    <div class="pull-left">
-                        <h2>JURNAL</h2>
-                    </div>
-
-                    <div class="clearfix"></div>
+                    <h2>JURNAL</h2>
                 </div>
 
                 <div class="body">
@@ -47,15 +43,12 @@
                     </div>
                 </label>
 
-                
-
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">
                         <form action="">
                             <thead>
                                 <tr>
                                     <th style="width: 9rem;">
-
                                     </th>
                                     <th>No</th>
                                     <th>Tempat</th>
@@ -79,9 +72,7 @@
                                         </div>
                                         {{-- @endif --}}
                                     </td>
-                                    <td>
-                                        {{$no++}}
-                                    </td>
+                                    <td>{{$no++}}</td>
                                     <td>tempat</td>
                                     <td>{{$j->nis}}</td>
                                     <td>
@@ -106,6 +97,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 @endsection

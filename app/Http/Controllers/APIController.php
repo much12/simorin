@@ -143,27 +143,71 @@ class APIController extends Controller
         if ($jurnal == null) {
             return JSONResponseDefault(KKSI::FAILED, 'Anda belum melakukan absensi pada hari ini');
         } else {
-            if ($jurnal->status == 0) {
-                return JSONResponseDefault(KKSI::FAILED, 'Absensi anda belum di acc');
-            } else if ($jurnal->status == 1) {
-                $updateArr = array();
-                $updateArr['kegiatan_kerja'] = $kegiatan_kerja;
-                $updateArr['prosedur_pengerjaan'] = $prosedur_pengerjaan;
-                $updateArr['spesifikasi_bahan'] = $spesifikasi_bahan;
+            $updateArr = array();
+            $updateArr['kegiatan_kerja'] = $kegiatan_kerja;
+            $updateArr['prosedur_pengerjaan'] = $prosedur_pengerjaan;
+            $updateArr['spesifikasi_bahan'] = $spesifikasi_bahan;
 
-                $update = DB::table('tbjurnal')
-                    ->where('nis', $user_id)
-                    ->whereDate('waktu_masuk', '=', date('Y-m-d'))
-                    ->update($updateArr);
+            $update = DB::table('tbjurnal')
+                ->where('nis', $user_id)
+                ->whereDate('waktu_masuk', '=', date('Y-m-d'))
+                ->update($updateArr);
 
-                if ($update) {
-                    return JSONResponseDefault(KKSI::OK, 'Input jurnal berhasil');
-                } else {
-                    return JSONResponseDefault(KKSI::FAILED, 'Input jurnal gagal');
-                }
+            if ($update) {
+                return JSONResponseDefault(KKSI::OK, 'Input jurnal berhasil');
             } else {
-                return JSONResponseDefault(KKSI::FAILED, 'Absensi anda tidak di acc');
+                return JSONResponseDefault(KKSI::FAILED, 'Input jurnal gagal');
             }
+        }
+    }
+
+    public function listAbsensi(Request $request)
+    {
+        try {
+            date_default_timezone_set('Asia/Jakarta');
+
+            $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
+
+            $select = array(
+                'tbjurnal.id AS id_absen',
+                'mssiswa.nis AS id_siswa',
+                'mssiswa.nama AS nama_siswa',
+                'tbjurnal.waktu_masuk',
+                'tbjurnal.waktu_pulang',
+                'tbjurnal.status',
+                'tbjurnal.longitude',
+                'tbjurnal.latitude'
+            );
+
+            $pembimbingpers = DB::table('mspembimbingperusahaan')
+                ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+                ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+                ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+                // ->select('tbjurnal.id AS id_absen, mssiswa.nis AS id_siswa, mssiswa.nama AS nama_siswa, tbjurnal.waktu_masuk. tbjurnal.waktu_pulang, tbjurnal.status, tbjurnal.longitude, tbjurnal.latitude')
+                ->select($select)
+                ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+                ->get();
+
+            $data = array();
+            foreach ($pembimbingpers as $key => $value) {
+                $detail = array();
+
+                $detail['id_absen'] = $value->id_absen;
+                $detail['id_siswa'] = $value->id_siswa;
+                $detail['nama_siswa'] = $value->nama_siswa;
+                $detail['tanggal'] = date('Y-m-d', strtotime($value->waktu_masuk));
+                $detail['waktu_masuk'] = date('H:i', strtotime($value->waktu_masuk));
+                $detail['waktu_pulang'] = $value->waktu_pulang == null ? null : date('H:i', strtotime($value->waktu_pulang));
+                $detail['status'] = $value->status;
+                $detail['latitude'] = $value->latitude;
+                $detail['longitude'] = $value->longitude;
+
+                $data[] = $detail;
+            }
+
+            echo json_encode($data);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
         }
     }
 }
