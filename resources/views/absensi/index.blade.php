@@ -39,7 +39,7 @@
                 </div>
 
                 <label class="cbx">Check All
-                    <input type="checkbox" checked="checked">
+                    <input type="checkbox" id="cbParent">
                     <span class="checkmark"></span>
                 </label>
 
@@ -68,8 +68,8 @@
                                     <td>
                                         {{-- @if ($j->status == 0) --}}
                                         <div class="text-center">
-                                        <input type="checkbox" id="cb" name="cb[]" class="filled-in" />
-                                        <label for="cb"></label>
+                                        <input type="checkbox" id="cb{{$no}}" name="cb[]" class="cbChild filled-in" />
+                                        <label for="cb{{$no}}"></label>
                                         </div>
                                         {{-- @endif --}}
                                     </td>
@@ -103,4 +103,20 @@
     </div>
 </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    document.querySelector('#cbParent').onclick = function(){
+        checkOrUncheck(this,'cbChild');
+    }
+
+    function checkOrUncheck(ele,eleChild){
+        var cbChild = document.querySelectorAll("." + eleChild);
+        if(ele.checked)
+            cbChild.forEach((e) => { e.checked = true });
+        else
+            cbChild.forEach((e) => { e.checked = false });
+    }
+</script>
 @endsection
