@@ -79,9 +79,9 @@
                                     <td>tempat</td>
                                     <td>{{$j->nis}}</td>
                                     <td>
-                                        @if ($j->status == 0)
+                                        @if ($j->status_hadir == 0)
                                         <span class="label label-warning">Pending</span>
-                                        @elseif($j->status == 1)
+                                        @elseif($j->status_hadir == 1)
                                         <span class="label label-success">Success</span>
                                         @endif
                                     </td>
