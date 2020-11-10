@@ -220,6 +220,7 @@
 
    <!-- Script -->
    <script src="{{ asset('assets/js/script.js') }}"></script>
+   @yield('script')
 </body>
 
 </html>
