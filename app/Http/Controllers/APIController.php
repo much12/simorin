@@ -147,6 +147,7 @@ class APIController extends Controller
             $updateArr['kegiatan_kerja'] = $kegiatan_kerja;
             $updateArr['prosedur_pengerjaan'] = $prosedur_pengerjaan;
             $updateArr['spesifikasi_bahan'] = $spesifikasi_bahan;
+            $updateArr['waktu_pulang'] = date('Y-m-d H:i:s');
 
             $update = DB::table('tbjurnal')
                 ->where('nis', $user_id)
@@ -183,7 +184,6 @@ class APIController extends Controller
                 ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
                 ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
                 ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
-                // ->select('tbjurnal.id AS id_absen, mssiswa.nis AS id_siswa, mssiswa.nama AS nama_siswa, tbjurnal.waktu_masuk. tbjurnal.waktu_pulang, tbjurnal.status, tbjurnal.longitude, tbjurnal.latitude')
                 ->select($select)
                 ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
                 ->get();
@@ -201,6 +201,55 @@ class APIController extends Controller
                 $detail['status'] = $value->status;
                 $detail['latitude'] = $value->latitude;
                 $detail['longitude'] = $value->longitude;
+
+                $data[] = $detail;
+            }
+
+            echo json_encode($data);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+        }
+    }
+
+    public function listJurnal(Request $request)
+    {
+        try {
+            date_default_timezone_set('Asia/Jakarta');
+
+            $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
+
+            $select = array(
+                'tbjurnal.id AS id_jurnal',
+                'tbjurnal.waktu_masuk',
+                'tbjurnal.waktu_pulang',
+                'tbjurnal.kegiatan_kerja',
+                'tbjurnal.prosedur_pengerjaan',
+                'tbjurnal.spesifikasi_bahan',
+                'mssiswa.nama AS nama_siswa'
+            );
+
+            $pembimbingpers = DB::table('mspembimbingperusahaan')
+                ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+                ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+                ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+                ->select($select)
+                ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+                ->get();
+
+            $data = array();
+            foreach ($pembimbingpers as $key => $value) {
+                if ($value->waktu_pulang == null) continue;
+
+                $detail = array();
+
+                $detail['id_jurnal'] = $value->id_jurnal;
+                $detail['tanggal'] = date('Y-m-d', strtotime($value->waktu_masuk));
+                $detail['waktu_masuk'] = date('H:i', strtotime($value->waktu_masuk));
+                $detail['waktu_pulang'] = $value->waktu_pulang == null ? null : date('H:i', strtotime($value->waktu_pulang));
+                $detail['kegiatan'] = $value->kegiatan_kerja;
+                $detail['prosedur'] = $value->prosedur_pengerjaan;
+                $detail['spek'] = $value->spesifikasi_bahan;
+                $detail['nama_siswa'] = $value->nama_siswa;
 
                 $data[] = $detail;
             }
