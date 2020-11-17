@@ -41,7 +41,7 @@
                   <span>Dasboard</span>
                </a>
             </li>
-
+            @if(isPerusahaan())
             <li class="{{ isCurrentPage('/jurnal') }}">
                <a href="{{ url('/jurnal') }}">
                   <i class="fa fa-clipboard"></i>
@@ -55,6 +55,8 @@
                   <span>Absensi</span>
                </a>
             </li>
+
+            @endif
 
             @if(isAdmin())
             <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan')) }}">
