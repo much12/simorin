@@ -40,7 +40,7 @@
 
                     <div class="actjurnal" style="float: right; margin: 0 20px 0 0;">
                         <button class="btn btn-primary" id="accButton">ACC Jurnal</button>
-                        <button class="btn btn-success">Cetak PDF</button>
+                        <button class="btn btn-success" onclick="modalCetak()">Cetak PDF</button>
                     </div>
                 </label>
 
@@ -65,22 +65,22 @@
                             @foreach ($jurnal as $j)
                             <tr>
                                 <td>
-                                    {{-- @if ($j->status == 0) --}}
+                                    @if ($j->status == 0)
                                     <div class="text-center">
                                         <input type="checkbox" id="cb{{$no}}" name="cb[]" id-data="{{$j->id}}" class="cbChild filled-in" />
                                         <label for="cb{{$no}}">
                                         </label>
                                     </div>
-                                    {{-- @endif --}}
+                                    @endif
                                 </td>
                                 <td>{{$no++}}</td>
                                 <td>{{\Carbon\Carbon::parse($j->waktu_masuk)->isoFormat('DD MMMM gggg')}}</td>
-                                <td>tempat</td>
+                                <td>Tempat</td>
                                 <td>{{$j->siswa->nama}}</td>
                                 <td>
-                                    @if ($j->status_jurnal == 0)
+                                    @if ($j->status == 0)
                                     <span class="label label-warning">Pending</span>
-                                    @elseif($j->status_jurnal == 1)
+                                    @elseif($j->status == 1)
                                     <span class="label label-success">Success</span>
                                     @endif
                                 </td>
@@ -153,6 +153,43 @@
         }).fail(function() {
             swalError();
         });
+    }
+
+    function viewJurnal(id) {
+        $.ajax({
+            url: "{{ url()->current() . '/view' }}",
+            method: 'GET',
+            data:{id:id},
+            dataType: 'json',
+            success: function(response) {
+                if (response.RESULT == 'OK') {
+                    $('#ModalGlobal').html(response.CONTENT);
+                    $('#ModalGlobal').modal('show');
+                } else {
+                    swalMessageFailed(response.MESSAGE);
+                }
+            }
+        }).fail(function() {
+            swalError();
+        });
+    }
+
+    function modalCetak() {
+        $.ajax({
+            url:"{{url()->current().'/cetak'}}",
+            method:'GET',
+            dataType:'json',
+            success:function (response) {
+                if (response.RESULT == 'OK') {
+                    $('#ModalGlobal').html(response.CONTENT);
+                    $('#ModalGlobal').modal('show');
+                } else {
+                    swalMessageFailed(response.MESSAGE);
+                }
+            }
+        }).fail(function () {
+            swalError();
+        })
     }
 </script>
 @endsection
