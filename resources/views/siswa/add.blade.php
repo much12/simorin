@@ -27,7 +27,8 @@
                     <label>Jurusan</label>
 
                     <div class="form-line">
-                        <select name="jurusan" class="form-control" required>
+                        <select name="jurusan" class="form-control select2" required>
+                            <option value=""></option>
                             @foreach($jurusan as $key => $value)
                             <option value="{{ $value->id }}">{{ $value->nama_jurusan }}</option>
                             @endforeach
@@ -39,7 +40,8 @@
                     <label>Guru Wali</label>
 
                     <div class="form-line">
-                        <select name="guru" class="form-control" required>
+                        <select name="guru" class="form-control select2" required>
+                            <option value=""></option>
                             @foreach($guru as $key => $value)
                             <option value="{{ $value->id }}">{{ $value->nama }}</option>
                             @endforeach
@@ -52,6 +54,7 @@
 
                     <div class="form-line">
                         <select name="company" class="form-control select2" required>
+                            <option value=""></option>
                             @foreach($company as $key => $value)
                             <option value="{{ $value->id }}">{{ $value->nama_perusahaan }}</option>
                             @endforeach
