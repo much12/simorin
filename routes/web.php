@@ -84,6 +84,13 @@ Route::group(['middleware' => ['CekLogin']], function () {
         Route::get('/admin/edit', 'AdminController@edit');
         Route::post('/admin/edit', 'AdminController@update');
         Route::get('/admin/delete', 'AdminController@destroy');
+
+        Route::get('/kategori', 'KategoriController@index');
+        Route::get('kategori/add', 'KategoriController@modal_add');
+        Route::post('kategori/add/process', 'KategoriController@process_add');
+        Route::get('kategori/edit', 'KategoriController@modal_edit');
+        Route::post('kategori/edit/process', 'KategoriController@process_edit');
+        Route::get('kategori/delete', 'KategoriController@process_delete');
     });
 
     Route::group(['middleware' => ['isPerusahaan']], function () {

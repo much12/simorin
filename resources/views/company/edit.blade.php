@@ -43,6 +43,18 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label>Kategori</label>
+
+                    <div class="form-line">
+                        <select name="id_kategori" class="form-control" required>
+                            @foreach($kategori as $key => $value)
+                            <option value="{{ $value->id_kategori }}" {{ $value->id_kategori !== $company->id_kategori ?: 'selected' }}>{{ $value->kategori }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="modal-footer">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bidang;
 use App\Company;
+use App\Kategori;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,6 @@ class CompanyController extends Controller
         $data['company'] = Company::when($request->get('q'), function ($query) use ($request) {
             $query->where('nama_perusahaan', 'like', "%{$request->get('q')}%");
         })->paginate(15);
-
         return view('company.index', $data);
     }
 
@@ -30,6 +30,7 @@ class CompanyController extends Controller
             // $nama_hrd = $request->post('nama_hrd');
             // $telp_hrd = $request->post('telp_hrd');
             $id_bidang = $request->post('id_bidang');
+            $id_kategori = $request->post('id_kategori');
             // $id_pembimbing = $request->post('id_pembimbing');
             // $long = $request->post('long');
             // $lat = $request->post('lat');
@@ -47,6 +48,7 @@ class CompanyController extends Controller
             // $company->nama_hrd = $nama_hrd;
             // $company->telp_hrd = $telp_hrd;
             $company->id_bidang = $id_bidang;
+            $company->id_kategori = $id_kategori;
             // $company->id_pembimbing = $id_pembimbing;
             // $company->longitude = $long;
             // $company->latitude = $lat;
@@ -75,6 +77,7 @@ class CompanyController extends Controller
             // $nama_hrd = $request->post('nama_hrd');
             // $telp_hrd = $request->post('telp_hrd');
             $id_bidang = $request->post('id_bidang');
+            $id_kategori = $request->post('id_kategori');
             // $id_pembimbing = $request->post('id_pembimbing');
             // $long = $request->post('long');
             // $lat = $request->post('lat');
@@ -97,6 +100,7 @@ class CompanyController extends Controller
             // $company->nama_hrd = $nama_hrd;
             // $company->telp_hrd = $telp_hrd;
             $company->id_bidang = $id_bidang;
+            $company->id_kategori = $id_kategori;
             // $company->id_pembimbing = $id_pembimbing;
             // $company->longitude = $long;
             // $company->latitude = $lat;
@@ -152,6 +156,7 @@ class CompanyController extends Controller
             $data = array();
             $data['company'] = $company;
             $data['bidang'] = Bidang::all();
+            $data['kategori'] = Kategori::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
@@ -167,6 +172,7 @@ class CompanyController extends Controller
         try {
             $data = array();
             $data['bidang'] = Bidang::all();
+            $data['kategori'] = Kategori::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
