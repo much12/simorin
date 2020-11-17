@@ -15,7 +15,7 @@
                         <form action="{{ url()->current() }}" method="GET" autocomplete="off">
                             <div class="col-md-5">
                                 <label>Pencarian Berdasarkan Nama</label>
-                                <input type="search" name="q" class="form-control" placeholder="Pencarian...">
+                                <input type="search" name="q" class="form-control" placeholder="Pencarian..." value="{{ $q }}">
                             </div>
 
                             <div class="col-md-5">
@@ -45,10 +45,10 @@
                                 <tr>
                                     <th></th>
                                     <th>No</th>
+                                    <th>Tanggal</th>
                                     <th>Tempat</th>
                                     <th>Nama</th>
                                     <th>Status</th>
-                                    <th>Tanggal</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -67,8 +67,9 @@
                                         {{-- @endif --}}
                                     </td>
                                     <td>{{ $no++ }}</td>
+                                    <td>{{\Carbon\Carbon::parse($j->waktu_masuk)->isoFormat('DD MMMM gggg')}}</td>
                                     <td>tempat</td>
-                                    <td>{{ $j->nis }}</td>
+                                    <td>{{ $j->siswa->nama }}</td>
                                     <td>
                                         @if($j->status_hadir == 0)
                                         <span class="label label-warning">Pending</span>
@@ -76,7 +77,6 @@
                                         <span class="label label-success">Success</span>
                                         @endif
                                     </td>
-                                    <td>{{\Carbon\Carbon::parse($j->tgl_jurnal)->isoFormat('DD MMMM gggg')}}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="viewJurnal(<?= $j->id ?>)">
                                             <i class="material-icons">remove_red_eye</i>

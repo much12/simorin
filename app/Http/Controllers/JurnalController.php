@@ -10,10 +10,39 @@ use Exception;
 
 class JurnalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $jurnal = Jurnal::all();
-        return view('jurnal.index', ['jurnal' => $jurnal]);
+        $q = $request->get('q');
+        $bln = $request->get('bulan');
+
+        if ($bln == null && $q == null) {
+            $jurnal = Jurnal::all();
+        } else if ($bln !== null && $q == null) {
+            $tahun = date('Y', strtotime($bln));
+            $bulan = date('m', strtotime($bln));
+
+            $jurnal = Jurnal::whereMonth('waktu_masuk', '=', $bulan)
+                ->whereYear('waktu_masuk', '=', $tahun)
+                ->get();
+        } else if ($bln !== null && $q !== null) {
+            $tahun = date('Y', strtotime($bln));
+            $bulan = date('m', strtotime($bln));
+
+            $jurnal = Jurnal::join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+                ->whereMonth('waktu_masuk', '=', $bulan)
+                ->whereYear('waktu_masuk', '=', $tahun)
+                ->where('mssiswa.nama', 'LIKE', "%$q%")
+                ->get();
+        } else if ($bln == null && $q !== null) {
+            $jurnal = Jurnal::join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+                ->where('mssiswa.nama', 'LIKE', "%$q%")
+                ->get();
+        }
+
+        return view('jurnal.index', [
+            'jurnal' => $jurnal,
+            'q' => $q
+        ]);
     }
 
     public function report_jurnal(Request $request)

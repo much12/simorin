@@ -192,7 +192,7 @@
       @yield('content')
    </section>
 
-   <div class="modal modal-fade" id="ModalGlobal" tabindex="-1" role="dialog"></div>
+   <div class="modal modal-fade" id="ModalGlobal" tabindex="-1" role="dialog" data-backdrop="static"></div>
 
    <!-- Bootstrap Core Js -->
    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.js') }}"></script>
