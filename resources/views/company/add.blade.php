@@ -36,11 +36,44 @@
                     <label>Bidang</label>
 
                     <div class="form-line">
-                        <select name="id_bidang" class="form-control" required>
+                        <select name="id_bidang" class="form-control select2" required>
+                            <option value=""></option>
                             @foreach($bidang as $key => $value)
                             <option value="{{ $value->id }}">{{ $value->nama_bidang }}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Pembimbing Perusahaan</label>
+
+                    <div class="form-line">
+                        <input type="text" name="pembimbing" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+
+                    <div class="form-line">
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+
+                    <div class="form-line">
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Konfirmasi Password</label>
+
+                    <div class="form-line">
+                        <input type="password" name="confirmpassword" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -85,5 +118,12 @@
             elementsForm.removeAttr('disabled');
             swalError();
         });
+    });
+
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item',
+        dropdownParent: $('#ModalGlobal')
     });
 </script>

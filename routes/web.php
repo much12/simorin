@@ -67,12 +67,12 @@ Route::group(['middleware' => ['CekLogin']], function () {
     Route::post('siswa/edit/process', 'SiswaController@process_edit');
     Route::get('siswa/delete', 'SiswaController@process_delete');
 
-    Route::get('/pembimbing_perusahaan', 'PembimbingPerusahaanController@index');
-    Route::get('/pembimbing_perusahaan/add', 'PembimbingPerusahaanController@create');
-    Route::post('/pembimbing_perusahaan/add', 'PembimbingPerusahaanController@store');
-    Route::get('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@edit');
-    Route::post('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@update');
-    Route::get('/pembimbing_perusahaan/delete', 'PembimbingPerusahaanController@destroy');
+    // Route::get('/pembimbing_perusahaan', 'PembimbingPerusahaanController@index');
+    // Route::get('/pembimbing_perusahaan/add', 'PembimbingPerusahaanController@create');
+    // Route::post('/pembimbing_perusahaan/add', 'PembimbingPerusahaanController@store');
+    // Route::get('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@edit');
+    // Route::post('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@update');
+    // Route::get('/pembimbing_perusahaan/delete', 'PembimbingPerusahaanController@destroy');
 
     Route::get('absensi', 'AbsensiController@index');
 

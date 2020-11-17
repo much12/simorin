@@ -84,10 +84,6 @@
                      <a href="{{ url('pembimbing_sekolah') }}">Master Pembimbing Sekolah</a>
                   </li>
 
-                  <li class="{{ isCurrentPage('pembimbing_perusahaan') }}">
-                     <a href="{{ url('pembimbing_perusahaan') }}">Master Pembimbing Perusahaan</a>
-                  </li>
-
                   <li class="{{ isCurrentPage('siswa') }}">
                      <a href="{{ url('siswa') }}">Master Siswa</a>
                   </li>

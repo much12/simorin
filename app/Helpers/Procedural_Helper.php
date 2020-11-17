@@ -1,5 +1,6 @@
 <?php
 
+use App\Company;
 use App\Guru;
 use App\Pembimbing;
 use App\PembimbingPerusahaan;
@@ -50,15 +51,15 @@ function checkEmail($email)
         return false;
     }
 
-    $checkEmailPembimbingPerusahaan = PembimbingPerusahaan::find($email, array('email'));
-
-    if ($checkEmailPembimbingPerusahaan !== null) {
-        return false;
-    }
-
     $checkEmailSiswa = Siswa::find($email, array('email'));
 
     if ($checkEmailSiswa !== null) {
+        return false;
+    }
+
+    $checkEmailCompany = Company::find($email, array('email'));
+
+    if ($checkEmailCompany !== null) {
         return false;
     }
 

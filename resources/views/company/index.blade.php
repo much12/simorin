@@ -64,7 +64,7 @@
                                         @endif
                                     </td>
                                     <td></td>
-                                    <td></td>
+                                    <td>{{ $value->nama_pembimbing_perusahaan }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editCompany(<?= $value->id ?>)">
                                             <i class="material-icons">edit</i>

@@ -36,12 +36,46 @@
                     <label>Bidang</label>
 
                     <div class="form-line">
-                        <select name="id_bidang" class="form-control" required>
+                        <select name="id_bidang" class="form-control select2" required>
+                            <option value=""></option>
                             @foreach($bidang as $key => $value)
                             <option value="{{ $value->id }}" {{ $value->id !== $company->id_bidang ?: 'selected' }}>{{ $value->nama_bidang }}</option>
                             @endforeach
                         </select>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Pembimbing Perusahaan</label>
+
+                    <div class="form-line">
+                        <input type="text" name="pembimbing" class="form-control" value="{{ $company->nama_pembimbing_perusahaan }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+
+                    <div class="form-line">
+                        <input type="email" name="email" class="form-control" value="{{ $company->email }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+
+                    <div class="form-line">
+                        <input type="password" name="password" class="form-control" value="{{ $company->password }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Konfirmasi Password</label>
+
+                    <div class="form-line">
+                        <input type="password" name="confirmpassword" class="form-control" required>
+                    </div>
+                    <small>*Kosongkan Konfirmasi Password Jika Tidak Merubah Password</small>
                 </div>
             </div>
 
@@ -85,5 +119,12 @@
             elementsForm.removeAttr('disabled');
             swalError();
         });
+    });
+
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item',
+        dropdownParent: $('#ModalGlobal')
     });
 </script>
