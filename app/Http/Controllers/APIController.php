@@ -71,7 +71,25 @@ class APIController extends Controller
                             return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
                         }
                     } else {
-                        return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
+                        $orangtua = Siswa::where('email', $username)->first();
+
+                        if ($orangtua !== null) {
+                            if ($orangtua->nis == $password) {
+                                return JSONResponse(array(
+                                    'RESULT' => KKSI::OK,
+                                    'USER' => array(
+                                        'ID' => $orangtua->nis,
+                                        'NAMA' => $orangtua->nama,
+                                        'ROLE' => "Orang Tua",
+                                        'PSB' => $orangtua->company->nama_perusahaan
+                                    )
+                                ));
+                            } else {
+                                return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
+                            }
+                        } else {
+                            return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
+                        }
                     }
                 }
             }
@@ -159,6 +177,66 @@ class APIController extends Controller
             } else {
                 return JSONResponseDefault(KKSI::FAILED, 'Input jurnal gagal');
             }
+        }
+    }
+
+    public function listAbsensiOrtu(Request $request)
+    {
+        try {
+            date_default_timezone_set('Asia/Jakarta');
+
+            $nis = $request->post('id');
+
+            $total_alpha = Jurnal::where('nis', $nis)
+                ->where('status', 2)
+                ->select(DB::raw('COUNT(*) AS count'))
+                ->first()
+                ->count;
+
+            $total_hadir = Jurnal::where('nis', $nis)
+                ->where('status', 1)
+                ->select(DB::raw('COUNT(*) AS count'))
+                ->first()
+                ->count;
+
+            $select = array(
+                'a.id AS id_absen',
+                'a.nis AS id_siswa',
+                'b.nama AS nama_siswa',
+                'c.nama_perusahaan AS perusahaan',
+                'a.longitude',
+                'a.latitude'
+            );
+
+            $list = DB::table('tbjurnal')
+                ->join('mssiswa', 'mssiswa.nis = tbjurnal.nis')
+                ->join('mscompany', 'mscompany.id = mssiswa.id_company')
+                ->select($select)
+                ->where('tbjurnal.nis', $nis)
+                ->get();
+
+            $data = array();
+            foreach ($list as $key => $value) {
+                $detail = array();
+
+                $detail['id_absen'] = $value->id_absen;
+                $detail['id_siswa'] = $value->id_siswa;
+                $detail['nama_siswa'] = $value->nama_siswa;
+                $detail['perusahaan'] = $value->perusahaan;
+                $detail['longitude'] = $value->longitude;
+                $detail['latitude'] = $value->latitude;
+
+                $data[] = $detail;
+            }
+
+            return JSONResponse(array(
+                'RESULT' => KKSI::OK,
+                'TOTAL_HADIR' => $total_hadir,
+                'TOTAL_ALPHA' => $total_alpha,
+                'ABSENSI' => $data
+            ));
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
         }
     }
 

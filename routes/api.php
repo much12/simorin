@@ -23,3 +23,4 @@ Route::post('absen_siswa', 'APIController@absenSiswa');
 Route::post('input_jurnal', 'APIController@inputJurnal');
 Route::post('list-absen', 'APIController@listAbsensi');
 Route::post('list-jurnal', 'APIController@listJurnal');
+Route::post('list-absen-ortu', 'APIController@listAbsensiOrtu');
