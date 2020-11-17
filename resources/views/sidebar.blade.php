@@ -6,8 +6,8 @@
          </div>
 
          <div class="info-container">
-            <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Name User</div>
-            <div class="email">email.@gmail.com</div>
+            <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Session::get('nama') }}</div>
+            <div class="email">{{ Session::get('email') }}</div>
 
             <div class="btn-group user-helper-dropdown">
                <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
@@ -23,7 +23,7 @@
                   <li role="separator" class="divider"></li>
 
                   <li>
-                     <a href="javascript:void(0);">
+                     <a href="{{ url('logout') }}">
                         <i class="material-icons">input</i>
                         Sign Out
                      </a>
@@ -56,6 +56,7 @@
                </a>
             </li>
 
+            @if(isAdmin())
             <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan')) }}">
                <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
@@ -96,6 +97,7 @@
                   </li>
                </ul>
             </li>
+            @endif
          </ul>
       </div>
 

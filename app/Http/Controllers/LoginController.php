@@ -32,15 +32,17 @@ class LoginController extends Controller
             Session::put('id', $pembimbing->id);
             Session::put('nama', $pembimbing->nama_pembimbing);
             Session::put('role', 'Perusahaan');
+            Session::put('email', $pembimbing->email);
             return JSONResponseDefault(KKSI::OK, 'Login Berhasil');
         } else if ($admin != null) {
             Session::put('is_login', true);
             Session::put('id', $admin->id);
             Session::put('nama', $admin->nama);
             Session::put('role', 'Admin');
+            Session::put('email', $admin->email);
             return JSONResponseDefault(KKSI::OK, 'Login Berhasil');
         } else {
-            return JSONResponseDefault(KKSI::FAILED, 'Email atau Password Salah');
+            return JSONResponseDefault(KKSI::FAILED, "Email atau Password Salah");
         }
     }
 

@@ -5,6 +5,7 @@ use App\Pembimbing;
 use App\PembimbingPerusahaan;
 use App\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 function JSONResponse($response = array())
 {
@@ -62,4 +63,14 @@ function checkEmail($email)
     }
 
     return true;
+}
+
+function isAdmin()
+{
+    return Session::get('role') == 'Admin';
+}
+
+function isPerusahaan()
+{
+    return Session::get('role') == 'Perusahaan';
 }

@@ -28,7 +28,7 @@
                     <label>Telepon Perusahaan</label>
 
                     <div class="form-line">
-                        <input type="text" name="telp" class="form-control" value="{{ $company->telp_perusahaan }}" required>
+                        <input type="number" name="telp" class="form-control" value="{{ $company->telp_perusahaan }}" required>
                     </div>
                 </div>
 

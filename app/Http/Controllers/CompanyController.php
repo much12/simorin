@@ -36,6 +36,10 @@ class CompanyController extends Controller
             // $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
             // $radius = $request->post('radius');
 
+            if (!is_numeric($telp_perusahaan)) {
+                return JSONResponseDefault(KKSI::FAILED, 'Nomor telepon perusahaan harus berupa angka');
+            }
+
             $company = new Company();
             $company->nama_perusahaan = $nama_perusahaan;
             $company->alamat_perusahaan = $alamat_perusahaan;
@@ -76,6 +80,10 @@ class CompanyController extends Controller
             // $lat = $request->post('lat');
             // $id_pembimbing_perusahaan = $request->post('id_pembimbing_perusahaan');
             // $radius = $request->post('radius');
+
+            if (!is_numeric($telp_perusahaan)) {
+                return JSONResponseDefault(KKSI::FAILED, 'Nomor telepon perusahaan harus berupa angka');
+            }
 
             $company = Company::find($id_company);
 
