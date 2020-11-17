@@ -77,7 +77,6 @@ Route::group(['middleware' => ['CekLogin']], function () {
         // Route::post('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@update');
         // Route::get('/pembimbing_perusahaan/delete', 'PembimbingPerusahaanController@destroy');
 
-
         Route::get('/admin', 'AdminController@index');
         Route::get('/admin/add', 'AdminController@create');
         Route::post('/admin/add', 'AdminController@store');
@@ -93,11 +92,9 @@ Route::group(['middleware' => ['CekLogin']], function () {
         Route::get('kategori/delete', 'KategoriController@process_delete');
     });
 
-    Route::group(['middleware' => ['isPerusahaan']], function () {
-        Route::get('absensi', 'AbsensiController@index');
+    Route::get('absensi', 'AbsensiController@index');
 
-        Route::get('jurnal', 'JurnalController@index');
-        Route::post('jurnal/acc', 'JurnalController@acc_jurnal');
-        Route::get('jurnal/report', 'JurnalController@report_jurnal');
-    });
+    Route::get('jurnal', 'JurnalController@index');
+    Route::post('jurnal/acc', 'JurnalController@acc_jurnal');
+    Route::get('jurnal/report', 'JurnalController@report_jurnal');
 });

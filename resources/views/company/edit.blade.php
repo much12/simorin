@@ -49,14 +49,15 @@
                     <label>Kategori</label>
 
                     <div class="form-line">
-                        <select name="id_kategori" class="form-control" required>
+                        <select name="id_kategori" class="form-control select2" required>
+                            <option value=""></option>
                             @foreach($kategori as $key => $value)
                             <option value="{{ $value->id_kategori }}" {{ $value->id_kategori !== $company->id_kategori ?: 'selected' }}>{{ $value->kategori }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Nama Pembimbing Perusahaan</label>
 
@@ -85,7 +86,7 @@
                     <label>Konfirmasi Password</label>
 
                     <div class="form-line">
-                        <input type="password" name="confirmpassword" class="form-control" required>
+                        <input type="password" name="confirmpassword" class="form-control">
                     </div>
                     <small>*Kosongkan Konfirmasi Password Jika Tidak Merubah Password</small>
                 </div>

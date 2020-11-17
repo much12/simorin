@@ -49,14 +49,15 @@
                     <label>Kategori</label>
 
                     <div class="form-line">
-                        <select name="id_kategori" class="form-control" required>
+                        <select name="id_kategori" class="form-control select2" required>
+                            <option value=""></option>
                             @foreach($kategori as $key => $value)
                             <option value="{{ $value->id_kategori }}">{{ $value->kategori }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Nama Pembimbing Perusahaan</label>
 
