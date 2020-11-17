@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bidang;
 use App\Company;
+use App\Kategori;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,6 @@ class CompanyController extends Controller
         $data['company'] = Company::when($request->get('q'), function ($query) use ($request) {
             $query->where('nama_perusahaan', 'like', "%{$request->get('q')}%");
         })->paginate(15);
-
         return view('company.index', $data);
     }
 
@@ -28,6 +28,7 @@ class CompanyController extends Controller
             $alamat_perusahaan = $request->post('alamat');
             $telp_perusahaan = $request->post('telp');
             $id_bidang = $request->post('id_bidang');
+            $id_kategori = $request->post('id_kategori');
             $nama_pembimbing_perusahaan = $request->post('pembimbing');
             $email = $request->post('email');
             $password = $request->post('password');
@@ -54,6 +55,7 @@ class CompanyController extends Controller
             $company->alamat_perusahaan = $alamat_perusahaan;
             $company->telp_perusahaan = $telp_perusahaan;
             $company->id_bidang = $id_bidang;
+            $company->id_kategori = $id_kategori;
             $company->nama_pembimbing_perusahaan = $nama_pembimbing_perusahaan;
             $company->email = $email;
             $company->password = $password;
@@ -82,6 +84,7 @@ class CompanyController extends Controller
             $alamat_perusahaan = $request->post('alamat');
             $telp_perusahaan = $request->post('telp');
             $id_bidang = $request->post('id_bidang');
+            $id_kategori = $request->post('id_kategori');
             $nama_pembimbing_perusahaan = $request->post('pembimbing');
             $email = $request->post('email');
             $password = $request->post('password');
@@ -119,6 +122,7 @@ class CompanyController extends Controller
             $company->alamat_perusahaan = $alamat_perusahaan;
             $company->telp_perusahaan = $telp_perusahaan;
             $company->id_bidang = $id_bidang;
+            $company->id_kategori = $id_kategori;
             $company->nama_pembimbing_perusahaan = $nama_pembimbing_perusahaan;
             $company->email = $email;
             $company->password = $password;
@@ -176,6 +180,7 @@ class CompanyController extends Controller
             $data = array();
             $data['company'] = $company;
             $data['bidang'] = Bidang::all();
+            $data['kategori'] = Kategori::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
@@ -191,6 +196,7 @@ class CompanyController extends Controller
         try {
             $data = array();
             $data['bidang'] = Bidang::all();
+            $data['kategori'] = Kategori::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
