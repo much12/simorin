@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Jurnal')
+@section('title', 'Absensi')
 
 @section('content')
 <div class="container-fluid">
@@ -33,10 +33,15 @@
                     </div>
                 </div>
 
-                <label class="cbx">Check All
-                    <input type="checkbox" id="cbParent">
-                    <span class="checkmark"></span>
-                </label>
+                <div class="row" style="margin-bottom: 1rem;">
+                    <div class="col-md-12">
+                        <label class="cbx">
+                            Check All
+                            <input type="checkbox" id="cbParent">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">
@@ -68,12 +73,12 @@
                                     </td>
                                     <td>{{ $no++ }}</td>
                                     <td>{{\Carbon\Carbon::parse($j->waktu_masuk)->isoFormat('DD MMMM gggg')}}</td>
-                                    <td>tempat</td>
+                                    <td>{{ $j->siswa->company->nama_perusahaan }}</td>
                                     <td>{{ $j->siswa->nama }}</td>
                                     <td>
-                                        @if($j->status_hadir == 0)
+                                        @if($j->status == 0)
                                         <span class="label label-warning">Pending</span>
-                                        @elseif($j->status_hadir == 1)
+                                        @elseif($j->status == 1)
                                         <span class="label label-success">Success</span>
                                         @endif
                                     </td>
