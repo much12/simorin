@@ -18,11 +18,13 @@ class Jurnal extends Model
 
     public function JurnalDate($nis, $first, $last)
     {
-        return DB::table('tbjurnal')->where('nis', $nis)->where('status_jurnal', 1)->whereBetween('waktu_masuk', [$first, $last])->get();
+        return DB::table('tbjurnal')
+            ->where('nis', $nis)->where('status', 1)
+            ->whereBetween('waktu_masuk', [$first, $last])->get();
     }
 
     public function JurnalSiswa($nis)
     {
-        return DB::table('mssiswa')->where('nis', $nis)->get();
+        return DB::table('mssiswa')->join('mscompany', 'mscompany.id', '=', 'mssiswa.id_company')->where('nis', $nis)->get();
     }
 }

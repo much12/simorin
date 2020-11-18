@@ -103,8 +103,8 @@
 <body>
     <h4 align="center">Laporan Jurnal Harian Siswa</h4>
     @foreach ($siswa as $sis)
-    <h4 align="center">{{$sis->detail_tempat}}</h4><br>
-    <p align="left" style="font-weight: bold">Nama/NIS : Nama</p>
+    <h4 align="center">{{$sis->nama_perusahaan}}</h4><br>
+    <p align="left" style="font-weight: bold">Nama/NIS : {{$sis->nama}}</p>
     <p align="left" style="font-weight: bold">Tanggal : {{Carbon\Carbon::parse($first)->isoFormat('DD MMMM YYYY')}} s/d {{Carbon\Carbon::parse($last)->isoFormat(' DD MMMM YYYY')}}</p></b>
     <hr>
     @endforeach
@@ -124,7 +124,7 @@
         <tbody>
             <tr>
                 <td>@php echo $jur->kegiatan_kerja; @endphp</td>
-                <td>@php echo $jur->prosedur_kerja; @endphp</td>
+                <td>@php echo $jur->prosedur_pengerjaan; @endphp</td>
                 <td>@php echo $jur->spesifikasi_bahan; @endphp</td>
             </tr>
         </tbody>
