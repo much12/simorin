@@ -77,11 +77,19 @@
                                         <label for="cb{{$no}}">
                                         </label>
                                     </div>
+                                    @else
+                                    <div class="text-center">
+                                        N/A
+                                    </div>
                                     @endif
                                 </td>
-                                <td>{{$no++}}</td>
+                                <td>
+                                    <div class="text-center">
+                                        {{$no++}}
+                                    </div>
+                                </td>
                                 <td>{{\Carbon\Carbon::parse($j->waktu_masuk)->isoFormat('DD MMMM gggg')}}</td>
-                                <td>Tempat</td>
+                                <td>{{$j->siswa->company->nama_perusahaan}}</td>
                                 <td>{{$j->siswa->nama}}</td>
                                 <td>
                                     @if ($j->status == 0)
