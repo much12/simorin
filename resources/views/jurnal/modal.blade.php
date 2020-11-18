@@ -13,7 +13,7 @@
                     <div class="form-line">
                         <select name="id_company" id="id_company" class="form-control select2" onchange="get_siswa();" required>
                             @foreach ($company as $c)
-                                <option value="{{$c->id}}">{{$c->nama_perusahaan}}</option>
+                            <option value="{{$c->id}}">{{$c->nama_perusahaan}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Tanggal Awal</label>
-        
+
                             <div class="form-line">
                                 <input type="date" name="first" id="first" class="form-control" required>
                             </div>
@@ -43,7 +43,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Tanggal Akhir</label>
-        
+
                             <div class="form-line">
                                 <input type="date" name="last" id="last" class="form-control" required>
                             </div>
@@ -70,13 +70,15 @@
     function get_siswa() {
         var id = $('#id_company').val();
         $.ajax({
-            url:"{{url()->current() . '/get'}}",
-            method:'GET',
-            data:{id:id},
-        }).done(function (response) {
+            url: "{{url()->current() . '/get'}}",
+            method: 'GET',
+            data: {
+                id: id
+            },
+        }).done(function(response) {
             $('#nis').html(response);
         })
-    }    
+    }
 
     // $('#frmEdit').submit(function(e) {
     //     e.preventDefault();

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use Illuminate\Http\Request;
 use KKSI;
-use App\PembimbingPerusahaan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +16,7 @@ class LoginController extends Controller
         if (Session::get('is_login') == true) {
             return redirect('dashboard');
         }
+
         return view('login');
     }
 
@@ -30,9 +31,10 @@ class LoginController extends Controller
         if ($pembimbing != null) {
             Session::put('is_login', true);
             Session::put('id', $pembimbing->id);
-            Session::put('nama', $pembimbing->nama_pembimbing);
+            Session::put('nama', $pembimbing->nama_pembimbing_perusahaan);
             Session::put('role', 'Perusahaan');
             Session::put('email', $pembimbing->email);
+
             return JSONResponseDefault(KKSI::OK, 'Login Berhasil');
         } else if ($admin != null) {
             Session::put('is_login', true);
@@ -40,6 +42,7 @@ class LoginController extends Controller
             Session::put('nama', $admin->nama);
             Session::put('role', 'Admin');
             Session::put('email', $admin->email);
+
             return JSONResponseDefault(KKSI::OK, 'Login Berhasil');
         } else {
             return JSONResponseDefault(KKSI::FAILED, "Email atau Password Salah");
@@ -53,7 +56,7 @@ class LoginController extends Controller
 
     public function cek_pembimbing_perusahaan($email, $password)
     {
-        return PembimbingPerusahaan::where('email', $email)->where('password', $password)->first();
+        return Company::where('email', $email)->where('password', $password)->first();
     }
 
     public function logout()

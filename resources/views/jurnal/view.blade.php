@@ -14,7 +14,7 @@
                     <label for="">Nama Siswa</label>
                     <p>{{$jurnal[0]->nama}}</p>
                 </div>
-            </div><br>  
+            </div><br>
             <div class="row">
                 <div class="col-md-4">
                     <label for="">Kegiatan Kerja</label>
