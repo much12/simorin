@@ -85,13 +85,14 @@
          display: block;
          position: relative;
          padding-left: 70px;
-         margin-bottom: 12px;
-         /* cursor: pointer; */
+         cursor: pointer;
          font-size: 14px;
          -webkit-user-select: none;
          -moz-user-select: none;
          -ms-user-select: none;
          user-select: none;
+         float: left;
+         padding-top: 3px;
       }
 
       /* Hide the browser's default checkbox */
@@ -137,8 +138,8 @@
 
       /* Style the checkmark/indicator */
       .cbx .checkmark:after {
-         left: 9px;
-         top: 5px;
+         left: 10px;
+         top: 7px;
          width: 5px;
          height: 10px;
          border: solid white;

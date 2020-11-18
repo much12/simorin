@@ -33,16 +33,22 @@
                     </div>
                 </div>
 
-                <label class="cbx">
-                    Check All
-                    <input type="checkbox" id="cbParent">
-                    <span class="checkmark"></span>
-
-                    <div class="actjurnal" style="float: right; margin: 0 20px 0 0;">
-                        <button class="btn btn-primary" id="accButton">ACC Jurnal</button>
-                        <button class="btn btn-success" onclick="modalCetak()">Cetak PDF</button>
+                <div class="row" style="margin-bottom: 1rem;">
+                    <div class="col-md-6">
+                        <label class="cbx">
+                            Check All
+                            <input type="checkbox" id="cbParent">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
-                </label>
+
+                    <div class="col-md-6">
+                        <div class="pull-right" style="margin-right: 1rem;">
+                            <button class="btn btn-primary" id="accButton">ACC Jurnal</button>
+                            <button class="btn btn-success" onclick="modalCetak()">Cetak PDF</button>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">
@@ -159,7 +165,9 @@
         $.ajax({
             url: "{{ url()->current() . '/view' }}",
             method: 'GET',
-            data:{id:id},
+            data: {
+                id: id
+            },
             dataType: 'json',
             success: function(response) {
                 if (response.RESULT == 'OK') {
@@ -176,10 +184,10 @@
 
     function modalCetak() {
         $.ajax({
-            url:"{{url()->current().'/cetak'}}",
-            method:'GET',
-            dataType:'json',
-            success:function (response) {
+            url: "{{url()->current().'/cetak'}}",
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
                 if (response.RESULT == 'OK') {
                     $('#ModalGlobal').html(response.CONTENT);
                     $('#ModalGlobal').modal('show');
@@ -187,7 +195,7 @@
                     swalMessageFailed(response.MESSAGE);
                 }
             }
-        }).fail(function () {
+        }).fail(function() {
             swalError();
         })
     }
