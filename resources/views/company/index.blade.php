@@ -44,7 +44,6 @@
                                     <th width="15%">Alamat</th>
                                     <th width="10%">Telepon</th>
                                     <th width="5%">Bidang Perusahaan</th>
-                                    <th width="5%">Pembimbing Sekolah</th>
                                     <th width="5%">Pembimbing Perusahaan</th>
                                     <th width="8%">Aksi</th>
                                 </tr>
@@ -63,7 +62,6 @@
                                         {{ $value->bidang->nama_bidang }}
                                         @endif
                                     </td>
-                                    <td></td>
                                     <td>{{ $value->nama_pembimbing_perusahaan }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="editCompany(<?= $value->id ?>)">

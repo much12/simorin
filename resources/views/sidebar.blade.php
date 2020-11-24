@@ -14,9 +14,9 @@
 
                <ul class="dropdown-menu pull-right">
                   <li>
-                     <a href="javascript:void(0);">
-                        <i class="material-icons">person</i>
-                        Profile
+                     <a href="{{ url('change_password') }}">
+                        <i class="material-icons">settings</i>
+                        Ganti Password
                      </a>
                   </li>
 
@@ -42,17 +42,10 @@
                </a>
             </li>
 
-            <li class="{{ isCurrentPage('/jurnal') }}">
-               <a href="{{ url('/jurnal') }}">
-                  <i class="fa fa-clipboard"></i>
-                  <span>Jurnal</span>
-               </a>
-            </li>
-
             <li class="{{ isCurrentPage('/absensi') }}">
                <a href="{{ url('/absensi') }}">
                   <i class="fa fa-book-reader"></i>
-                  <span>Absensi</span>
+                  <span>Absensi & Jurnal</span>
                </a>
             </li>
 
