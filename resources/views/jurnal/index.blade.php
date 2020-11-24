@@ -35,16 +35,20 @@
 
                 <div class="row" style="margin-bottom: 1rem;">
                     <div class="col-md-6">
+                        @if(!isAdmin())
                         <label class="cbx">
                             Check All
                             <input type="checkbox" id="cbParent">
                             <span class="checkmark"></span>
                         </label>
+                        @endif
                     </div>
 
                     <div class="col-md-6">
                         <div class="pull-right" style="margin-right: 1rem;">
+                            @if(!isAdmin())
                             <button class="btn btn-primary" id="accButton">ACC Jurnal</button>
+                            @endif
                             <button class="btn btn-success" onclick="modalCetak()">Cetak PDF</button>
                         </div>
                     </div>
@@ -54,8 +58,10 @@
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
+                                @if(!isAdmin())
                                 <th style="width: 9rem;">
                                 </th>
+                                @endif
                                 <th>No</th>
                                 <th>Tanggal</th>
                                 <th>Tempat</th>
@@ -66,10 +72,11 @@
                         </thead>
 
                         <tbody>
-                            @php $no =1 ;
+                            @php $no = 1;
                             @endphp
                             @foreach ($jurnal as $j)
                             <tr>
+                                @if(!isAdmin())
                                 <td>
                                     @if ($j->status == 0)
                                     <div class="text-center">
@@ -83,6 +90,7 @@
                                     </div>
                                     @endif
                                 </td>
+                                @endif
                                 <td>
                                     <div class="text-center">
                                         {{$no++}}
