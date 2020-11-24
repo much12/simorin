@@ -405,4 +405,36 @@ class APIController extends Controller
             return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
         }
     }
+
+    public function listJurnalSiswa(Request $request){
+        try {
+            // SELECT * FROM tbjurnal JOIN mssiswa ON tbjurnal.nis = mssiswa.nis WHERE mssiswa.nis = 18411;
+            // date_default_timezone_set('Asia/Jakarta');
+
+            $id_siswa = $request->post('id_siswa');
+
+            $select = array(
+                'tbjurnal.id',
+                'mssiswa.nama AS nama_siswa',
+                DB::raw('DATE_FORMAT(tbjurnal.waktu_masuk, "%d-%m-%Y") AS tanggal'),
+                'tbjurnal.waktu_masuk',
+                'tbjurnal.waktu_pulang',
+                'tbjurnal.kegiatan_kerja AS kegiatan',
+                'tbjurnal.prosedur_pengerjaan AS prosedur',
+                'tbjurnal.spesifikasi_bahan AS spek',
+                'tbjurnal.status'
+            );
+
+            $data = DB::table('tbjurnal')
+                ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+                ->where('mssiswa.nis', $id_siswa)
+                ->where(DB::raw("MONTH(tbjurnal.waktu_masuk)"), '=', DB::raw("MONTH(DATE(NOW()))"))
+                ->select($select)
+                ->get();
+
+            return response()->json($data);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+        }
+    }
 }
