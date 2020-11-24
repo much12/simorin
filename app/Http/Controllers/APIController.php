@@ -289,6 +289,74 @@ class APIController extends Controller
         }
     }
 
+    public function listAperusahaan(Request $request){
+        try {
+            // SELECT *, COUNT(nis) FROM mscompany JOIN mssiswa ON mssiswa.id_company = mscompany.id WHERE mscompany.id_pembimbing = 9 GROUP BY mscompany.nama_perusahaan;
+            date_default_timezone_set('Asia/Jakarta');
+
+            $id_pembimbing = $request->post('id_pemsekolah');
+
+            $select = array(
+                'mscompany.id AS id_perusahaan',
+                'nama_perusahaan AS perusahaan',
+                'alamat_perusahaan AS alamat',
+                DB::raw('COUNT(nis) AS total_siswa')
+            );
+
+            $perusahaan = DB::table('mscompany')
+                ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+                ->where('mscompany.id_pembimbing', $id_pembimbing)
+                ->select($select)
+                ->groupBy('mscompany.id')
+                ->get();
+
+            return response()->json($perusahaan);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+        }
+    }
+
+    public function listArekap(Request $request){
+        try {
+            // date_default_timezone_set('Asia/Jakarta');
+
+            $id_company = $request->post('id_company');
+            $tgl_mulai = $request->post('tgl_mulai');
+            $tgl_akhir = $request->post('tgl_akhir');
+
+            $select = array(
+                'mssiswa.nis',
+                'mssiswa.nama',
+                'mscompany.nama_perusahaan',
+                DB::raw('(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis) * 8 AS total_jam')
+            );
+
+            if($tgl_akhir != ""){
+                $select = array(
+                    'mssiswa.nis',
+                    'mssiswa.nama',
+                    'mscompany.nama_perusahaan',
+                    DB::raw("(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis AND t2.waktu_masuk < DATE('" . $tgl_akhir . "')) * 8 AS total_jam")
+                );
+            }
+
+            $data = DB::table('tbjurnal')
+                ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+                ->join('mscompany', 'mssiswa.id_company', '=','mscompany.id')
+                ->where('mscompany.id', $id_company);
+            if($tgl_akhir != "")
+               $data = $data->where('tbjurnal.waktu_masuk', '<', $tgl_akhir);
+            $data = $data->select($select)
+                    ->groupBy('mssiswa.nis')
+                    ->get();
+            // $data = DB::select("SELECT *,(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = t1.nis) * 8 AS TOTAL_JAM FROM tbjurnal t1 JOIN mssiswa ON t1.nis = mssiswa.nis JOIN mscompany ON mssiswa.id_company = mscompany.id WHERE mscompany.id = 1 GROUP BY mssiswa.nis");
+
+            return response()->json($data);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+        }
+    }
+
     public function listJurnal(Request $request)
     {
         try {
