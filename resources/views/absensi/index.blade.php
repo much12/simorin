@@ -68,6 +68,7 @@
                                     <th>Nama</th>
                                     <th>Jam Datang</th>
                                     <th>Jam Pulang</th>
+                                    <th>Alpha (Jam)</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -76,6 +77,27 @@
                                 @php $no =1 ;
                                 @endphp
                                 @foreach ($jurnal as $j)
+
+                                <?php
+                                $alpha = 0;
+                                if ($j->waktu_masuk > $j->siswa->jam_masuk) {
+                                    $waktu_masuk = date('H', strtotime($j->waktu_masuk));
+                                    $jam_masuk = date('H', strtotime($j->siswa->jam_masuk));
+
+                                    $alphaCheck = $waktu_masuk - $jam_masuk;
+
+                                    if ($alphaCheck == 0) {
+                                        $alpha = 1; // Jam
+                                    } else if ($alphaCheck > 0) {
+                                        $alpha = $alphaCheck + 1;
+                                    }
+
+                                    if ($alpha > 8) {
+                                        $alpha = 8;
+                                    }
+                                }
+                                ?>
+
                                 <tr>
                                     @if(!isAdmin())
                                     <td>
@@ -98,6 +120,7 @@
                                     <td>{{ $j->siswa->nama }}</td>
                                     <td>{{ date('H:i:s', strtotime($j->waktu_masuk)) }}</td>
                                     <td>{{ $j->waktu_pulang == null ? '-' : date('H:i:s', strtotime($j->waktu_pulang)) }}</td>
+                                    <td>{{ $alpha == 0 ? '-' : $alpha }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="viewJurnal(<?= $j->id ?>)">
                                             <i class="material-icons">remove_red_eye</i>
