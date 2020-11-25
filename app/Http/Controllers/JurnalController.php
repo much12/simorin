@@ -109,7 +109,6 @@ class JurnalController extends Controller
             $data = array();
             $data['jurnal'] = $jurnal;
 
-
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
                 'CONTENT' => view('jurnal.view', $data)->render()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Jurnal;
 use App\Pembimbing;
 use App\PembimbingPerusahaan;
@@ -54,7 +55,8 @@ class APIController extends Controller
                         return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
                     }
                 } else {
-                    $pembimbingpers = PembimbingPerusahaan::where('email', $username)->first();
+                    // $pembimbingpers = PembimbingPerusahaan::where('email', $username)->first();
+                    $pembimbingpers = Company::where('email', $username)->first();
 
                     if ($pembimbingpers !== null) {
                         if ($pembimbingpers->password == $password) {
@@ -62,9 +64,9 @@ class APIController extends Controller
                                 'RESULT' => KKSI::OK,
                                 'USER' => array(
                                     'ID' => $pembimbingpers->id,
-                                    'NAMA' => $pembimbingpers->nama_pembimbing,
-                                    'PSB' => $pembimbingpers->perusahaan->nama_perusahaan,
-                                    'ROLE' => $pembimbingpers->roleRel->role
+                                    'NAMA' => $pembimbingpers->nama_pembimbing_perusahaan,
+                                    'PSB' => $pembimbingpers->nama_perusahaan,
+                                    'ROLE' => "Pembimbing Perusahaan"
                                 )
                             ));
                         } else {
@@ -258,12 +260,19 @@ class APIController extends Controller
                 'tbjurnal.latitude'
             );
 
-            $pembimbingpers = DB::table('mspembimbingperusahaan')
-                ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+            // $pembimbingpers = DB::table('mspembimbingperusahaan')
+            //     ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+            //     ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+            //     ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+            //     ->select($select)
+            //     ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+            //     ->get();
+
+            $pembimbingpers = DB::table('mscompany')
                 ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
                 ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
                 ->select($select)
-                ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+                ->where('mscompany.id', $id_pembimbing_perusahaan)
                 ->get();
 
             $data = array();
@@ -289,6 +298,78 @@ class APIController extends Controller
         }
     }
 
+    public function listAperusahaan(Request $request)
+    {
+        try {
+            // SELECT *, COUNT(nis) FROM mscompany JOIN mssiswa ON mssiswa.id_company = mscompany.id WHERE mscompany.id_pembimbing = 9 GROUP BY mscompany.nama_perusahaan;
+            date_default_timezone_set('Asia/Jakarta');
+
+            $id_pembimbing = $request->post('id_pemsekolah');
+
+            $select = array(
+                'mscompany.id AS id_perusahaan',
+                'nama_perusahaan AS perusahaan',
+                'alamat_perusahaan AS alamat',
+                DB::raw('COUNT(nis) AS total_siswa')
+            );
+
+            $perusahaan = DB::table('mscompany')
+                ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+                ->where('mscompany.id_pembimbing', $id_pembimbing)
+                ->select($select)
+                ->groupBy('mscompany.id')
+                ->get();
+
+            return response()->json($perusahaan);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+        }
+    }
+
+    public function listArekap(Request $request)
+    {
+        try {
+            // date_default_timezone_set('Asia/Jakarta');
+
+            $id_company = $request->post('id_company');
+            $tgl_mulai = $request->post('tgl_mulai');
+            $tgl_akhir = $request->post('tgl_akhir');
+
+            $select = array(
+                'mssiswa.nis',
+                'mssiswa.nama',
+                'mscompany.nama_perusahaan',
+                DB::raw('(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis) * 8 AS total_jam')
+            );
+
+            if ($tgl_akhir != "") {
+                $select = array(
+                    'mssiswa.nis',
+                    'mssiswa.nama',
+                    'mscompany.nama_perusahaan',
+                    DB::raw("(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis AND t2.waktu_masuk < DATE('" . $tgl_akhir . "')) * 8 AS total_jam")
+                );
+            }
+
+            $data = DB::table('tbjurnal')
+                ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+                ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
+                ->where('mscompany.id', $id_company);
+
+            if ($tgl_akhir != "")
+                $data = $data->where('tbjurnal.waktu_masuk', '<', $tgl_akhir);
+
+            $data = $data->select($select)
+                ->groupBy('mssiswa.nis')
+                ->get();
+            // $data = DB::select("SELECT *,(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = t1.nis) * 8 AS TOTAL_JAM FROM tbjurnal t1 JOIN mssiswa ON t1.nis = mssiswa.nis JOIN mscompany ON mssiswa.id_company = mscompany.id WHERE mscompany.id = 1 GROUP BY mssiswa.nis");
+
+            return response()->json($data);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+        }
+    }
+
     public function listJurnal(Request $request)
     {
         try {
@@ -306,12 +387,19 @@ class APIController extends Controller
                 'mssiswa.nama AS nama_siswa'
             );
 
-            $pembimbingpers = DB::table('mspembimbingperusahaan')
-                ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+            // $pembimbingpers = DB::table('mspembimbingperusahaan')
+            //     ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+            //     ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+            //     ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+            //     ->select($select)
+            //     ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+            //     ->get();
+
+            $pembimbingpers = DB::table('mscompany')
                 ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
                 ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
                 ->select($select)
-                ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+                ->where('mscompany.id', $id_pembimbing_perusahaan)
                 ->get();
 
             $data = array();
@@ -333,6 +421,38 @@ class APIController extends Controller
             }
 
             echo json_encode($data);
+        } catch (Exception $ex) {
+            return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+        }
+    }
+
+    public function listJurnalSiswa(Request $request){
+        try {
+            // SELECT * FROM tbjurnal JOIN mssiswa ON tbjurnal.nis = mssiswa.nis WHERE mssiswa.nis = 18411;
+            // date_default_timezone_set('Asia/Jakarta');
+
+            $id_siswa = $request->post('id_siswa');
+
+            $select = array(
+                'tbjurnal.id',
+                'mssiswa.nama AS nama_siswa',
+                DB::raw('DATE_FORMAT(tbjurnal.waktu_masuk, "%d-%m-%Y") AS tanggal'),
+                'tbjurnal.waktu_masuk',
+                'tbjurnal.waktu_pulang',
+                'tbjurnal.kegiatan_kerja AS kegiatan',
+                'tbjurnal.prosedur_pengerjaan AS prosedur',
+                'tbjurnal.spesifikasi_bahan AS spek',
+                'tbjurnal.status'
+            );
+
+            $data = DB::table('tbjurnal')
+                ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+                ->where('mssiswa.nis', $id_siswa)
+                ->where(DB::raw("MONTH(tbjurnal.waktu_masuk)"), '=', DB::raw("MONTH(DATE(NOW()))"))
+                ->select($select)
+                ->get();
+
+            return response()->json($data);
         } catch (Exception $ex) {
             return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
         }

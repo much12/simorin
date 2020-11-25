@@ -53,13 +53,15 @@
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Cetak</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </form>
     </div>
 </div>
 <script>
+    $('#id_company').trigger('change');
+
     $('.select2').select2({
         width: '100%',
         allowClear: true,

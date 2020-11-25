@@ -104,14 +104,14 @@
     <h4 align="center">Laporan Jurnal Harian Siswa</h4>
     @foreach ($siswa as $sis)
     <h4 align="center">{{$sis->nama_perusahaan}}</h4><br>
-    <p align="left" style="font-weight: bold">Nama/NIS : {{$sis->nama}}</p>
+    <p align="left" style="font-weight: bold">Nama/NIS : {{$sis->nama}}/{{$sis->nis}}</p>
     <p align="left" style="font-weight: bold">Tanggal : {{Carbon\Carbon::parse($first)->isoFormat('DD MMMM YYYY')}} s/d {{Carbon\Carbon::parse($last)->isoFormat(' DD MMMM YYYY')}}</p></b>
     <hr>
     @endforeach
 
     @foreach ($jurnal as $jur)
-    <p>Hari, tgl-bln-th : Tgl </p>
-    <p>Waktu Kerja : Waktu</p>
+    <p>Hari, tgl-bln-th : Tgl</p>
+    <p>Waktu Kerja : {{date('H:i', strtotime($jur->waktu_masuk))}} s/d {{ date('H:i', strtotime($jur->waktu_pulang)) }}</p>
 
     <table class="table table-bordered table-sm" border="1">
         <tbody>
@@ -121,6 +121,7 @@
                 <th>Spesifikasi Bahan </th>
             </tr>
         </tbody>
+
         <tbody>
             <tr>
                 <td>@php echo $jur->kegiatan_kerja; @endphp</td>
