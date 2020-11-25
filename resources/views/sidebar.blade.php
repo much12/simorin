@@ -1,9 +1,7 @@
 <section>
    <aside id="leftsidebar" class="sidebar">
       <div class="user-info">
-         <div class="image">
-            <img src="{{ asset('assets/images/user.png') }}" width="48" height="48" alt="User" />
-         </div>
+
 
          <div class="info-container">
             <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Session::get('nama') }}</div>
@@ -51,8 +49,22 @@
 
             <li class="{{ isCurrentPage('/absensi') }}">
                <a href="{{ url('/absensi') }}">
-                  <i class="fa fa-book-reader"></i>
+                  <i class="fa fa-clipboard"></i>
                   <span>Absensi</span>
+               </a>
+            </li>
+
+            <li class="">
+               <a href="#">
+                  <i class="fa fa-book-reader"></i>
+                  <span>Evaluasi Kunjungan</span>
+               </a>
+            </li>
+
+            <li class="{{ isCurrentPage('/jadwal') }}">
+               <a href="{{ url('/jadwal') }}">
+                  <i class="fa fa-clipboard-list"></i>
+                  <span>Jadwal</span>
                </a>
             </li>
 

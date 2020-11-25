@@ -92,12 +92,14 @@ Route::group(['middleware' => ['CekLogin']], function () {
         Route::get('kategori/delete', 'KategoriController@process_delete');
     });
 
-    Route::get('absensi', 'AbsensiController@index');
+        Route::get('absensi', 'AbsensiController@index');
 
-    Route::get('jurnal', 'JurnalController@index');
-    Route::post('jurnal/acc', 'JurnalController@acc_jurnal');
-    Route::get('jurnal/view', 'JurnalController@view_jurnal');
-    Route::get('jurnal/cetak', 'JurnalController@modal_cetak');
-    Route::get('jurnal/cetak/get', 'JurnalController@get_siswa');
-    Route::post('jurnal/cetak/process', 'JurnalController@report_jurnal');
+        Route::get('jurnal', 'JurnalController@index');
+        Route::post('jurnal/acc', 'JurnalController@acc_jurnal');
+        Route::get('jurnal/view', 'JurnalController@view_jurnal');
+        Route::get('jurnal/cetak', 'JurnalController@modal_cetak');
+        Route::get('jurnal/cetak/get', 'JurnalController@get_siswa');
+        Route::post('jurnal/cetak/process', 'JurnalController@report_jurnal');
+
+        Route::get('jadwal', 'JadwalController@index');
 });
