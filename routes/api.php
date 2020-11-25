@@ -26,3 +26,4 @@ Route::post('list-jurnal', 'APIController@listJurnal');
 Route::post('list-absen-ortu', 'APIController@listAbsensiOrtu');
 Route::post('list-aperusahaan', 'APIController@listAperusahaan');
 Route::post('list-arekap', 'APIController@listArekap');
+Route::post('list-jurnal-siswa', 'APIController@listJurnalSiswa');
