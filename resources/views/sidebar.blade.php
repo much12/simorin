@@ -1,9 +1,7 @@
 <section>
    <aside id="leftsidebar" class="sidebar">
       <div class="user-info">
-         <div class="image">
-            <img src="{{ asset('assets/images/user.png') }}" width="48" height="48" alt="User" />
-         </div>
+
 
          <div class="info-container">
             <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Session::get('nama') }}</div>
@@ -49,6 +47,20 @@
                </a>
             </li>
 
+            <li class="">
+               <a href="#">
+                  <i class="fa fa-book-reader"></i>
+                  <span>Evaluasi Kunjungan</span>
+               </a>
+            </li>
+
+            <li class="{{ isCurrentPage('/jadwal') }}">
+               <a href="{{ url('/jadwal') }}">
+                  <i class="fa fa-clipboard-list"></i>
+                  <span>Jadwal</span>
+               </a>
+            </li>
+
             @if(isAdmin())
             <li class="{{ isCurrentPage('/evaluasi') }}">
                <a href="{{ url('/evaluasi') }}">
@@ -57,7 +69,7 @@
                </a>
             </li>
             
-            <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan', 'kategori')) }}">
+            <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'kategori', 'admin')) }}">
                <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
                   <span>Master Data</span>
