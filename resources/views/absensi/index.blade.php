@@ -12,15 +12,51 @@
 
                 <div class="body">
                     <div class="row">
-                        <form action="{{ url()->current() }}" method="GET" autocomplete="off">
-                            <div class="col-md-5">
-                                <label>Pencarian Berdasarkan Nama</label>
-                                <input type="search" name="q" class="form-control" placeholder="Pencarian..." value="{{ $q }}">
+                        <form id="frmFilter" action="{{ url()->current() . '/content' }}" method="GET" autocomplete="off">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Perusahaan</label>
+
+                                    <div class="form-line">
+                                        <select name="perusahaan" class="form-control select2" onchange="get_siswa()">
+                                            <option value=""></option>
+                                            @foreach($company as $key => $value)
+                                            <option value="{{ $value->id }}">{{ $value->nama_perusahaan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="col-md-5">
-                                <label for="">Pencarian Berdasarkan Bulan</label>
-                                <input type="month" name="bulan" id="bulan" class="form-control">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Siswa</label>
+
+                                    <div class="form-line">
+                                        <select name="siswa" class="form-control select2">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Tanggal Dari</label>
+
+                                    <div class="form-line">
+                                        <input type="date" name="fromdate" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Tanggal Sampai</label>
+
+                                    <div class="form-line">
+                                        <input type="date" name="todate" class="form-control">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-2">
@@ -33,105 +69,7 @@
                     </div>
                 </div>
 
-                <div class="row" style="margin-bottom: 1rem;">
-                    <div class="col-md-6">
-                        @if(!isAdmin())
-                        <label class="cbx">
-                            Check All
-                            <input type="checkbox" id="cbParent">
-                            <span class="checkmark"></span>
-                        </label>
-                        @endif
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="pull-right" style="margin-right: 1rem;">
-                            @if(!isAdmin())
-                            <button class="btn btn-primary" id="accButton">ACC Jurnal</button>
-                            @endif
-                            <button class="btn btn-success" onclick="modalCetak()">Cetak PDF</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover">
-                        <form action="">
-                            <thead>
-                                <tr>
-                                    @if(!isAdmin())
-                                    <th style="width: 9rem;"></th>
-                                    @endif
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>Tempat</th>
-                                    <th>Nama</th>
-                                    <th>Jam Datang</th>
-                                    <th>Jam Pulang</th>
-                                    <th>Alpha (Jam)</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @php $no =1 ;
-                                @endphp
-                                @foreach ($jurnal as $j)
-
-                                <?php
-                                $alpha = 0;
-                                if ($j->waktu_masuk > $j->siswa->jam_masuk) {
-                                    $waktu_masuk = date('H', strtotime($j->waktu_masuk));
-                                    $jam_masuk = date('H', strtotime($j->siswa->jam_masuk));
-
-                                    $alphaCheck = $waktu_masuk - $jam_masuk;
-
-                                    if ($alphaCheck == 0) {
-                                        $alpha = 1; // Jam
-                                    } else if ($alphaCheck > 0) {
-                                        $alpha = $alphaCheck + 1;
-                                    }
-
-                                    if ($alpha > 8) {
-                                        $alpha = 8;
-                                    }
-                                }
-                                ?>
-
-                                <tr>
-                                    @if(!isAdmin())
-                                    <td>
-                                        @if ($j->status == 0)
-                                        <div class="text-center">
-                                            <input type="checkbox" id="cb{{ $no }}" name="cb[]" id-data="{{ $j->id }}" class="cbChild filled-in">
-                                            <label for="cb{{ $no }}">
-                                            </label>
-                                        </div>
-                                        @else
-                                        <div class="text-center">
-                                            N/A
-                                        </div>
-                                        @endif
-                                    </td>
-                                    @endif
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{\Carbon\Carbon::parse($j->waktu_masuk)->isoFormat('DD MMMM gggg')}}</td>
-                                    <td>{{ $j->siswa->company->nama_perusahaan }}</td>
-                                    <td>{{ $j->siswa->nama }}</td>
-                                    <td>{{ date('H:i:s', strtotime($j->waktu_masuk)) }}</td>
-                                    <td>{{ $j->waktu_pulang == null ? '-' : date('H:i:s', strtotime($j->waktu_pulang)) }}</td>
-                                    <td>{{ $alpha == 0 ? '-' : $alpha }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-xs waves-effect" onclick="viewJurnal(<?= $j->id ?>)">
-                                            <i class="material-icons">remove_red_eye</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </form>
-                    </table>
-                </div>
+                <div id="content_filter"></div>
             </div>
         </div>
     </div>
@@ -140,9 +78,9 @@
 
 @section('script')
 <script>
-    document.querySelector('#cbParent').onclick = function() {
+    $('#cbParent').click(function() {
         checkOrUncheck(this, 'cbChild');
-    }
+    });
 
     function checkOrUncheck(ele, eleChild) {
         var cbChild = document.querySelectorAll("." + eleChild);
@@ -157,7 +95,7 @@
         }
     }
 
-    document.getElementById('accButton').onclick = function() {
+    $('#accButton').click(function() {
         let data = [];
 
         document.querySelectorAll('.cbChild').forEach((e) => {
@@ -190,7 +128,7 @@
         }).fail(function() {
             swalError();
         });
-    }
+    });
 
     function viewJurnal(id) {
         $.ajax({
@@ -228,6 +166,59 @@
             }
         }).fail(function() {
             swalError();
+        })
+    }
+
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item'
+    });
+
+    $("#frmFilter").submit(function(e) {
+        e.preventDefault();
+
+        let elementsForm = $(this).find('input, select');
+        let perusahaan = $('select[name=perusahaan]').val();
+        let siswa = $('select[name=siswa]').val();
+        let fromdate = $('input[name=fromdate]').val();
+        let todate = $('input[name=todate]').val();
+
+        $('#content_filter').html(`<div class="text-center" style="padding-bottom: 2rem;">Tunggu sebentar...</div>`);
+
+        elementsForm.attr('disabled', true);
+
+        $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: {
+                perusahaan: perusahaan,
+                siswa: siswa,
+                fromdate: fromdate,
+                todate: todate
+            },
+            success: function(response) {
+                elementsForm.removeAttr('disabled');
+
+                $('#content_filter').html(response);
+            }
+        }).fail(function() {
+            elementsForm.removeAttr('disabled');
+
+            swalError();
+        });
+    });
+
+    function get_siswa() {
+        var id = $('select[name=perusahaan]').val();
+        $.ajax({
+            url: "{{url('jurnal/cetak/get')}}",
+            method: 'GET',
+            data: {
+                id: id
+            },
+        }).done(function(response) {
+            $('select[name=siswa]').html(response);
         })
     }
 </script>
