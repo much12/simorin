@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Guru;
+use App\Kategori;
 use App\Pembimbing;
 use App\PembimbingPerusahaan;
 use App\Siswa;
@@ -23,9 +24,12 @@ class PembimbingSekolahController extends Controller
     public function modal_add()
     {
         try {
+            $data = array();
+            $data['kategori'] = Kategori::all();
+
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
-                'CONTENT' => view('pembimbingsekolah.add')->render()
+                'CONTENT' => view('pembimbingsekolah.add', $data)->render()
             ));
         } catch (Exception $ex) {
             return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
@@ -37,7 +41,7 @@ class PembimbingSekolahController extends Controller
         try {
             $nama_pembimbing = $request->post('nama_pembimbing');
             $email = $request->post('email');
-            $bagian = $request->post('bagian');
+            $kategori = $request->post('kategori');
             $password = $request->post('password');
             $confirmpassword = $request->post('confirmpassword');
 
@@ -55,7 +59,7 @@ class PembimbingSekolahController extends Controller
             $pembimbingsekolah->nama_pembimbing = $nama_pembimbing;
             $pembimbingsekolah->email = $email;
             $pembimbingsekolah->password = $password;
-            $pembimbingsekolah->bagian = $bagian;
+            $pembimbingsekolah->id_kategori = $kategori;
             $pembimbingsekolah->role = 3; // Pembimbing Sekolah
 
             $save = $pembimbingsekolah->save();
@@ -106,6 +110,7 @@ class PembimbingSekolahController extends Controller
 
             $data = array();
             $data['pembimbing'] = $pembimbing;
+            $data['kategori'] = Kategori::all();
 
             return JSONResponse(array(
                 'RESULT' => KKSI::OK,
@@ -122,7 +127,7 @@ class PembimbingSekolahController extends Controller
             $id_pembimbing = $request->post('id_pembimbing');
             $nama_pembimbing = $request->post('nama_pembimbing');
             $email = $request->post('email');
-            $bagian = $request->post('bagian');
+            $kategori = $request->post('kategori');
             $password = $request->post('password');
             $confirmpassword = $request->post('confirmpassword');
 
@@ -149,7 +154,7 @@ class PembimbingSekolahController extends Controller
             $pembimbing->nama_pembimbing = $nama_pembimbing;
             $pembimbing->email = $email;
             $pembimbing->password = $password;
-            $pembimbing->bagian = $bagian;
+            $pembimbing->id_kategori = $kategori;
 
             $save = $pembimbing->save();
 

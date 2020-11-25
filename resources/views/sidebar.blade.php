@@ -93,7 +93,7 @@
                   </li>
 
                   <li class="{{ isCurrentPage('kategori') }}">
-                     <a href="{{ url('kategori') }}">Master Kategori</a>
+                     <a href="{{ url('kategori') }}">Master Kelompok</a>
                   </li>
                </ul>
             </li>
