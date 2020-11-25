@@ -91,6 +91,9 @@ Route::group(['middleware' => ['CekLogin']], function () {
         Route::get('kategori/delete', 'KategoriController@process_delete');
 
         Route::get('evaluasi', 'EvaluasiController@index');
+        Route::get('evaluasi/view-record', 'EvaluasiController@viewRecord');
+        Route::get('evaluasi/cetak', 'EvaluasiController@modalcetak');
+        Route::post('evaluasi/cetak/process', 'EvaluasiController@report');
     });
 
     Route::get('absensi', 'AbsensiController@index');

@@ -11,11 +11,12 @@ class Monitoring extends Model
     protected $primaryKey = 'id_monitoring';
     public $timestamps = false;
 
-    public function GetAll()
+    public function getRecord($id)
     {
         return DB::table('tb_monitoring')
             ->leftJoin('mscompany', 'tb_monitoring.id_company', '=', 'mscompany.id')
             ->leftJoin('mspembimbing', 'tb_monitoring.id_user', '=', 'mspembimbing.id')
+            ->where('tb_monitoring.id_monitoring', $id)
             ->get();
     }
 
