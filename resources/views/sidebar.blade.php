@@ -50,6 +50,13 @@
             </li>
 
             @if(isAdmin())
+            <li class="{{ isCurrentPage('/evaluasi') }}">
+               <a href="{{ url('/evaluasi') }}">
+                  <i class="fa fa-book-reader"></i>
+                  <span>Evaluasi Kunjungan</span>
+               </a>
+            </li>
+            
             <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan', 'kategori')) }}">
                <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
