@@ -15,4 +15,9 @@ class Pembimbing extends Model
     {
         return $this->belongsTo(Role::class, 'role');
     }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
 }
