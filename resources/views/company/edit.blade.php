@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Kategori</label>
+                    <label>Kelompok</label>
 
                     <div class="form-line">
                         <select name="id_kategori" class="form-control select2" required>

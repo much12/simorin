@@ -1,8 +1,13 @@
 <section>
    <aside id="leftsidebar" class="sidebar">
       <div class="user-info">
-         <div class="info-container">
+         <div class="info-container" <?= isAdmin() ? "style='top: 7rem'" : "style='top: 5rem'" ?>>
             <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Session::get('nama') }}</div>
+            @if(!isAdmin())
+            <div class="name">
+               {{ Session::get('perusahaan') }}
+            </div>
+            @endif
             <div class="email">{{ Session::get('email') }}</div>
 
             <div class="btn-group user-helper-dropdown">

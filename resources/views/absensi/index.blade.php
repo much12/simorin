@@ -13,6 +13,7 @@
                 <div class="body">
                     <div class="row">
                         <form id="frmFilter" action="{{ url()->current() . '/content' }}" method="GET" autocomplete="off">
+                            @if(isAdmin())
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Perusahaan</label>
@@ -27,6 +28,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -44,7 +46,7 @@
                                     <label>Tanggal Dari</label>
 
                                     <div class="form-line">
-                                        <input type="date" name="fromdate" class="form-control">
+                                        <input type="date" name="fromdate" class="form-control" value="{{ date('Y-m-01') }}">
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +56,7 @@
                                     <label>Tanggal Sampai</label>
 
                                     <div class="form-line">
-                                        <input type="date" name="todate" class="form-control">
+                                        <input type="date" name="todate" class="form-control" value="{{ date('Y-m-d') }}">
                                     </div>
                                 </div>
                             </div>
@@ -209,8 +211,12 @@
         });
     });
 
-    function get_siswa() {
-        var id = $('select[name=perusahaan]').val();
+    function get_siswa(is_admin = true) {
+        if (is_admin) {
+            var id = $('select[name=perusahaan]').val();
+        } else {
+            var id = "{{ session('id') }}";
+        }
 
         if (id !== "") {
             $.ajax({
@@ -226,5 +232,11 @@
             $('select[name=siswa]').empty();
         }
     }
+
+    <?php if (!isAdmin()) : ?>
+        $(document).ready(function() {
+            get_siswa(false);
+        });
+    <?php endif; ?>
 </script>
 @endsection
