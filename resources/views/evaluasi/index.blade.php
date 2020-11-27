@@ -14,13 +14,23 @@
                     <div class="row">
                         <form action="{{ url()->current() }}" method="GET" autocomplete="off">
                             <div class="col-md-5">
-                                <label>Pencarian Berdasarkan Nama Perushaaan</label>
-                                <input type="search" name="q" class="form-control" placeholder="Pencarian..." value="{{ $q }}">
+                                <div class="form-group">
+                                    <label>Pencarian Berdasarkan Perushaaan</label>
+
+                                    <div class="form-line">
+                                        <select name="company" class="form-control select2">
+                                            <option value=""></option>
+                                            @foreach($company as $key => $value)
+                                            <option value="{{ $value->id }}" {{ $value->id == $company_selected ? 'selected' : null }}>{{ $value->nama_perusahaan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-5">
                                 <label for="">Pencarian Berdasarkan Bulan</label>
-                                <input type="month" name="bulan" id="bulan" class="form-control">
+                                <input type="month" name="bulan" id="bulan" class="form-control" value="{{ date('Y-m') }}">
                             </div>
 
                             <div class="col-md-2">
@@ -36,7 +46,7 @@
                 <div class="row" style="margin-bottom: 1rem;">
                     <div class="col-md-6">
                         @if(!isAdmin())
-                        
+
                         @endif
                     </div>
 
@@ -88,22 +98,24 @@
 </div>
 </div>
 @endsection
-    
+
 @section('script')
 <script>
-   function viewRecord(id) {
-       $.ajax({
-           url : "{{url()->current() .'/view-record' }}",
-           data:{id:id},
-           method:"GET",
-       }).done(function (response) {
-           console.log(response);
-           window.open("{{url()->current() .'/view-record'}}?id="+id,"_blank");
-           location.reload();
-       })
-   }
+    function viewRecord(id) {
+        $.ajax({
+            url: "{{url()->current() .'/view-record' }}",
+            data: {
+                id: id
+            },
+            method: "GET",
+        }).done(function(response) {
+            console.log(response);
+            window.open("{{url()->current() .'/view-record'}}?id=" + id, "_blank");
+            location.reload();
+        })
+    }
 
-   function modalCetak() {
+    function modalCetak() {
         $.ajax({
             url: "{{url()->current().'/cetak'}}",
             method: 'GET',
@@ -120,5 +132,11 @@
             swalError();
         })
     }
+
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item'
+    });
 </script>
 @endsection
