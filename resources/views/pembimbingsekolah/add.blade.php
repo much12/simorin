@@ -27,7 +27,12 @@
                     <label>Bagian</label>
 
                     <div class="form-line">
-                        <input type="text" name="bagian" class="form-control" required>
+                        <select name="kategori" class="form-control select2" required>
+                            <option value=""></option>
+                            @foreach($kategori as $key => $value)
+                            <option value="{{ $value->id_kategori }}">{{ $value->kategori }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
@@ -56,6 +61,13 @@
     </div>
 </div>
 <script>
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item',
+        dropdownParent: $('#ModalGlobal')
+    });
+
     $('#frmAdd').submit(function(e) {
         e.preventDefault();
 

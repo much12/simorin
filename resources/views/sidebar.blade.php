@@ -1,12 +1,21 @@
 <section>
    <aside id="leftsidebar" class="sidebar">
       <div class="user-info">
+<<<<<<< HEAD
          <div class="image">
             <img src="{{ asset('assets/images/user.png') }}" width="35" height="35" alt="User" />
          </div>
 
          <div class="info-container">
+=======
+         <div class="info-container" <?= isAdmin() ? "style='top: 7rem'" : "style='top: 5rem'" ?>>
+>>>>>>> 21190dd05596ccb155f7b82eab8c0e175ecfcf6a
             <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Session::get('nama') }}</div>
+            @if(!isAdmin())
+            <div class="name">
+               {{ Session::get('perusahaan') }}
+            </div>
+            @endif
             <div class="email">{{ Session::get('email') }}</div>
 
             <div class="btn-group user-helper-dropdown">
@@ -14,9 +23,9 @@
 
                <ul class="dropdown-menu pull-right">
                   <li>
-                     <a href="javascript:void(0);">
-                        <i class="material-icons">person</i>
-                        Profile
+                     <a href="{{ url('change_password') }}">
+                        <i class="material-icons">settings</i>
+                        Ganti Password
                      </a>
                   </li>
 
@@ -42,24 +51,10 @@
                </a>
             </li>
 
-            <li class="{{ isCurrentPage('/jurnal') }}">
-               <a href="{{ url('/jurnal') }}">
-                  <i class="fa fa-clipboard"></i>
-                  <span>Jurnal</span>
-               </a>
-            </li>
-
             <li class="{{ isCurrentPage('/absensi') }}">
                <a href="{{ url('/absensi') }}">
-                  <i class="fa fa-clipboard"></i>
-                  <span>Absensi</span>
-               </a>
-            </li>
-
-            <li class="">
-               <a href="#">
                   <i class="fa fa-book-reader"></i>
-                  <span>Evaluasi Kunjungan</span>
+                  <span>Absensi & Jurnal</span>
                </a>
             </li>
 
@@ -71,7 +66,18 @@
             </li>
 
             @if(isAdmin())
+<<<<<<< HEAD
             <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'pembimbing_perusahaan', 'kategori', 'admin')) }}">
+=======
+            <li class="{{ isCurrentPage('/evaluasi') }}">
+               <a href="{{ url('/evaluasi') }}">
+                  <i class="fa fa-book-reader"></i>
+                  <span>Evaluasi Kunjungan</span>
+               </a>
+            </li>
+
+            <li class="{{ isCurrentPage(array('bidang', 'company', 'jurusan', 'guru', 'pembimbing_sekolah', 'siswa', 'kategori', 'admin')) }}">
+>>>>>>> 21190dd05596ccb155f7b82eab8c0e175ecfcf6a
                <a href="javascript:;" class="menu-toggle">
                   <i class="fa fa-server"></i>
                   <span>Master Data</span>
@@ -107,7 +113,7 @@
                   </li>
 
                   <li class="{{ isCurrentPage('kategori') }}">
-                     <a href="{{ url('kategori') }}">Master Kategori</a>
+                     <a href="{{ url('kategori') }}">Master Kelompok</a>
                   </li>
                </ul>
             </li>

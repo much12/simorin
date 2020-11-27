@@ -27,7 +27,6 @@ Route::group(['middleware' => ['CekLogin']], function () {
     Route::get('dashboard', 'DashboardController@index');
 
     Route::group(['middleware' => ['isAdmin']], function () {
-        # code...
         Route::get('company', 'CompanyController@index');
         Route::get('company/add', 'CompanyController@modal_add');
         Route::post('company/add/process', 'CompanyController@process_add');
@@ -77,33 +76,51 @@ Route::group(['middleware' => ['CekLogin']], function () {
         // Route::post('/pembimbing_perusahaan/edit', 'PembimbingPerusahaanController@update');
         // Route::get('/pembimbing_perusahaan/delete', 'PembimbingPerusahaanController@destroy');
 
-        Route::get('/admin', 'AdminController@index');
-        Route::get('/admin/add', 'AdminController@create');
-        Route::post('/admin/add', 'AdminController@store');
-        Route::get('/admin/edit', 'AdminController@edit');
-        Route::post('/admin/edit', 'AdminController@update');
-        Route::get('/admin/delete', 'AdminController@destroy');
+        Route::get('admin', 'AdminController@index');
+        Route::get('admin/add', 'AdminController@create');
+        Route::post('admin/add', 'AdminController@store');
+        Route::get('admin/edit', 'AdminController@edit');
+        Route::post('admin/edit', 'AdminController@update');
+        Route::get('admin/delete', 'AdminController@destroy');
 
-        Route::get('/kategori', 'KategoriController@index');
+        Route::get('kategori', 'KategoriController@index');
         Route::get('kategori/add', 'KategoriController@modal_add');
         Route::post('kategori/add/process', 'KategoriController@process_add');
         Route::get('kategori/edit', 'KategoriController@modal_edit');
         Route::post('kategori/edit/process', 'KategoriController@process_edit');
         Route::get('kategori/delete', 'KategoriController@process_delete');
+
+        Route::get('evaluasi', 'EvaluasiController@index');
+        Route::get('evaluasi/view-record', 'EvaluasiController@viewRecord');
+        Route::get('evaluasi/cetak', 'EvaluasiController@modalcetak');
+        Route::post('evaluasi/cetak/process', 'EvaluasiController@report');
     });
 
-        Route::get('absensi', 'AbsensiController@index');
-
-        Route::get('jurnal', 'JurnalController@index');
-        Route::post('jurnal/acc', 'JurnalController@acc_jurnal');
-        Route::get('jurnal/view', 'JurnalController@view_jurnal');
-        Route::get('jurnal/cetak', 'JurnalController@modal_cetak');
-        Route::get('jurnal/cetak/get', 'JurnalController@get_siswa');
-        Route::post('jurnal/cetak/process', 'JurnalController@report_jurnal');
-
+<<<<<<< HEAD
         Route::get('jadwal', 'JadwalController@index');
         Route::get('jadwal/add', 'JadwalController@modal_add');
         Route::get('jadwal/add/get', 'JadwalController@getTempat');
         Route::post('jadwal/add/process', 'JadwalController@process_add');
 
+=======
+    Route::get('absensi', 'AbsensiController@index');
+    Route::post('absensi/acc', 'JurnalController@acc_jurnal');
+    Route::get('absensi/view', 'JurnalController@view_jurnal');
+    Route::get('absensi/cetak', 'JurnalController@modal_cetak');
+    Route::get('absensi/cetak/get', 'JurnalController@get_siswa');
+    Route::post('absensi/cetak/process', 'JurnalController@report_jurnal');
+    Route::get('absensi/content', 'AbsensiController@content');
+  
+    Route::get('jadwal', 'JadwalController@index');
+
+    // Route::get('jurnal', 'JurnalController@index');
+    Route::post('jurnal/acc', 'JurnalController@acc_jurnal');
+    Route::get('jurnal/view', 'JurnalController@view_jurnal');
+    Route::get('jurnal/cetak', 'JurnalController@modal_cetak');
+    Route::get('jurnal/cetak/get', 'JurnalController@get_siswa');
+    Route::post('jurnal/cetak/process', 'JurnalController@report_jurnal');
+
+    Route::get('change_password', 'UserController@change_password');
+    Route::post('change_password/process', 'UserController@process_change_password');
+>>>>>>> 21190dd05596ccb155f7b82eab8c0e175ecfcf6a
 });

@@ -29,7 +29,12 @@
                     <label>Bagian</label>
 
                     <div class="form-line">
-                        <input type="text" name="bagian" class="form-control" value="{{ $pembimbing->bagian }}" required>
+                        <select name="kategori" class="form-control select2" required>
+                            <option value=""></option>
+                            @foreach($kategori as $key => $value)
+                            <option value="{{ $value->id_kategori }}" {{ $value->id_kategori !== $pembimbing->id_kategori ?: 'selected' }}>{{ $value->kategori }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
@@ -92,5 +97,12 @@
             elementsForm.removeAttr('disabled');
             swalError();
         });
+    });
+
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item',
+        dropdownParent: $('#ModalGlobal')
     });
 </script>

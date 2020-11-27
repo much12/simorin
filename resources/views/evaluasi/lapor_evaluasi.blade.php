@@ -101,38 +101,33 @@
 </head>
 
 <body>
-    <h4 align="center">Laporan Jurnal Harian Siswa</h4>
-    @foreach ($siswa as $sis)
-    <h4 align="center">{{$sis->nama_perusahaan}}</h4><br>
-    <p align="left" style="font-weight: bold">Nama/NIS : {{$sis->nama}}/{{$sis->nis}}</p>
-    <p align="left" style="font-weight: bold">Tanggal : {{Carbon\Carbon::parse($first)->isoFormat('DD MMMM YYYY')}} s/d {{Carbon\Carbon::parse($last)->isoFormat(' DD MMMM YYYY')}}</p></b>
-    <hr>
-    @endforeach
 
-    @foreach ($jurnal as $jur)
-    <p>Hari, tgl-bln-th : Tgl</p>
-    <p>Waktu Kerja : {{date('H:i', strtotime($jur->waktu_masuk))}} s/d {{ date('H:i', strtotime($jur->waktu_pulang)) }}</p>
-
+    <p>Jangka Waktu : {{\Carbon\Carbon::parse($first)->isoFormat('DD MMMM gggg')}} s/d {{\Carbon\Carbon::parse($last)->isoFormat('DD MMMM gggg')}}</p>
+    
     <table class="table table-bordered table-sm" border="1">
         <tbody>
             <tr>
-                <th>Kegiatan Kerja</th>
-                <th>Prosedur Pengerjaan</th>
-                <th>Spesifikasi Bahan </th>
+                <th>No</th>
+                <th>Nama Tempat</th>
+                <th>Pembimbing Sekolah</th>
+                <th>Tanggal</th>
             </tr>
         </tbody>
-
+        
         <tbody>
+            @php $no = 1; @endphp
+            @foreach ($monitoring as $mon)
             <tr>
-                <td>@php echo $jur->kegiatan_kerja; @endphp</td>
-                <td>@php echo $jur->prosedur_pengerjaan; @endphp</td>
-                <td>@php echo $jur->spesifikasi_bahan; @endphp</td>
+                <td>{{$no++}}</td>
+                <td>{{$mon->nama_perusahaan}}</td>
+                <td>{{$mon->nama_pembimbing}}</td>
+                <td>{{\Carbon\Carbon::parse($mon->tgl_monitoring)->isoFormat('DD MMMM gggg')}}</td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 
     <br>
-    @endforeach
 </body>
 
 </html>
