@@ -211,15 +211,20 @@
 
     function get_siswa() {
         var id = $('select[name=perusahaan]').val();
-        $.ajax({
-            url: "{{url('jurnal/cetak/get')}}",
-            method: 'GET',
-            data: {
-                id: id
-            },
-        }).done(function(response) {
-            $('select[name=siswa]').html(response);
-        })
+
+        if (id !== "") {
+            $.ajax({
+                url: "{{url('jurnal/cetak/get')}}",
+                method: 'GET',
+                data: {
+                    id: id
+                },
+            }).done(function(response) {
+                $('select[name=siswa]').html(response);
+            });
+        } else {
+            $('select[name=siswa]').empty();
+        }
     }
 </script>
 @endsection
