@@ -409,7 +409,7 @@ class APIController extends Controller
         $detail = array();
 
         $detail['id_jurnal'] = $value->id_jurnal;
-        $detail['tanggal'] = date('Y-m-d', strtotime($value->waktu_masuk));
+        $detail['tanggal'] = date('d F Y', strtotime($value->waktu_masuk));
         $detail['waktu_masuk'] = date('H:i', strtotime($value->waktu_masuk));
         $detail['waktu_pulang'] = $value->waktu_pulang == null ? null : date('H:i', strtotime($value->waktu_pulang));
         $detail['kegiatan'] = $value->kegiatan_kerja;
@@ -437,7 +437,6 @@ class APIController extends Controller
       $select = array(
         'tbjurnal.id',
         'mssiswa.nama AS nama_siswa',
-        DB::raw('DATE_FORMAT(tbjurnal.waktu_masuk, "%d-%m-%Y") AS tanggal'),
         'tbjurnal.waktu_masuk',
         'tbjurnal.waktu_pulang',
         'tbjurnal.kegiatan_kerja AS kegiatan',
@@ -446,14 +445,29 @@ class APIController extends Controller
         'tbjurnal.status'
       );
 
-      $data = DB::table('tbjurnal')
+      $jurnal = DB::table('tbjurnal')
       ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
       ->where('mssiswa.nis', $id_siswa)
-      ->where(DB::raw("MONTH(tbjurnal.waktu_masuk)"), '=', DB::raw("MONTH(DATE(NOW()))"))
       ->select($select)
       ->get();
 
-      return response()->json($data);
+      $data = array();
+      foreach ($jurnal as $j) {
+        $detail = array();
+
+        $detail['id_jurnal'] = $j->id;
+        $detail['tanggal'] = date('d F Y', strtotime($j->waktu_masuk));
+        $detail['waktu_masuk'] = date('H:i', strtotime($j->waktu_masuk));
+        $detail['waktu_pulang'] = $j->waktu_pulang == null ? null : date('H:i', strtotime($j->waktu_pulang));
+        $detail['kegiatan'] = $j->kegiatan;
+        $detail['prosedur'] = $j->prosedur;
+        $detail['spek'] = $j->spek;
+        $detail['nama_siswa'] = $j->nama_siswa;
+
+        $data[] = $detail;
+      }
+
+      echo json_encode($data);
     } catch (Exception $ex) {
       return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
     }
@@ -469,17 +483,17 @@ class APIController extends Controller
       ->where('nis', $id_siswa)
       ->where('waktu_masuk', 'LIKE', "%".$tanggal."%")
       ->where('waktu_pulang')
-      ->get();
+      ->count();
 
-      if ($data == null) {
-       return JSONResponseDefault(KKSI::FAILED, "Anda sudah memasukkan jurnal kegiatan pada hari ini dan juga berhasil untuk absen pulang!");
-     } else {
-      return JSONResponseDefault("KOSONG", "");
+      if ($data == 1) {
+        return JSONResponseDefault("KOSONG", "");
+      } else {
+        return JSONResponseDefault(KKSI::FAILED, "Anda sudah memasukkan jurnal kegiatan pada hari ini dan juga berhasil untuk absen pulang!");
+      }
+      
+    } catch (Exception $e) {
+      return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
     }
-
-  } catch (Exception $e) {
-    return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
   }
-}
 
 }
