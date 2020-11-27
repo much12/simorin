@@ -102,4 +102,8 @@ Route::group(['middleware' => ['CekLogin']], function () {
         Route::post('jurnal/cetak/process', 'JurnalController@report_jurnal');
 
         Route::get('jadwal', 'JadwalController@index');
+        Route::get('jadwal/add', 'JadwalController@modal_add');
+        Route::get('jadwal/add/get', 'JadwalController@getTempat');
+        Route::post('jadwal/add/process', 'JadwalController@process_add');
+
 });

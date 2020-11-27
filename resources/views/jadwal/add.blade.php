@@ -2,8 +2,9 @@
     <div class="modal-content">
         <form id="frmAdd" action="{{ url()->current() . '/process' }}" method="POST" autocomplete="off">
             {{ csrf_field() }}
+
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Data Pembimbing Sekolah</h4>
+                <h4 class="modal-title">Tambah Data Jadwal</h4>
             </div>
 
             <div class="modal-body">
@@ -11,39 +12,43 @@
                     <label>Nama Pembimbing</label>
 
                     <div class="form-line">
-                        <input type="text" name="nama_pembimbing" class="form-control" required>
+                        <select name="id_pembimbing" class="form-control select2" id="id_pembimbing" required>
+                            <option value=""></option>
+                            @foreach($pembimbing as $key => $value)
+                            <option value="{{ $value->id }}">{{ $value->nama_pembimbing }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Email</label>
+                    <label>Kategori</label>
 
                     <div class="form-line">
-                        <input type="email" name="email" class="form-control" required>
+                        <select name="id_kategori" class="form-control select2" onchange="getTempat()" id="idKategori" required>
+                            <option value=""></option>
+                            @foreach($kategori as $key => $value)
+                            <option value="{{ $value->id_kategori }}">{{ $value->kategori }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Bagian</label>
+                    <label>Tempat</label>
 
                     <div class="form-line">
-                        <input type="text" name="bagian" class="form-control" required>
+                        <select name="id_company" id="id_company" class="form-control select2" required>
+                            <option value="">Pilih Tempat</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Password</label>
+                    <label>Tanggal</label>
 
                     <div class="form-line">
-                        <input type="password" name="password" class="form-control" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Konfirmasi Password</label>
-
-                    <div class="form-line">
-                        <input type="password" name="confirmpassword" class="form-control" required>
+                        <input type="date" class="form-control" name="tanggal" required>
                     </div>
                 </div>
             </div>
@@ -89,4 +94,24 @@
             swalError();
         });
     });
+
+    $('.select2').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: 'Select an item',
+        dropdownParent: $('#ModalGlobal')
+    });
+
+    function getTempat() {
+        var id = $('#idKategori').val();
+        $.ajax({
+            url: "{{url()->current() . '/get'}}",
+            method: "GET",
+            data: {
+                id: id
+            },
+        }).done(function(response) {
+            $('#id_company').html(response);
+        })
+    }
 </script>
