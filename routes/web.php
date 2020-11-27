@@ -96,6 +96,13 @@ Route::group(['middleware' => ['CekLogin']], function () {
         Route::post('evaluasi/cetak/process', 'EvaluasiController@report');
     });
 
+<<<<<<< HEAD
+        Route::get('jadwal', 'JadwalController@index');
+        Route::get('jadwal/add', 'JadwalController@modal_add');
+        Route::get('jadwal/add/get', 'JadwalController@getTempat');
+        Route::post('jadwal/add/process', 'JadwalController@process_add');
+
+=======
     Route::get('absensi', 'AbsensiController@index');
     Route::post('absensi/acc', 'JurnalController@acc_jurnal');
     Route::get('absensi/view', 'JurnalController@view_jurnal');
@@ -115,4 +122,5 @@ Route::group(['middleware' => ['CekLogin']], function () {
 
     Route::get('change_password', 'UserController@change_password');
     Route::post('change_password/process', 'UserController@process_change_password');
+>>>>>>> 21190dd05596ccb155f7b82eab8c0e175ecfcf6a
 });
