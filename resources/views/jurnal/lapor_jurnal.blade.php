@@ -110,7 +110,7 @@
     @endforeach
 
     @foreach ($jurnal as $jur)
-    <p>Hari, tgl-bln-th : Tgl</p>
+    <p>Hari, tgl-bln-th : {{Carbon\Carbon::parse($jur->waktu_masuk)->isoFormat('dddd,DD MMMM YYYY')}}</p>
     <p>Waktu Kerja : {{date('H:i', strtotime($jur->waktu_masuk))}} s/d {{ date('H:i', strtotime($jur->waktu_pulang)) }}</p>
 
     <table class="table table-bordered table-sm" border="1">

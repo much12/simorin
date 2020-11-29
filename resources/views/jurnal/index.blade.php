@@ -78,7 +78,7 @@
                             <tr>
                                 @if(!isAdmin())
                                 <td>
-                                    @if ($j->status == 0)
+                                    @if ($j->status_hadir == null || $j->status_hadir == 0)
                                     <div class="text-center">
                                         <input type="checkbox" id="cb{{$no}}" name="cb[]" id-data="{{$j->id}}" class="cbChild filled-in" />
                                         <label for="cb{{$no}}">

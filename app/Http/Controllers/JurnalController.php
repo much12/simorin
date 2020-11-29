@@ -78,7 +78,7 @@ class JurnalController extends Controller
 
             foreach ($request->input('dataId') as $key => $id) {
                 $jurnal = Jurnal::find($id);
-                $jurnal->status = 1;
+                $jurnal->status_hadir = 1;
 
                 if (!$jurnal->save())
                     $save = false;
