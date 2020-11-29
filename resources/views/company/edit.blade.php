@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Kategori</label>
+                    <label>Kelompok</label>
 
                     <div class="form-line">
                         <select name="id_kategori" class="form-control select2" required>
@@ -94,7 +94,7 @@
 
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Update</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
             </div>
         </form>
     </div>

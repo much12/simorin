@@ -55,7 +55,7 @@ class APIController extends Controller
             return JSONResponseDefault(KKSI::FAILED, 'Username atau password yang anda masukkan salah');
           }
         } else {
-                    // $pembimbingpers = PembimbingPerusahaan::where('email', $username)->first();
+          // $pembimbingpers = PembimbingPerusahaan::where('email', $username)->first();
           $pembimbingpers = Company::where('email', $username)->first();
 
           if ($pembimbingpers !== null) {
@@ -170,9 +170,9 @@ class APIController extends Controller
       $updateArr['waktu_pulang'] = date('Y-m-d H:i:s');
 
       $update = DB::table('tbjurnal')
-      ->where('nis', $user_id)
-      ->whereDate('waktu_masuk', '=', date('Y-m-d'))
-      ->update($updateArr);
+        ->where('nis', $user_id)
+        ->whereDate('waktu_masuk', '=', date('Y-m-d'))
+        ->update($updateArr);
 
       if ($update) {
         return JSONResponseDefault(KKSI::OK, 'Input jurnal berhasil');
@@ -190,16 +190,16 @@ class APIController extends Controller
       $nis = $request->post('id');
 
       $total_alpha = Jurnal::where('nis', $nis)
-      ->where('status', 2)
-      ->select(DB::raw('COUNT(*) AS count'))
-      ->first()
-      ->count;
+        ->where('status', 2)
+        ->select(DB::raw('COUNT(*) AS count'))
+        ->first()
+        ->count;
 
       $total_hadir = Jurnal::where('nis', $nis)
-      ->where('status', 1)
-      ->select(DB::raw('COUNT(*) AS count'))
-      ->first()
-      ->count;
+        ->where('status', 1)
+        ->select(DB::raw('COUNT(*) AS count'))
+        ->first()
+        ->count;
 
       $select = array(
         'a.id AS id_absen',
@@ -211,11 +211,11 @@ class APIController extends Controller
       );
 
       $list = DB::table('tbjurnal')
-      ->join('mssiswa', 'mssiswa.nis = tbjurnal.nis')
-      ->join('mscompany', 'mscompany.id = mssiswa.id_company')
-      ->select($select)
-      ->where('tbjurnal.nis', $nis)
-      ->get();
+        ->join('mssiswa', 'mssiswa.nis = tbjurnal.nis')
+        ->join('mscompany', 'mscompany.id = mssiswa.id_company')
+        ->select($select)
+        ->where('tbjurnal.nis', $nis)
+        ->get();
 
       $data = array();
       foreach ($list as $key => $value) {
@@ -260,13 +260,13 @@ class APIController extends Controller
         'tbjurnal.latitude'
       );
 
-            // $pembimbingpers = DB::table('mspembimbingperusahaan')
-            //     ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
-            //     ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-            //     ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
-            //     ->select($select)
-            //     ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
-            //     ->get();
+      // $pembimbingpers = DB::table('mspembimbingperusahaan')
+      //     ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+      //     ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+      //     ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+      //     ->select($select)
+      //     ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+      //     ->get();
 
       $pembimbingpers = DB::table('mscompany')
       ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
@@ -302,7 +302,7 @@ class APIController extends Controller
   public function listAperusahaan(Request $request)
   {
     try {
-            // SELECT *, COUNT(nis) FROM mscompany JOIN mssiswa ON mssiswa.id_company = mscompany.id WHERE mscompany.id_pembimbing = 9 GROUP BY mscompany.nama_perusahaan;
+      // SELECT *, COUNT(nis) FROM mscompany JOIN mssiswa ON mssiswa.id_company = mscompany.id WHERE mscompany.id_pembimbing = 9 GROUP BY mscompany.nama_perusahaan;
       date_default_timezone_set('Asia/Jakarta');
 
       $id_pembimbing = $request->post('id_pemsekolah');
@@ -315,11 +315,11 @@ class APIController extends Controller
       );
 
       $perusahaan = DB::table('mscompany')
-      ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-      ->where('mscompany.id_pembimbing', $id_pembimbing)
-      ->select($select)
-      ->groupBy('mscompany.id')
-      ->get();
+        ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->where('mscompany.id_pembimbing', $id_pembimbing)
+        ->select($select)
+        ->groupBy('mscompany.id')
+        ->get();
 
       return response()->json($perusahaan);
     } catch (Exception $ex) {
@@ -330,7 +330,7 @@ class APIController extends Controller
   public function listArekap(Request $request)
   {
     try {
-            // date_default_timezone_set('Asia/Jakarta');
+      // date_default_timezone_set('Asia/Jakarta');
 
       $id_company = $request->post('id_company');
       $tgl_mulai = $request->post('tgl_mulai');
@@ -353,17 +353,17 @@ class APIController extends Controller
       }
 
       $data = DB::table('tbjurnal')
-      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
-      ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
-      ->where('mscompany.id', $id_company);
+        ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+        ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->where('mscompany.id', $id_company);
 
       if ($tgl_akhir != "")
         $data = $data->where('tbjurnal.waktu_masuk', '<', $tgl_akhir);
 
       $data = $data->select($select)
-      ->groupBy('mssiswa.nis')
-      ->get();
-            // $data = DB::select("SELECT *,(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = t1.nis) * 8 AS TOTAL_JAM FROM tbjurnal t1 JOIN mssiswa ON t1.nis = mssiswa.nis JOIN mscompany ON mssiswa.id_company = mscompany.id WHERE mscompany.id = 1 GROUP BY mssiswa.nis");
+        ->groupBy('mssiswa.nis')
+        ->get();
+      // $data = DB::select("SELECT *,(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = t1.nis) * 8 AS TOTAL_JAM FROM tbjurnal t1 JOIN mssiswa ON t1.nis = mssiswa.nis JOIN mscompany ON mssiswa.id_company = mscompany.id WHERE mscompany.id = 1 GROUP BY mssiswa.nis");
 
       return response()->json($data);
     } catch (Exception $ex) {
@@ -388,20 +388,20 @@ class APIController extends Controller
         'mssiswa.nama AS nama_siswa'
       );
 
-            // $pembimbingpers = DB::table('mspembimbingperusahaan')
-            //     ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
-            //     ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-            //     ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
-            //     ->select($select)
-            //     ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
-            //     ->get();
+      // $pembimbingpers = DB::table('mspembimbingperusahaan')
+      //     ->join('mscompany', 'mscompany.id_pembimbing_perusahaan', '=', 'mspembimbingperusahaan.id')
+      //     ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+      //     ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+      //     ->select($select)
+      //     ->where('mspembimbingperusahaan.id', $id_pembimbing_perusahaan)
+      //     ->get();
 
       $pembimbingpers = DB::table('mscompany')
-      ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-      ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
-      ->select($select)
-      ->where('mscompany.id', $id_pembimbing_perusahaan)
-      ->get();
+        ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+        ->select($select)
+        ->where('mscompany.id', $id_pembimbing_perusahaan)
+        ->get();
 
       $data = array();
       foreach ($pembimbingpers as $key => $value) {
@@ -430,8 +430,8 @@ class APIController extends Controller
   public function listJurnalSiswa(Request $request)
   {
     try {
-            // SELECT * FROM tbjurnal JOIN mssiswa ON tbjurnal.nis = mssiswa.nis WHERE mssiswa.nis = 18411;
-            // date_default_timezone_set('Asia/Jakarta');
+      // SELECT * FROM tbjurnal JOIN mssiswa ON tbjurnal.nis = mssiswa.nis WHERE mssiswa.nis = 18411;
+      // date_default_timezone_set('Asia/Jakarta');
 
       $id_siswa = $request->post('id_siswa');
 
@@ -447,10 +447,10 @@ class APIController extends Controller
       );
 
       $jurnal = DB::table('tbjurnal')
-      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
-      ->where('mssiswa.nis', $id_siswa)
-      ->select($select)
-      ->get();
+        ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+        ->where('mssiswa.nis', $id_siswa)
+        ->select($select)
+        ->get();
 
       $data = array();
       foreach ($jurnal as $j) {
@@ -481,6 +481,7 @@ class APIController extends Controller
       $tanggal = $request->post('tanggal');
 
       $data = DB::table('tbjurnal')
+
       ->where('nis', $id_siswa)
       ->where('waktu_masuk', 'LIKE', "%".$tanggal."%")
       ->get();
@@ -496,7 +497,6 @@ class APIController extends Controller
           }
         }
       } 
-      
     } catch (Exception $e) {
       return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
     }
@@ -641,5 +641,4 @@ class APIController extends Controller
       return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
     }
   }
-
 }

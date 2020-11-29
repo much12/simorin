@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Monitoring;
 use App\MonitoringDetail;
 use Exception;
@@ -13,13 +14,17 @@ class EvaluasiController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->get('q');
+        // $q = $request->get('q');
+        $company = $request->get('company');
         $bln = $request->get('bulan');
-        if ($bln == null && $q == null) {
+
+        if ($bln == null && $company == null) {
             $monitoring = Monitoring::leftJoin('mscompany', 'tb_monitoring.id_company', '=', 'mscompany.id')
                 ->leftJoin('mspembimbing', 'tb_monitoring.id_user', '=', 'mspembimbing.id')
+                ->whereMonth('tgl_monitoring', '=', date('m'))
+                ->whereYear('tgl_monitoring', '=', date('Y'))
                 ->paginate(15);
-        } else if ($bln != null && $q == null) {
+        } else if ($bln != null && $company == null) {
             $tahun = date('Y', strtotime($bln));
             $bulan = date('m', strtotime($bln));
 
@@ -28,25 +33,28 @@ class EvaluasiController extends Controller
                 ->leftJoin('mspembimbing', 'tb_monitoring.id_user', '=', 'mspembimbing.id')
                 ->whereYear('tgl_monitoring', '=', $tahun)
                 ->get();
-        } else if ($bln !== null && $q !== null) {
+        } else if ($bln !== null && $company !== null) {
             $tahun = date('Y', strtotime($bln));
             $bulan = date('m', strtotime($bln));
 
             $monitoring = Monitoring::leftJoin('mscompany', 'tb_monitoring.id_company', '=', 'mscompany.id')
                 ->leftJoin('mspembimbing', 'tb_monitoring.id_user', '=', 'mspembimbing.id')
-                ->whereMonth('waktu_masuk', '=', $bulan)
-                ->whereYear('waktu_masuk', '=', $tahun)
-                ->where('nama_perusahaan', 'LIKE', "%$q%")
+                ->whereMonth('tgl_monitoring', '=', $bulan)
+                ->whereYear('tgl_monitoring', '=', $tahun)
+                ->where('mscompany.id', '=', $company)
                 ->get();
-        } else if ($bln == null && $q !== null) {
+        } else if ($bln == null && $company !== null) {
             $monitoring = Monitoring::leftJoin('mscompany', 'tb_monitoring.id_company', '=', 'mscompany.id')
                 ->leftJoin('mspembimbing', 'tb_monitoring.id_user', '=', 'mspembimbing.id')
-                ->where('nama_perusahaan', 'LIKE', "%$q%")
+                ->where('mscompany.id', '=', $company)
                 ->get();
         }
+
         return view('evaluasi.index', [
             'monitoring' => $monitoring,
-            'q' => $q
+            // 'q' => $q,
+            'company_selected' => $company,
+            'company' => Company::all()
         ]);
     }
 
