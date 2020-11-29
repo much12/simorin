@@ -271,6 +271,7 @@ class APIController extends Controller
       $pembimbingpers = DB::table('mscompany')
       ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
       ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+      ->orderBy('status', 'ASC')
       ->select($select)
       ->where('mscompany.id', $id_pembimbing_perusahaan)
       ->get();
@@ -482,15 +483,160 @@ class APIController extends Controller
       $data = DB::table('tbjurnal')
       ->where('nis', $id_siswa)
       ->where('waktu_masuk', 'LIKE', "%".$tanggal."%")
-      ->where('waktu_pulang')
-      ->count();
+      ->get();
 
-      if ($data == 1) {
-        return JSONResponseDefault("KOSONG", "");
+      if ($data == "[]") {
+        return JSONResponseDefault(KKSI::ERROR, "Anda belum melakukan absen untuk hari ini");
       } else {
-        return JSONResponseDefault(KKSI::FAILED, "Anda sudah memasukkan jurnal kegiatan pada hari ini dan juga berhasil untuk absen pulang!");
-      }
+        foreach ($data as $k) {
+          if ($k->waktu_pulang == null) {
+            return JSONResponseDefault("KOSONG", "");
+          } else {
+            return JSONResponseDefault(KKSI::FAILED, "Anda sudah memasukkan jurnal kegiatan pada hari ini dan juga berhasil untuk absen pulang!");
+          }
+        }
+      } 
       
+    } catch (Exception $e) {
+      return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
+    }
+  }
+
+  public function searchJurnalSiswa(Request $request)
+  {
+    try {
+            // SELECT * FROM tbjurnal JOIN mssiswa ON tbjurnal.nis = mssiswa.nis WHERE mssiswa.nis = 18411;
+            // date_default_timezone_set('Asia/Jakarta');
+
+      $id_siswa = $request->post('id');
+      $mulai = $request->post('mulai');
+      $sampai = $request->post('sampai');
+
+      $select = array(
+        'tbjurnal.id',
+        'mssiswa.nama AS nama_siswa',
+        'tbjurnal.waktu_masuk',
+        'tbjurnal.waktu_pulang',
+        'tbjurnal.kegiatan_kerja AS kegiatan',
+        'tbjurnal.prosedur_pengerjaan AS prosedur',
+        'tbjurnal.spesifikasi_bahan AS spek',
+        'tbjurnal.status'
+      );
+
+      $jurnal = DB::table('tbjurnal')
+      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+      ->where('mssiswa.nis', $id_siswa)
+      ->whereBetween('waktu_masuk', [$mulai, $sampai])
+      ->select($select)
+      ->get();
+
+      $data = array();
+      foreach ($jurnal as $j) {
+        $detail = array();
+
+        $detail['id_jurnal'] = $j->id;
+        $detail['tanggal'] = date('d F Y', strtotime($j->waktu_masuk));
+        $detail['waktu_masuk'] = date('H:i', strtotime($j->waktu_masuk));
+        $detail['waktu_pulang'] = $j->waktu_pulang == null ? null : date('H:i', strtotime($j->waktu_pulang));
+        $detail['kegiatan'] = $j->kegiatan;
+        $detail['prosedur'] = $j->prosedur;
+        $detail['spek'] = $j->spek;
+        $detail['nama_siswa'] = $j->nama_siswa;
+
+        $data[] = $detail;
+      }
+
+      echo json_encode($data);
+    } catch (Exception $ex) {
+      return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
+    }
+  }
+
+  public function setujuiSemuaAbsen(Request $req)
+  {  
+    try {
+      $id_absen = $req->post("id_absen");
+
+      $data = explode(',', $id_absen);
+
+      $update = DB::table('tbjurnal')
+      ->whereIn('id', $data)
+      ->where('status', 0)
+      ->update(['status' => 1]);
+
+      if ($update) {
+        return JSONResponseDefault(KKSI::OK, 'Berhasil mensetujui semua absen siswa!');
+      } else {
+        return JSONResponseDefault(KKSI::FAILED, 'Gagal mensetujui semua absen siswa!');
+      }
+
+    } catch (Exception $e) {
+      return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
+    }
+  }
+
+  public function tolakSemuaAbsen(Request $req)
+  {  
+    try {
+      $id_absen = $req->post("id_absen");
+
+      $data = explode(',', $id_absen);
+
+      $update = DB::table('tbjurnal')
+      ->whereIn('id', $data)
+      ->where('status', 0)
+      ->update(['status' => 2]);
+
+      if ($update) {
+        return JSONResponseDefault(KKSI::OK, 'Berhasil menolak semua absen siswa!');
+      } else {
+        return JSONResponseDefault(KKSI::FAILED, 'Gagal menolak semua absen siswa!');
+      }
+
+    } catch (Exception $e) {
+      return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
+    }
+  }
+
+  public function setujuiPilihanAbsen(Request $req)
+  {  
+    try {
+      $id_absen = $req->post("id_absen");
+
+      $data = explode(',', $id_absen);
+
+      $update = DB::table('tbjurnal')
+      ->whereIn('id', $data)
+      ->update(['status' => 1]);
+
+      if ($update) {
+        return JSONResponseDefault(KKSI::OK, 'Berhasil mensetujui semua absen yang sudah anda pilih!');
+      } else {
+        return JSONResponseDefault(KKSI::FAILED, 'Gagal mensetujui semua absen yang sudah anda pilih!');
+      }
+
+    } catch (Exception $e) {
+      return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
+    }
+  }
+
+  public function tolakPilihanAbsen(Request $req)
+  {  
+    try {
+      $id_absen = $req->post("id_absen");
+
+      $data = explode(',', $id_absen);
+
+      $update = DB::table('tbjurnal')
+      ->whereIn('id', $data)
+      ->update(['status' => 2]);
+
+      if ($update) {
+        return JSONResponseDefault(KKSI::OK, 'Berhasil menolak absen siswa yang sudah anda pilih!');
+      } else {
+        return JSONResponseDefault(KKSI::FAILED, 'Gagal menolak absen siswa yang sudah anda pilih!');
+      }
+
     } catch (Exception $e) {
       return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
     }
