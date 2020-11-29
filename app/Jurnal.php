@@ -19,7 +19,7 @@ class Jurnal extends Model
     public function JurnalDate($nis, $first, $last)
     {
         return DB::table('tbjurnal')
-            ->where('nis', $nis)->where('status', 1)
+            ->where('nis', $nis)->where('status_hadir', 1)
             ->whereBetween('waktu_masuk', [$first, $last])->get();
     }
 
