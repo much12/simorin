@@ -103,7 +103,7 @@ Route::group(['middleware' => ['CekLogin']], function () {
     Route::get('absensi/cetak/get', 'JurnalController@get_siswa');
     Route::post('absensi/cetak/process', 'JurnalController@report_jurnal');
     Route::get('absensi/content', 'AbsensiController@content');
-  
+
     Route::get('jadwal', 'JadwalController@index');
     Route::get('jadwal/add', 'JadwalController@modal_add');
     Route::get('jadwal/add/get', 'JadwalController@getTempat');

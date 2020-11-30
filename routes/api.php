@@ -28,3 +28,8 @@ Route::post('list-aperusahaan', 'APIController@listAperusahaan');
 Route::post('list-arekap', 'APIController@listArekap');
 Route::post('list-jurnal-siswa', 'APIController@listJurnalSiswa');
 Route::post('get-jurnal-siswa', 'APIController@jurnalSiswa');
+Route::post('search-jurnal-siswa', 'APIController@searchJurnalSiswa');
+Route::post('setujui-semua-absen', 'APIController@setujuiSemuaAbsen');
+Route::post('tolak-semua-absen', 'APIController@tolakSemuaAbsen');
+Route::post('setujui-dipilih-absen', 'APIController@setujuiPilihanAbsen');
+Route::post('tolak-dipilih-absen', 'APIController@tolakPilihanAbsen');
