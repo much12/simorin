@@ -11,11 +11,13 @@
                         <h2>JADWAL</h2>
                     </div>
 
+                    @if(isAdmin())
                     <div class="pull-right">
                         <button type="button" class="btn btn-primary btn-xs" onclick="addJadwal()">
                             <i class="material-icons">add</i>
                         </button>
                     </div>
+                    @endif
 
                     <div class="clearfix"></div>
                 </div>

@@ -9,16 +9,27 @@ use KKSI;
 use App\Company;
 use App\Pembimbing;
 use App\Jadwal;
+use Illuminate\Support\Facades\Session;
 
 class JadwalController extends Controller
 {
     public function index()
     {
-        $jadwal = Jadwal::join('mscompany','mscompany.id','=','tbjadwal.id_company')
-            ->join('mspembimbing','mspembimbing.id','=','tbjadwal.id_pembimbing')
-            ->join('mskategori','mscompany.id_kategori','=','mskategori.id_kategori')->get();
-        return view('jadwal.index',[
-            'jadwal'=>$jadwal
+        $where = array();
+        if (!isAdmin()) {
+            $where = array(
+                'mscompany.id' => Session::get('id')
+            );
+        }
+
+        $jadwal = Jadwal::join('mscompany', 'mscompany.id', '=', 'tbjadwal.id_company')
+            ->join('mspembimbing', 'mspembimbing.id', '=', 'tbjadwal.id_pembimbing')
+            ->join('mskategori', 'mscompany.id_kategori', '=', 'mskategori.id_kategori')
+            ->where($where)
+            ->get();
+
+        return view('jadwal.index', [
+            'jadwal' => $jadwal
         ]);
     }
 
@@ -42,7 +53,7 @@ class JadwalController extends Controller
     public function getTempat(Request $request)
     {
         $tempat = Company::where('id_kategori', $request->get('id'))->get();
-        
+
         foreach ($tempat as $key => $value) {
             echo "<option value='" . $value->id . "'>" . $value->nama_perusahaan . "</option>";
         }
@@ -70,5 +81,4 @@ class JadwalController extends Controller
             return JSONResponseDefault(KKSI::ERROR, $ex->getMessage());
         }
     }
-
 }
