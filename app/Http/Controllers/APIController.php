@@ -330,42 +330,49 @@ class APIController extends Controller
   public function listArekap(Request $request)
   {
     try {
-      // date_default_timezone_set('Asia/Jakarta');
-
       $id_company = $request->post('id_company');
       $tgl_mulai = $request->post('tgl_mulai');
       $tgl_akhir = $request->post('tgl_akhir');
 
-      $select = array(
-        'mssiswa.nis',
-        'mssiswa.nama',
-        'mscompany.nama_perusahaan',
-        DB::raw('(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis) * 8 AS total_jam')
-      );
-
-      if ($tgl_akhir != "") {
-        $select = array(
-          'mssiswa.nis',
-          'mssiswa.nama',
-          'mscompany.nama_perusahaan',
-          DB::raw("(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis AND t2.waktu_masuk < DATE('" . $tgl_akhir . "')) * 8 AS total_jam")
-        );
-      }
-
       $data = DB::table('tbjurnal')
         ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
         ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->where('tbjurnal.status',2)
         ->where('mscompany.id', $id_company);
 
       if ($tgl_akhir != "")
         $data = $data->where('tbjurnal.waktu_masuk', '<', $tgl_akhir);
 
-      $data = $data->select($select)
-        ->groupBy('mssiswa.nis')
+      $data = $data->select("*")
+        ->orderBy('mssiswa.nis')
         ->get();
-      // $data = DB::select("SELECT *,(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = t1.nis) * 8 AS TOTAL_JAM FROM tbjurnal t1 JOIN mssiswa ON t1.nis = mssiswa.nis JOIN mscompany ON mssiswa.id_company = mscompany.id WHERE mscompany.id = 1 GROUP BY mssiswa.nis");
 
-      return response()->json($data);
+      $dataFilter = [];
+      $index = 0;
+
+      foreach($data as $key => $value){
+        if(count($dataFilter) != 0 && $dataFilter[$index]['nis'] == $value->nis){
+          array_push($dataFilter[$index]['tanggal'],date("Y-m-d", strtotime($value->waktu_masuk)));
+          $dataFilter[$index]['total_jam'] += 8;
+        }else{
+          if(count($dataFilter) != 0)
+            $index++;
+          
+          array_push($dataFilter, [
+            "nis" => $value->nis,
+            'nama' => $value->nama,
+            'nama_perusahaan' => $value->nama_perusahaan,
+            'tanggal' => array(date("Y-m-d", strtotime($value->waktu_masuk))),
+            'total_jam' => 8
+          ]);
+        }
+      }
+
+      foreach($dataFilter as $key => $value){
+        $dataFilter[$key]['tanggal_convert'] = implode(",",$value['tanggal']);
+      }
+      
+      return response()->json($dataFilter);
     } catch (Exception $ex) {
       return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
     }
