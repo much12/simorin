@@ -2,7 +2,6 @@
     <div class="modal-content">
         <form id="frmAdd" action="{{ url()->current() . '/process' }}" method="POST" autocomplete="off">
             {{ csrf_field() }}
-
             <div class="modal-header">
                 <h4 class="modal-title">Tambah Data Jadwal</h4>
             </div>

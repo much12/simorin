@@ -69,9 +69,9 @@
                             </div>
                         </form>
                     </div>
-                </div>
 
-                <div id="content_filter"></div>
+                    <div id="content_filter"></div>
+                </div>
             </div>
         </div>
     </div>

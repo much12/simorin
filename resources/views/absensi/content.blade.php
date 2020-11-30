@@ -1,4 +1,4 @@
-<div class="row" style="margin-bottom: 1rem;">
+<div class="row">
     <div class="col-md-6">
         @if(!isAdmin())
         <label class="cbx">
