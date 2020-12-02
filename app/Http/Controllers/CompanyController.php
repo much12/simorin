@@ -17,7 +17,9 @@ class CompanyController extends Controller
         $data = array();
         $data['company'] = Company::when($request->get('q'), function ($query) use ($request) {
             $query->where('nama_perusahaan', 'like', "%{$request->get('q')}%");
-        })->paginate(15);
+        })
+            ->orderBy('nama_perusahaan', 'ASC')
+            ->paginate(15);
         return view('company.index', $data);
     }
 
