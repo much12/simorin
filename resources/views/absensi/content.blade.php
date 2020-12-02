@@ -45,7 +45,7 @@
 
                 <?php
                 $alpha = 0;
-                if ($j->waktu_masuk > $j->jam_masuk) {
+                if (date('H:i:s', strtotime($j->waktu_masuk)) > date('H:i:s', strtotime($j->jam_masuk))) {
                     $waktu_masuk = date('H', strtotime($j->waktu_masuk));
                     $jam_masuk = date('H', strtotime($j->jam_masuk));
 

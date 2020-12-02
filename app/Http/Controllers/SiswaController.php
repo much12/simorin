@@ -16,7 +16,8 @@ class SiswaController extends Controller
     {
         $data = array();
         $data['siswa'] = Siswa::when($request->get('q'), function ($query) use ($request) {
-            $query->where('nama', 'like', "%{$request->get('q')}%");
+            $query->where('nama', 'like', "%{$request->get('q')}%")
+                ->orWhere('nis', 'like', "%{$request->get('q')}%");
         })->paginate(15);
 
         return view('siswa.index', $data);
