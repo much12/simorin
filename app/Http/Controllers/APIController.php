@@ -170,9 +170,9 @@ class APIController extends Controller
       $updateArr['waktu_pulang'] = date('Y-m-d H:i:s');
 
       $update = DB::table('tbjurnal')
-      ->where('nis', $user_id)
-      ->whereDate('waktu_masuk', '=', date('Y-m-d'))
-      ->update($updateArr);
+        ->where('nis', $user_id)
+        ->whereDate('waktu_masuk', '=', date('Y-m-d'))
+        ->update($updateArr);
 
       if ($update) {
         return JSONResponseDefault(KKSI::OK, 'Input jurnal berhasil');
@@ -190,16 +190,16 @@ class APIController extends Controller
       $nis = $request->post('id');
 
       $total_alpha = Jurnal::where('nis', $nis)
-      ->where('status', 2)
-      ->select(DB::raw('COUNT(*) AS count'))
-      ->first()
-      ->count;
+        ->where('status', 2)
+        ->select(DB::raw('COUNT(*) AS count'))
+        ->first()
+        ->count;
 
       $total_hadir = Jurnal::where('nis', $nis)
-      ->where('status', 1)
-      ->select(DB::raw('COUNT(*) AS count'))
-      ->first()
-      ->count;
+        ->where('status', 1)
+        ->select(DB::raw('COUNT(*) AS count'))
+        ->first()
+        ->count;
 
       $select = array(
         'a.id AS id_absen',
@@ -211,11 +211,11 @@ class APIController extends Controller
       );
 
       $list = DB::table('tbjurnal')
-      ->join('mssiswa', 'mssiswa.nis = tbjurnal.nis')
-      ->join('mscompany', 'mscompany.id = mssiswa.id_company')
-      ->select($select)
-      ->where('tbjurnal.nis', $nis)
-      ->get();
+        ->join('mssiswa', 'mssiswa.nis = tbjurnal.nis')
+        ->join('mscompany', 'mscompany.id = mssiswa.id_company')
+        ->select($select)
+        ->where('tbjurnal.nis', $nis)
+        ->get();
 
       $data = array();
       foreach ($list as $key => $value) {
@@ -269,12 +269,12 @@ class APIController extends Controller
       //     ->get();
 
       $pembimbingpers = DB::table('mscompany')
-      ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-      ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
-      ->orderBy('status', 'ASC')
-      ->select($select)
-      ->where('mscompany.id', $id_pembimbing_perusahaan)
-      ->get();
+        ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+        ->orderBy('status', 'ASC')
+        ->select($select)
+        ->where('mscompany.id', $id_pembimbing_perusahaan)
+        ->get();
 
       $data = array();
       foreach ($pembimbingpers as $key => $value) {
@@ -315,11 +315,11 @@ class APIController extends Controller
       );
 
       $perusahaan = DB::table('mscompany')
-      ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-      ->where('mscompany.id_pembimbing', $id_pembimbing)
-      ->select($select)
-      ->groupBy('mscompany.id')
-      ->get();
+        ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->where('mscompany.id_pembimbing', $id_pembimbing)
+        ->select($select)
+        ->groupBy('mscompany.id')
+        ->get();
 
       return response()->json($perusahaan);
     } catch (Exception $ex) {
@@ -335,27 +335,27 @@ class APIController extends Controller
       $tgl_akhir = $request->post('tgl_akhir');
 
       $data = DB::table('tbjurnal')
-      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
-      ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
-      ->where('tbjurnal.status', 2)
-      ->where('mscompany.id', $id_company);
+        ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+        ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->where('tbjurnal.status', 2)
+        ->where('mscompany.id', $id_company);
 
       if ($tgl_akhir != "")
         $data = $data->where('tbjurnal.waktu_masuk', '<', $tgl_akhir);
 
       $data = $data->select("*")
-      ->orderBy('mssiswa.nis')
-      ->get();
+        ->orderBy('mssiswa.nis')
+        ->get();
 
       $dataFilter = [];
       $index = 0;
 
-      foreach($data as $key => $value){
-        if(count($dataFilter) != 0 && $dataFilter[$index]['nis'] == $value->nis){
-          array_push($dataFilter[$index]['tanggal_ar'],date("d F Y", strtotime($value->waktu_masuk)));
+      foreach ($data as $key => $value) {
+        if (count($dataFilter) != 0 && $dataFilter[$index]['nis'] == $value->nis) {
+          array_push($dataFilter[$index]['tanggal_ar'], date("d F Y", strtotime($value->waktu_masuk)));
           $dataFilter[$index]['total_jam'] += 8;
-        }else{
-          if(count($dataFilter) != 0)
+        } else {
+          if (count($dataFilter) != 0)
             $index++;
 
           array_push($dataFilter, [
@@ -369,8 +369,8 @@ class APIController extends Controller
         }
       }
 
-      foreach($dataFilter as $key => $value){
-        $dataFilter[$key]['tanggal'] = implode(", ",$value['tanggal_ar']);
+      foreach ($dataFilter as $key => $value) {
+        $dataFilter[$key]['tanggal'] = implode(", ", $value['tanggal_ar']);
       }
 
       // return response()->json($dataFilter);
@@ -406,11 +406,11 @@ class APIController extends Controller
       //     ->get();
 
       $pembimbingpers = DB::table('mscompany')
-      ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-      ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
-      ->select($select)
-      ->where('mscompany.id', $id_pembimbing_perusahaan)
-      ->get();
+        ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+        ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+        ->select($select)
+        ->where('mscompany.id', $id_pembimbing_perusahaan)
+        ->get();
 
       $data = array();
       foreach ($pembimbingpers as $key => $value) {
@@ -456,10 +456,10 @@ class APIController extends Controller
       );
 
       $jurnal = DB::table('tbjurnal')
-      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
-      ->where('mssiswa.nis', $id_siswa)
-      ->select($select)
-      ->get();
+        ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+        ->where('mssiswa.nis', $id_siswa)
+        ->select($select)
+        ->get();
 
       $data = array();
       foreach ($jurnal as $j) {
@@ -491,9 +491,9 @@ class APIController extends Controller
 
       $data = DB::table('tbjurnal')
 
-      ->where('nis', $id_siswa)
-      ->where('waktu_masuk', 'LIKE', "%" . $tanggal . "%")
-      ->get();
+        ->where('nis', $id_siswa)
+        ->where('waktu_masuk', 'LIKE', "%" . $tanggal . "%")
+        ->get();
 
       if ($data == "[]") {
         return JSONResponseDefault(KKSI::ERROR, "Anda belum melakukan absen untuk hari ini");
@@ -533,11 +533,11 @@ class APIController extends Controller
       );
 
       $jurnal = DB::table('tbjurnal')
-      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
-      ->where('mssiswa.nis', $id_siswa)
-      ->whereBetween('waktu_masuk', [$mulai, $sampai])
-      ->select($select)
-      ->get();
+        ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+        ->where('mssiswa.nis', $id_siswa)
+        ->whereBetween('waktu_masuk', [$mulai, $sampai])
+        ->select($select)
+        ->get();
 
       $data = array();
       foreach ($jurnal as $j) {
@@ -569,9 +569,9 @@ class APIController extends Controller
       $data = explode(',', $id_absen);
 
       $update = DB::table('tbjurnal')
-      ->whereIn('id', $data)
-      ->where('status', 0)
-      ->update(['status' => 1]);
+        ->whereIn('id', $data)
+        ->where('status', 0)
+        ->update(['status' => 1]);
 
       if ($update) {
         return JSONResponseDefault(KKSI::OK, 'Berhasil mensetujui semua absen siswa!');
@@ -591,9 +591,9 @@ class APIController extends Controller
       $data = explode(',', $id_absen);
 
       $update = DB::table('tbjurnal')
-      ->whereIn('id', $data)
-      ->where('status', 0)
-      ->update(['status' => 2]);
+        ->whereIn('id', $data)
+        ->where('status', 0)
+        ->update(['status' => 2]);
 
       if ($update) {
         return JSONResponseDefault(KKSI::OK, 'Berhasil menolak semua absen siswa!');
@@ -613,8 +613,8 @@ class APIController extends Controller
       $data = explode(',', $id_absen);
 
       $update = DB::table('tbjurnal')
-      ->whereIn('id', $data)
-      ->update(['status' => 1]);
+        ->whereIn('id', $data)
+        ->update(['status' => 1]);
 
       if ($update) {
         return JSONResponseDefault(KKSI::OK, 'Berhasil mensetujui semua absen yang sudah anda pilih!');
@@ -634,8 +634,8 @@ class APIController extends Controller
       $data = explode(',', $id_absen);
 
       $update = DB::table('tbjurnal')
-      ->whereIn('id', $data)
-      ->update(['status' => 2]);
+        ->whereIn('id', $data)
+        ->update(['status' => 2]);
 
       if ($update) {
         return JSONResponseDefault(KKSI::OK, 'Berhasil menolak absen siswa yang sudah anda pilih!');
@@ -653,8 +653,8 @@ class APIController extends Controller
       $id = $req->post('id_perusahaan');
 
       $siswa = DB::table('mssiswa')
-      ->where('id_company', $id)
-      ->get();
+        ->where('id_company', $id)
+        ->get();
 
       $data = array();
       foreach ($siswa as $j) {
@@ -679,10 +679,10 @@ class APIController extends Controller
       $id = $req->post('id_siswa');
 
       $jurnal = DB::table('tbjurnal')
-      ->where('nis', $id)
-      ->where('waktu_pulang', 'NOT LIKE', '')
-      ->where('status', 1);
-      ->get();
+        ->where('nis', $id)
+        ->where('waktu_pulang', 'NOT LIKE', '')
+        ->where('status', 1)
+        ->get();
 
       $data = array();
       foreach ($jurnal as $key => $value) {
