@@ -39,7 +39,7 @@
                         <select name="id_bidang" class="form-control select2" required>
                             <option value=""></option>
                             @foreach($bidang as $key => $value)
-                            <option value="{{ $value->id }}" {{ $value->id !== $company->id_bidang ?: 'selected' }}>{{ $value->nama_bidang }}</option>
+                            <option value="{{ $value->id }}" {{ $value->id == $company->id_bidang ? 'selected' : null }}>{{ $value->nama_bidang }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -52,7 +52,7 @@
                         <select name="id_kategori" class="form-control select2" required>
                             <option value=""></option>
                             @foreach($kategori as $key => $value)
-                            <option value="{{ $value->id_kategori }}" {{ $value->id_kategori !== $company->id_kategori ?: 'selected' }}>{{ $value->kategori }}</option>
+                            <option value="{{ $value->id_kategori }}" {{ $value->id_kategori == $company->id_kategori ? 'selected' : null }}>{{ $value->kategori }}</option>
                             @endforeach
                         </select>
                     </div>
