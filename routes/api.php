@@ -33,3 +33,5 @@ Route::post('setujui-semua-absen', 'APIController@setujuiSemuaAbsen');
 Route::post('tolak-semua-absen', 'APIController@tolakSemuaAbsen');
 Route::post('setujui-dipilih-absen', 'APIController@setujuiPilihanAbsen');
 Route::post('tolak-dipilih-absen', 'APIController@tolakPilihanAbsen');
+Route::post('list-siswa', 'APIController@listSiswa');
+Route::post('list-jrekap', 'APIController@listJRekap');

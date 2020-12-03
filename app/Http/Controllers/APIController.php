@@ -170,9 +170,9 @@ class APIController extends Controller
       $updateArr['waktu_pulang'] = date('Y-m-d H:i:s');
 
       $update = DB::table('tbjurnal')
-        ->where('nis', $user_id)
-        ->whereDate('waktu_masuk', '=', date('Y-m-d'))
-        ->update($updateArr);
+      ->where('nis', $user_id)
+      ->whereDate('waktu_masuk', '=', date('Y-m-d'))
+      ->update($updateArr);
 
       if ($update) {
         return JSONResponseDefault(KKSI::OK, 'Input jurnal berhasil');
@@ -190,16 +190,16 @@ class APIController extends Controller
       $nis = $request->post('id');
 
       $total_alpha = Jurnal::where('nis', $nis)
-        ->where('status', 2)
-        ->select(DB::raw('COUNT(*) AS count'))
-        ->first()
-        ->count;
+      ->where('status', 2)
+      ->select(DB::raw('COUNT(*) AS count'))
+      ->first()
+      ->count;
 
       $total_hadir = Jurnal::where('nis', $nis)
-        ->where('status', 1)
-        ->select(DB::raw('COUNT(*) AS count'))
-        ->first()
-        ->count;
+      ->where('status', 1)
+      ->select(DB::raw('COUNT(*) AS count'))
+      ->first()
+      ->count;
 
       $select = array(
         'a.id AS id_absen',
@@ -211,11 +211,11 @@ class APIController extends Controller
       );
 
       $list = DB::table('tbjurnal')
-        ->join('mssiswa', 'mssiswa.nis = tbjurnal.nis')
-        ->join('mscompany', 'mscompany.id = mssiswa.id_company')
-        ->select($select)
-        ->where('tbjurnal.nis', $nis)
-        ->get();
+      ->join('mssiswa', 'mssiswa.nis = tbjurnal.nis')
+      ->join('mscompany', 'mscompany.id = mssiswa.id_company')
+      ->select($select)
+      ->where('tbjurnal.nis', $nis)
+      ->get();
 
       $data = array();
       foreach ($list as $key => $value) {
@@ -315,11 +315,11 @@ class APIController extends Controller
       );
 
       $perusahaan = DB::table('mscompany')
-        ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-        ->where('mscompany.id_pembimbing', $id_pembimbing)
-        ->select($select)
-        ->groupBy('mscompany.id')
-        ->get();
+      ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+      ->where('mscompany.id_pembimbing', $id_pembimbing)
+      ->select($select)
+      ->groupBy('mscompany.id')
+      ->get();
 
       return response()->json($perusahaan);
     } catch (Exception $ex) {
@@ -330,42 +330,51 @@ class APIController extends Controller
   public function listArekap(Request $request)
   {
     try {
-      // date_default_timezone_set('Asia/Jakarta');
-
-      $id_company = $request->post('id_company');
+      $id_company = $request->post('id_perusahaan');
       $tgl_mulai = $request->post('tgl_mulai');
       $tgl_akhir = $request->post('tgl_akhir');
 
-      $select = array(
-        'mssiswa.nis',
-        'mssiswa.nama',
-        'mscompany.nama_perusahaan',
-        DB::raw('(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis) * 8 AS total_jam')
-      );
-
-      if ($tgl_akhir != "") {
-        $select = array(
-          'mssiswa.nis',
-          'mssiswa.nama',
-          'mscompany.nama_perusahaan',
-          DB::raw("(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = tbjurnal.nis AND t2.waktu_masuk < DATE('" . $tgl_akhir . "')) * 8 AS total_jam")
-        );
-      }
-
       $data = DB::table('tbjurnal')
-        ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
-        ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
-        ->where('mscompany.id', $id_company);
+      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+      ->join('mscompany', 'mssiswa.id_company', '=', 'mscompany.id')
+      ->where('tbjurnal.status', 2)
+      ->where('mscompany.id', $id_company);
 
       if ($tgl_akhir != "")
         $data = $data->where('tbjurnal.waktu_masuk', '<', $tgl_akhir);
 
-      $data = $data->select($select)
-        ->groupBy('mssiswa.nis')
-        ->get();
-      // $data = DB::select("SELECT *,(SELECT COUNT(status) FROM tbjurnal t2 WHERE status = 2 AND t2.nis = t1.nis) * 8 AS TOTAL_JAM FROM tbjurnal t1 JOIN mssiswa ON t1.nis = mssiswa.nis JOIN mscompany ON mssiswa.id_company = mscompany.id WHERE mscompany.id = 1 GROUP BY mssiswa.nis");
+      $data = $data->select("*")
+      ->orderBy('mssiswa.nis')
+      ->get();
 
-      return response()->json($data);
+      $dataFilter = [];
+      $index = 0;
+
+      foreach($data as $key => $value){
+        if(count($dataFilter) != 0 && $dataFilter[$index]['nis'] == $value->nis){
+          array_push($dataFilter[$index]['tanggal_ar'],date("d F Y", strtotime($value->waktu_masuk)));
+          $dataFilter[$index]['total_jam'] += 8;
+        }else{
+          if(count($dataFilter) != 0)
+            $index++;
+
+          array_push($dataFilter, [
+            "nis" => $value->nis,
+            'nama' => $value->nama,
+            'status' => $value->status,
+            'nama_perusahaan' => $value->nama_perusahaan,
+            'tanggal_ar' => array(date("d F Y", strtotime($value->waktu_masuk))),
+            'total_jam' => 8
+          ]);
+        }
+      }
+
+      foreach($dataFilter as $key => $value){
+        $dataFilter[$key]['tanggal'] = implode(", ",$value['tanggal_ar']);
+      }
+
+      // return response()->json($dataFilter);
+      echo json_encode($dataFilter);
     } catch (Exception $ex) {
       return JSONResponseDefault(KKSI::FAILED, $ex->getMessage());
     }
@@ -397,11 +406,11 @@ class APIController extends Controller
       //     ->get();
 
       $pembimbingpers = DB::table('mscompany')
-        ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
-        ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
-        ->select($select)
-        ->where('mscompany.id', $id_pembimbing_perusahaan)
-        ->get();
+      ->join('mssiswa', 'mssiswa.id_company', '=', 'mscompany.id')
+      ->join('tbjurnal', 'tbjurnal.nis', '=', 'mssiswa.nis')
+      ->select($select)
+      ->where('mscompany.id', $id_pembimbing_perusahaan)
+      ->get();
 
       $data = array();
       foreach ($pembimbingpers as $key => $value) {
@@ -447,10 +456,10 @@ class APIController extends Controller
       );
 
       $jurnal = DB::table('tbjurnal')
-        ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
-        ->where('mssiswa.nis', $id_siswa)
-        ->select($select)
-        ->get();
+      ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
+      ->where('mssiswa.nis', $id_siswa)
+      ->select($select)
+      ->get();
 
       $data = array();
       foreach ($jurnal as $j) {
@@ -623,7 +632,7 @@ class APIController extends Controller
   public function tolakPilihanAbsen(Request $req)
   {  
     try {
-      $id_absen = $req->post("id_absen");
+      $id_absen = $req->get("id_absen");
 
       $data = explode(',', $id_absen);
 
@@ -637,6 +646,64 @@ class APIController extends Controller
         return JSONResponseDefault(KKSI::FAILED, 'Gagal menolak absen siswa yang sudah anda pilih!');
       }
 
+    } catch (Exception $e) {
+      return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
+    }
+  }
+
+  public function listSiswa(Request $req)
+  {
+    try {
+      $id = $req->post('id_perusahaan');
+
+      $siswa = DB::table('mssiswa')
+      ->where('id_company', $id)
+      ->get();
+
+      $data = array();
+      foreach ($siswa as $j) {
+        $detail = array();
+
+        $detail['id_siswa'] = $j->nis;
+        $detail['nis'] = $j->nis;
+        $detail['nama'] = $j->nama;
+
+        $data[] = $detail;
+      }
+
+      echo json_encode($data);
+    } catch (Exception $e) {
+      return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
+    }
+  }
+
+  public function listJRekap(Request $req)
+  {
+    try {
+      $id = $req->post('id_siswa');
+
+      $jurnal = DB::table('tbjurnal')
+      ->where('nis', $id)
+      ->where('waktu_pulang', 'NOT LIKE', '')
+      ->where('status', 1);
+      ->get();
+
+      $data = array();
+      foreach ($jurnal as $key => $value) {
+        $detail = array();
+
+        $detail['id_jurnal'] = $value->id;
+        $detail['tanggal'] = date("d F Y", strtotime($value->waktu_masuk));
+        $detail['waktu_masuk'] = date('H:i', strtotime($value->waktu_masuk));
+        $detail['waktu_pulang'] = date('H:i', strtotime($value->waktu_pulang));
+        $detail['kegiatan'] = $value->kegiatan_kerja;
+        $detail['prosedur'] = $value->prosedur_pengerjaan;
+        $detail['spek'] = $value->spesifikasi_bahan;
+
+        $data[] = $detail;
+      }
+
+      echo json_encode($data);
     } catch (Exception $e) {
       return JSONResponseDefault(KKSI::ERROR, $e->getMessage());
     }
