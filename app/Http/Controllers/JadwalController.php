@@ -9,6 +9,7 @@ use KKSI;
 use App\Company;
 use App\Pembimbing;
 use App\Jadwal;
+use Exception;
 use Illuminate\Support\Facades\Session;
 
 class JadwalController extends Controller
@@ -26,6 +27,7 @@ class JadwalController extends Controller
             ->join('mspembimbing', 'mspembimbing.id', '=', 'tbjadwal.id_pembimbing')
             ->join('mskategori', 'mscompany.id_kategori', '=', 'mskategori.id_kategori')
             ->where($where)
+            ->orderBy('tbjadwal.tanggal', 'DESC')
             ->get();
 
         return view('jadwal.index', [

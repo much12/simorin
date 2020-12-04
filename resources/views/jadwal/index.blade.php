@@ -39,7 +39,15 @@
                                 <tbody>
                                     @php ($num = 1)
                                     @foreach($jadwal as $key => $value)
-                                    <tr>
+                                    <?php
+                                    if ($value->tanggal < date('Y-m-d')) :
+                                        $hasOld = true;
+                                    else :
+                                        $hasOld = false;
+                                    endif;
+                                    ?>
+
+                                    <tr style="<?= $hasOld == true ? 'color: red' : null ?>">
                                         <td>{{ $num++ }}</td>
                                         <td>{{ $value->nama_pembimbing }}</td>
                                         <td>{{ $value->nama_perusahaan }}</td>

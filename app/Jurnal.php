@@ -66,6 +66,7 @@ class Jurnal extends Model
             ->join('mssiswa', 'mssiswa.nis', '=', 'tbjurnal.nis')
             ->join('mscompany', 'mscompany.id', '=', 'mssiswa.id_company')
             ->where($where)
+            ->orderBy('tbjurnal.waktu_masuk', 'DESC')
             ->get();
 
         // if ($perusahaan !== null) {
